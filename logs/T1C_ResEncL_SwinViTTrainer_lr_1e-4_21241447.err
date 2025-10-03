@@ -1,0 +1,70 @@
+wandb: Currently logged in as: hassan9000 (hassan9000-m31-biomedical-ai) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /hpf/projects/jquon/models/nnunetcls_baseline/tmp/wandb/wandb/run-20250930_155421-8vi66c4w
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SwinViTTrainer_ep300_fold3
+wandb: ⭐️ View project at https://wandb.ai/hassan9000-m31-biomedical-ai/SickKids_Dataset003_AVM_T1%2BC
+wandb: 🚀 View run at https://wandb.ai/hassan9000-m31-biomedical-ai/SickKids_Dataset003_AVM_T1%2BC/runs/8vi66c4w
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/fft_conv_pytorch/fft_conv.py:139: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+  output = output[crop_slices].contiguous()
+Traceback (most recent call last):
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/bin/nnUNetv2_train", line 7, in <module>
+    sys.exit(run_training_entry())
+  File "/hpf/projects/jquon/models/nnunetcls_baseline/nnunetv2/run/run_training.py", line 266, in run_training_entry
+    run_training(args.dataset_name_or_id, args.configuration, args.fold, args.tr, args.p, args.pretrained_weights,
+  File "/hpf/projects/jquon/models/nnunetcls_baseline/nnunetv2/run/run_training.py", line 207, in run_training
+    nnunet_trainer.run_training()
+  File "/hpf/projects/jquon/models/nnunetcls_baseline/nnunetv2/training/nnUNetTrainer/nnUNetTrainer.py", line 1371, in run_training
+    train_outputs.append(self.train_step(next(self.dataloader_train)))
+  File "/hpf/projects/jquon/models/nnunetcls_baseline/nnunetv2/training/nnUNetTrainer/nnUNetCLSTrainer.py", line 641, in train_step
+    self.grad_scaler.scale(l).backward()
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/_tensor.py", line 647, in backward
+    torch.autograd.backward(
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/autograd/__init__.py", line 354, in backward
+    _engine_run_backward(
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/autograd/graph.py", line 829, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/autograd/function.py", line 311, in apply
+    return user_fn(self, *args)
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2259, in backward
+    return impl_fn()
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2245, in impl_fn
+    out = CompiledFunction._backward_impl(ctx, all_args)
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2376, in _backward_impl
+    out = call_func_at_runtime_with_args(
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/_functorch/_aot_autograd/utils.py", line 126, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/_dynamo/eval_frame.py", line 929, in _fn
+    return fn(*args, **kwargs)
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/_inductor/output_code.py", line 584, in __call__
+    return self.current_callable(inputs)
+  File "/hpf/projects/jquon/micromamba/envs/cyy_clone/lib/python3.10/site-packages/torch/_inductor/utils.py", line 2716, in run
+    out = model(new_inputs)
+  File "/hpf/projects/jquon/models/nnunetcls_baseline/tmp/tmp/torchinductor_skim/mt/cmtrnyp7da4xd7ksaqtetgexda3dp4dl4b353w534fj6snxp7sci.py", line 13884, in call
+    buf585 = empty_strided_cuda((5376, 3, 343, 343), (352992, 117664, 343, 1), torch.float32)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 7.07 GiB. GPU 0 has a total capacity of 44.40 GiB of which 4.78 GiB is free. Including non-PyTorch memory, this process has 39.62 GiB memory in use. Of the allocated memory 23.39 GiB is allocated by PyTorch, and 15.67 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Exception in thread Thread-4 (results_loop):
+WARNING:asyncio:socket.send() raised exception.
+slurmstepd: error: *** JOB 21241447 ON cn518 CANCELLED AT 2025-09-30T15:57:38 ***

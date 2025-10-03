@@ -473,7 +473,7 @@ class nnUNetCLSTrainer(nnUNetTrainer):
             self.dataset_class = infer_dataset_class(self.preprocessed_dataset_folder)
             self.dataset_name = self.preprocessed_dataset_folder.split('/')[-2]
             wandb.init(
-                project=f"cvpr26_{self.dataset_name}",
+                project=f"SickKids_{self.dataset_name}",
                 name=f"{self.__class__.__name__}_fold{self.fold}",
             )
 
@@ -673,6 +673,7 @@ class nnUNetCLSTrainer(nnUNetTrainer):
         #self.seg_weight, self.cls_weight, slope = self.dynamic_loss_weight_updater.update(seg_loss_here)
         wandb.log({
             'train_classification_loss': cls_loss_here,
+            "epoch": self.current_epoch,
             # 'seg_loss_slope': slope,
             # 'seg_weight': self.seg_weight,
             # 'cls_weight': self.cls_weight
@@ -757,6 +758,14 @@ class nnUNetCLSTrainer(nnUNetTrainer):
             "val/classification_accuracy": classification_accuracy,
             "val/balanced_accuracy": balanced_accuracy
         })
+        # wandb.log({
+        #     'val/classification_loss': loss_here,
+        #     "val/AUC": auc_metric,
+        #     "val/classification_accuracy": classification_accuracy,
+        #     "val/balanced_accuracy": balanced_accuracy,
+        #     "epoch": self.current_epoch,
+        # })
+
 
         self.epoch_df = pd.DataFrame({
             'ids': all_ids,
@@ -767,7 +776,6 @@ class nnUNetCLSTrainer(nnUNetTrainer):
         self.logger.log('val_losses', loss_here, self.current_epoch)
         self.logger.log('val_classification_accuracy', classification_accuracy, self.current_epoch)
         self.logger.log('val_auc', auc_metric, self.current_epoch)
-
     def on_epoch_end(self):
         self.logger.log('epoch_end_timestamps', time(), self.current_epoch)
 
@@ -903,7 +911,7 @@ class SwinViTTrainer(nnUNetCLSTrainer):
             self.dataset_class = infer_dataset_class(self.preprocessed_dataset_folder)
             self.dataset_name = self.preprocessed_dataset_folder.split('/')[-2]
             wandb.init(
-                project=f"cvpr26_{self.dataset_name}",
+                project=f"SickKids_{self.dataset_name}",
                 name=f"{self.__class__.__name__}_fold{self.fold}",
             )
 
@@ -953,3 +961,51 @@ class MedNeXtTrainer(nnUNetCLSTrainer):
             in_channels=num_input_channels,
             num_classes=cls_class_num,
         )
+
+
+
+class SwinViTTrainer_ep300(SwinViTTrainer):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        self.num_epochs = 300  # <-- run for 300 epochs
+class SwinViTTrainer_ep300_NoMirroring(SwinViTTrainer):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        self.num_epochs = 300  # <-- run for 300 epochs
+    # prevent mirroring !
+    def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
+        rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
+            super().configure_rotation_dummyDA_mirroring_and_inital_patch_size()
+        mirror_axes = None
+        self.inference_allowed_mirroring_axes = None
+        return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+
+
+class ViTTrainer_lr_1e_minus3(ViTTrainer):  
+    """
+    Same trainer as nnUNetTrainer but with a lower learning rate (default: 3e-4).
+    You can pass a different lr when constructing via code; with the CLI you’ll just
+    use the default unless you wrap the entrypoint.
+    """
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        # lower LR
+        self.initial_lr = 1e-3
+        self.num_epochs = 300
+
+class ViTTrainer_lr_1e_minus4(ViTTrainer):  
+    """
+    Same trainer as nnUNetTrainer but with a lower learning rate (default: 3e-4).
+    You can pass a different lr when constructing via code; with the CLI you’ll just
+    use the default unless you wrap the entrypoint.
+    """
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        # lower LR
+        self.initial_lr = 1e-4
+        self.num_epochs = 300          # <-- run for 300 epochs
+

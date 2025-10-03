@@ -1,0 +1,637 @@
+1
+Using 1 classes for classification
+Processing case: 616_MRI_19960303_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 528_MRI_20000410_T1+C
+(1, 165, 432, 432)
+Number of slices used for classification: 48
+Processing case: 593_MRI_19991205_T1+C
+(1, 241, 512, 512)
+Number of slices used for classification: 45
+Processing case: 442_MRI_19910918_T1+C
+(1, 160, 512, 512)
+Number of slices used for classification: 27
+Processing case: 442_MRI_20000801_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 481_MRI_19991124_T1+C
+(1, 350, 512, 512)
+Number of slices used for classification: 64
+Processing case: 464_MRI_20010323_T1+C
+(1, 416, 448, 444)
+Number of slices used for classification: 48
+Processing case: 582_MRI_20020223_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 574_MRI_20030526_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 461_MRI_20010525_T1+C
+(1, 416, 448, 336)
+Number of slices used for classification: 36
+Processing case: 583_MRI_20020104_T1+C
+(1, 175, 448, 448)
+Number of slices used for classification: 64
+Processing case: 622_MRI_20030606_T1+C
+(1, 25, 256, 256)
+Number of slices used for classification: 36
+Processing case: 446_MRI_20000815_T1+C
+(1, 208, 256, 224)
+Number of slices used for classification: 48
+Processing case: 442_MRI_19920708_T1+C
+(1, 160, 512, 512)
+Number of slices used for classification: 36
+Processing case: 574_MRI_20020518_T1+C
+(1, 208, 256, 224)
+Number of slices used for classification: 48
+Processing case: 455_MRI_20010320_T1+C_2
+(1, 160, 224, 182)
+Number of slices used for classification: 36
+Processing case: 601_MRI_20001007_T1+C
+(1, 190, 448, 448)
+Number of slices used for classification: 64
+Processing case: 588_MRI_20020419_T1+C
+(1, 355, 448, 448)
+Number of slices used for classification: 27
+Processing case: 464_MRI_20020503_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 582_MRI_19991127_T1+C
+(1, 395, 448, 448)
+Number of slices used for classification: 48
+Processing case: 582_MRI_20030225_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 593_MRI_20030426_T1+C
+(1, 208, 256, 224)
+Number of slices used for classification: 48
+Processing case: 550_MRI_20040419_T1+C
+(1, 170, 448, 448)
+Number of slices used for classification: 64
+Processing case: 528_MRI_20090518_T1+C
+(1, 224, 256, 256)
+Number of slices used for classification: 100
+Processing case: 481_MRI_20000805_T1+C
+(1, 350, 512, 512)
+Number of slices used for classification: 64
+Processing case: 586_MRI_20021207_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 583_MRI_20030701_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 366_MRI_20000326_T1+C
+(1, 175, 448, 448)
+Number of slices used for classification: 64
+Processing case: 617_MRI_20000315_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 586_MRI_20011205_T1+C
+(1, 416, 448, 372)
+Number of slices used for classification: 36
+Processing case: 616_MRI_19981107_T1+C_2
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 442_MRI_20020603_T1+C
+(1, 174, 448, 448)
+Number of slices used for classification: 64
+Processing case: 550_MRI_20040910_T1+C
+(1, 192, 512, 368)
+Number of slices used for classification: 48
+Processing case: 442_MRI_19930317_T1+C
+(1, 152, 512, 512)
+Number of slices used for classification: 36
+Processing case: 544_MRI_20000305_T1+C
+(1, 164, 512, 512)
+Number of slices used for classification: 48
+Processing case: 583_MRI_19991225_T1+C
+(1, 180, 256, 256)
+Number of slices used for classification: 80
+Processing case: 442_MRI_19920303_T1+C
+(1, 176, 512, 512)
+Number of slices used for classification: 48
+Processing case: 550_MRI_20050429_T1+C
+(1, 332, 448, 448)
+Number of slices used for classification: 36
+Processing case: 442_MRI_20010206_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 455_MRI_20020806_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 455_MRI_20010320_T1+C
+(1, 208, 224, 182)
+Number of slices used for classification: 45
+Processing case: 528_MRI_20060903_T1+C
+(1, 208, 256, 232)
+Number of slices used for classification: 48
+Processing case: 481_MRI_19991230_T1+C
+(1, 387, 480, 480)
+Number of slices used for classification: 64
+Processing case: 366_MRI_19991225_T1+C
+(1, 179, 448, 448)
+Number of slices used for classification: 64
+Processing case: 588_MRI_20001126_T1+C
+(1, 400, 448, 448)
+Number of slices used for classification: 48
+Processing case: 610_MRI_19981214_T1+C
+(1, 332, 448, 448)
+Number of slices used for classification: 36
+Processing case: 464_MRI_19991120_T1+C
+(1, 397, 512, 512)
+Number of slices used for classification: 64
+Processing case: 583_MRI_19991225_T1+C_2
+(1, 77, 256, 256)
+Number of slices used for classification: 60
+Processing case: 586_MRI_20000615_T1+C
+(1, 208, 256, 224)
+Number of slices used for classification: 48
+Processing case: 544_MRI_20000220_T1+C
+(1, 160, 512, 512)
+Number of slices used for classification: 36
+Processing case: 528_MRI_20020331_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 481_MRI_19991127_T1+C_2
+(1, 96, 1024, 1024)
+Number of slices used for classification: 64
+Processing case: 544_MRI_20001116_T1+C
+(1, 84, 512, 512)
+Number of slices used for classification: 48
+Processing case: 586_MRI_20000106_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 64
+Processing case: 548_MRI_19960902_T1+C
+(1, 171, 448, 448)
+Number of slices used for classification: 64
+Processing case: 582_MRI_19990828_T1+C
+(1, 176, 256, 208)
+Number of slices used for classification: 36
+Processing case: 544_MRI_20000208_T1+C-2
+(1, 332, 432, 432)
+Number of slices used for classification: 36
+Processing case: 582_MRI_19991127_T1+C_2
+(1, 86, 1024, 1024)
+Number of slices used for classification: 48
+Processing case: 481_MRI_19991127_T1+C
+(1, 380, 528, 528)
+Number of slices used for classification: 64
+Processing case: 442_MRI_19990621_T1+C
+(1, 224, 256, 224)
+Number of slices used for classification: 64
+Processing case: 588_MRI_20010317_T1+C
+(1, 200, 224, 224)
+Number of slices used for classification: 48
+Processing case: 313_MRI_19991101_T1+C
+(1, 180, 230, 230)
+Number of slices used for classification: 48
+Processing case: 544_MRI_19991221_T1+C
+(1, 86, 400, 400)
+Number of slices used for classification: 36
+Processing case: 582_MRI_20000423_T1+C
+(1, 333, 480, 480)
+Number of slices used for classification: 36
+Processing case: 583_MRI_20061126_T1+C
+(1, 367, 480, 480)
+Number of slices used for classification: 48
+Processing case: 616_MRI_19970901_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 601_MRI_19990531_T1+C
+(1, 332, 448, 448)
+Number of slices used for classification: 36
+Processing case: 593_MRI_19991230_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 446_MRI_19990403_T1+C
+(1, 180, 256, 256)
+Number of slices used for classification: 48
+Processing case: 586_MRI_20000107_T1+C
+(1, 360, 480, 480)
+Number of slices used for classification: 48
+Processing case: 593_MRI_20000428_T1+C
+(1, 28, 512, 512)
+Number of slices used for classification: 36
+Processing case: 481_MRI_20000113_T1+C
+(1, 192, 224, 224)
+Number of slices used for classification: 80
+Processing case: 616_MRI_19981107_T1+C
+(1, 190, 256, 256)
+Number of slices used for classification: 80
+Processing case: 588_MRI_20000109_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 610_MRI_19980416_T1+C
+(1, 20, 256, 256)
+Number of slices used for classification: 27
+Processing case: 593_MRI_20030907_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 464_MRI_20000722_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 590_MRI_20000711_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 593_MRI_20030426_T1+C_2
+(1, 208, 256, 224)
+Number of slices used for classification: 48
+Processing case: 593_MRI_20040426_T1+C
+(1, 416, 448, 336)
+Number of slices used for classification: 36
+Processing case: 464_MRI_19991231_T1+C
+(1, 367, 480, 480)
+Number of slices used for classification: 48
+Processing case: 588_MRI_20000818_T1+C
+(1, 387, 480, 480)
+Number of slices used for classification: 48
+Processing case: 550_MRI_19991108_T1+C
+(1, 35, 512, 512)
+Number of slices used for classification: 18
+Processing case: 593_MRI_20010225_T1+C
+(1, 416, 512, 464)
+Number of slices used for classification: 48
+Processing case: 313_MRI_20020928_T1+C
+(1, 340, 512, 512)
+Number of slices used for classification: 80
+Processing case: 616_MRI_19931231_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 544_MRI_20070217_T1+C
+(1, 341, 448, 448)
+Number of slices used for classification: 48
+Processing case: 544_MRI_20000208_T1+C
+(1, 332, 432, 432)
+Number of slices used for classification: 36
+Processing case: 593_MRI_19991231_T1+C
+(1, 390, 448, 448)
+Number of slices used for classification: 48
+Processing case: 586_MRI_19991218_T1+C
+(1, 370, 432, 432)
+Number of slices used for classification: 48
+Processing case: 588_MRI_20000102_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 60
+Processing case: 586_MRI_20000121_T1+C
+(1, 360, 480, 480)
+Number of slices used for classification: 48
+Processing case: 528_MRI_20040724_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 583_MRI_20070910_T1+C
+(1, 360, 480, 480)
+Number of slices used for classification: 48
+Processing case: 588_MRI_20010116_T1+C
+(1, 380, 512, 512)
+Number of slices used for classification: 64
+Processing case: 601_MRI_19980407_T1+C
+(1, 180, 432, 432)
+Number of slices used for classification: 48
+Processing case: 588_MRI_20001230_T1+C
+(1, 407, 512, 512)
+Number of slices used for classification: 64
+Processing case: 588_MRI_19991230_T1+C
+(1, 224, 256, 224)
+Number of slices used for classification: 64
+Processing case: 586_MRI_19991022_T1+C
+(1, 370, 432, 432)
+Number of slices used for classification: 48
+Processing case: 442_MRI_19980624_T1+C
+(1, 168, 512, 512)
+Number of slices used for classification: 48
+Processing case: 446_MRI_20010724_T1+C
+(1, 320, 448, 448)
+Number of slices used for classification: 36
+Processing case: 455_MRI_20011022_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 60
+Processing case: 550_MRI_19991101_T1+C_2
+(1, 75, 448, 448)
+Number of slices used for classification: 36
+Processing case: 461_MRI_19991112_T1+C
+(1, 208, 256, 224)
+Number of slices used for classification: 48
+Processing case: 313_MRI_20031108_T1+C
+(1, 340, 480, 480)
+Number of slices used for classification: 64
+Processing case: 586_MRI_19991022_T1+C_2
+(1, 370, 432, 432)
+Number of slices used for classification: 48
+Processing case: 590_MRI_19991030_T1+C
+(1, 353, 480, 480)
+Number of slices used for classification: 36
+Processing case: 616_MRI_19921203_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 583_MRI_20051018_T1+C
+(1, 192, 224, 182)
+Number of slices used for classification: 36
+Processing case: 593_MRI_20020317_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 464_MRI_20000722_T1+C_2
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 593_MRI_20001022_T1+C
+(1, 224, 256, 256)
+Number of slices used for classification: 48
+Processing case: 544_MRI_20030831_T1+C
+(1, 148, 240, 240)
+Number of slices used for classification: 48
+1
+Using 1 classes for classification
+Processing case: 533_MRI_19990831_T1+C
+(1, 288, 512, 512)
+Number of slices used for classification: 80
+Processing case: 396_MRI_20000604_T1+C
+(1, 392, 448, 448)
+Number of slices used for classification: 48
+Processing case: 3_MRI_19991021_T1+C
+(1, 19, 512, 512)
+Number of slices used for classification: 36
+Processing case: 580_MRI_19991218_T1+C
+(1, 345, 448, 448)
+Number of slices used for classification: 36
+Processing case: 578_MRI_20000227_T1+C_2
+(1, 84, 224, 224)
+Number of slices used for classification: 36
+Processing case: 596_MRI_20000916_T1+C
+(1, 330, 448, 448)
+Number of slices used for classification: 48
+Processing case: 563_MRI_19990908_T1+C_2
+(1, 384, 448, 448)
+Number of slices used for classification: 48
+Processing case: 479_MRI_19991008_T1+C
+(1, 416, 448, 444)
+Number of slices used for classification: 48
+Processing case: 589_MRI_19991010_T1+C
+(1, 360, 480, 480)
+Number of slices used for classification: 48
+Processing case: 571_MRI_20000102_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 578_MRI_20020829_T1+C
+(1, 416, 448, 336)
+Number of slices used for classification: 48
+Processing case: 443_MRI_19971026_T1+C
+(1, 371, 448, 448)
+Number of slices used for classification: 48
+Processing case: 490_MRI_20000729_T1+C_2
+(1, 81, 1024, 1024)
+Number of slices used for classification: 36
+Processing case: 578_MRI_20001203_T1+C_2
+(1, 100, 1024, 1024)
+Number of slices used for classification: 36
+Processing case: 546_MRI_20000816_T1+C
+(1, 170, 448, 448)
+Number of slices used for classification: 64
+Processing case: 437_MRI_20000725_T1+C
+(1, 353, 480, 480)
+Number of slices used for classification: 36
+Processing case: 563_MRI_20041201_T1+C
+(1, 347, 480, 480)
+Number of slices used for classification: 36
+Processing case: 578_MRI_19991116_T1+C
+(1, 180, 288, 288)
+Number of slices used for classification: 48
+Processing case: 587_MRI_19990921_T1+C
+(1, 375, 480, 480)
+Number of slices used for classification: 48
+Processing case: 443_MRI_20010126_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 563_MRI_19990908_T1+C
+(1, 160, 640, 640)
+Number of slices used for classification: 9
+Processing case: 490_MRI_20000729_T1+C
+(1, 310, 448, 448)
+Number of slices used for classification: 36
+Processing case: 540_MRI_20020104_T1+C
+(1, 175, 448, 448)
+Number of slices used for classification: 64
+Processing case: 539_MRI_19990923_T1+C_2
+(1, 83, 448, 448)
+Number of slices used for classification: 48
+Processing case: 479_MRI_20000225_T1+C
+(1, 330, 448, 448)
+Number of slices used for classification: 48
+Processing case: 578_MRI_20030908_T1+C
+(1, 360, 448, 448)
+Number of slices used for classification: 48
+Processing case: 396_MRI_20050313_T1+C
+(1, 448, 448, 336)
+Number of slices used for classification: 60
+Processing case: 581_MRI_20011124_T1+C
+(1, 375, 480, 480)
+Number of slices used for classification: 48
+Processing case: 549_MRI_20021012_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 60
+Processing case: 569_MRI_20050716_T1+C
+(1, 315, 432, 432)
+Number of slices used for classification: 36
+Processing case: 571_MRI_19991217_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 100
+Processing case: 569_MRI_19990918_T1+C
+(1, 362, 448, 448)
+Number of slices used for classification: 48
+Processing case: 580_MRI_19990904_T1+C_3
+(1, 260, 432, 432)
+Number of slices used for classification: 36
+Processing case: 578_MRI_20000227_T1+C
+(1, 192, 256, 224)
+Number of slices used for classification: 64
+Processing case: 627_MRI_20011007_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 546_MRI_20000103_T1+Ca
+(1, 192, 512, 512)
+Number of slices used for classification: 64
+Processing case: 549_MRI_20000728_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 540_MRI_20051018_T1+C
+(1, 192, 224, 182)
+Number of slices used for classification: 36
+Processing case: 569_MRI_20010817_T1+C
+(1, 155, 240, 240)
+Number of slices used for classification: 48
+Processing case: 563_MRI_20051231_T1+C
+(1, 350, 448, 448)
+Number of slices used for classification: 48
+Processing case: 479_MRI_20000824_T1+C
+(1, 192, 224, 224)
+Number of slices used for classification: 80
+Processing case: 549_MRI_20071120_T1+C
+(1, 360, 448, 448)
+Number of slices used for classification: 48
+Processing case: 612_MRI_19990123_T1+C
+(1, 190, 448, 448)
+Number of slices used for classification: 64
+Processing case: 539_MRI_19990923_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 589_MRI_20000921_T1+C
+(1, 330, 448, 448)
+Number of slices used for classification: 48
+Processing case: 540_MRI_20070910_T1+C
+(1, 360, 480, 480)
+Number of slices used for classification: 48
+Processing case: 569_MRI_19991209_T1+C
+(1, 388, 448, 448)
+Number of slices used for classification: 48
+Processing case: 540_MRI_20050109_T1+C
+(1, 390, 448, 448)
+Number of slices used for classification: 48
+Processing case: 569_MRI_20000417_T1+C
+(1, 196, 512, 512)
+Number of slices used for classification: 36
+Processing case: 587_MRI_19941106_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 540_MRI_20030701_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 573_MRI_19970530_T1+C
+(1, 384, 448, 448)
+Number of slices used for classification: 48
+Processing case: 549_MRI_19981130_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 580_MRI_19990904_T1+C
+(1, 79, 512, 512)
+Number of slices used for classification: 36
+Processing case: 479_MRI_20000103_T1+C
+(1, 343, 448, 448)
+Number of slices used for classification: 48
+Processing case: 443_MRI_19991210_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 80
+Processing case: 443_MRI_20000605_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 546_MRI_20031024_T1+C
+(1, 384, 512, 512)
+Number of slices used for classification: 80
+Processing case: 578_MRI_20000116_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 596_MRI_19991228_T1+C
+(1, 208, 256, 256)
+Number of slices used for classification: 80
+Processing case: 612_MRI_19991021_T1+C
+(1, 192, 512, 384)
+Number of slices used for classification: 48
+Processing case: 533_MRI_19991215_T1+C
+(1, 360, 480, 480)
+Number of slices used for classification: 80
+Processing case: 563_MRI_20070128_T1+C
+(1, 365, 480, 480)
+Number of slices used for classification: 64
+Processing case: 533_MRI_19990823_T1+C
+(1, 190, 448, 448)
+Number of slices used for classification: 64
+Processing case: 587_MRI_20010326_T1+C
+(1, 224, 256, 256)
+Number of slices used for classification: 48
+Processing case: 581_MRI_20000104_T1+C
+(1, 385, 448, 448)
+Number of slices used for classification: 48
+Processing case: 563_MRI_20030520_T1+C
+(1, 372, 448, 448)
+Number of slices used for classification: 48
+Processing case: 443_MRI_19980208_T1+C
+(1, 416, 512, 512)
+Number of slices used for classification: 48
+Processing case: 606_MRI_19990612_T1+C
+(1, 150, 256, 256)
+Number of slices used for classification: 48
+Processing case: 580_MRI_19990904_T1+C_2
+(1, 180, 240, 240)
+Number of slices used for classification: 48
+Processing case: 569_MRI_20001119_T1+C
+(1, 320, 512, 448)
+Number of slices used for classification: 48
+Processing case: 573_MRI_19990621_T1+C
+(1, 101, 480, 480)
+Number of slices used for classification: 60
+Processing case: 540_MRI_20061126_T1+C
+(1, 367, 480, 480)
+Number of slices used for classification: 48
+Processing case: 580_MRI_19991218_T1+C_2
+(1, 77, 1024, 1024)
+Number of slices used for classification: 36
+Processing case: 581_MRI_20030218_T1+C
+(1, 416, 448, 360)
+Number of slices used for classification: 48
+Processing case: 490_MRI_19991227_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 563_MRI_20000609_T1+C
+(1, 364, 448, 448)
+Number of slices used for classification: 48
+Processing case: 573_MRI_20001022_T1+C
+(1, 170, 240, 240)
+Number of slices used for classification: 48
+Processing case: 596_MRI_19991121_T1+C
+(1, 345, 480, 480)
+Number of slices used for classification: 64
+Processing case: 569_MRI_20070722_T1+C
+(1, 330, 480, 480)
+Number of slices used for classification: 64
+Processing case: 540_MRI_19991225_T1+C
+(1, 180, 256, 256)
+Number of slices used for classification: 80
+Processing case: 563_MRI_19990201_T1+C
+(1, 180, 256, 256)
+Number of slices used for classification: 36
+Processing case: 589_MRI_20000105_T1+C
+(1, 375, 480, 480)
+Number of slices used for classification: 48
+Processing case: 580_MRI_19990927_T1+C
+(1, 192, 256, 224)
+Number of slices used for classification: 48
+Processing case: 580_MRI_20000129_T1+C
+(1, 320, 448, 448)
+Number of slices used for classification: 36
+Processing case: 533_MRI_19991022_T1+C
+(1, 95, 480, 480)
+Number of slices used for classification: 48
+Processing case: 437_MRI_20011225_T1+C
+(1, 359, 448, 448)
+Number of slices used for classification: 48
+Processing case: 578_MRI_20001203_T1+C
+(1, 400, 448, 448)
+Number of slices used for classification: 48
+Processing case: 437_MRI_20030126_T1+C
+(1, 340, 448, 448)
+Number of slices used for classification: 48
+Processing case: 587_MRI_19990813_T1+C
+(1, 370, 432, 432)
+Number of slices used for classification: 48
+Processing case: 580_MRI_19990927_T1+C_2
+(1, 192, 256, 224)
+Number of slices used for classification: 48
+Processing case: 580_MRI_20030721_T1+C
+(1, 310, 448, 448)
+Number of slices used for classification: 36
+Processing case: 580_MRI_20030721_T1+C_2
+(1, 300, 448, 448)
+Number of slices used for classification: 36
+Processing case: 589_MRI_20000105_T1+C_2
+(1, 305, 480, 480)
+Number of slices used for classification: 27
+Processing case: 396_MRI_20030304_T1+C
+(1, 373, 480, 480)
+Number of slices used for classification: 64
+Processing case: 571_MRI_19990517_T1+C
+(1, 29, 256, 256)
+Number of slices used for classification: 36
+/hpf/projects/jquon/sumin/nnUNet_data/nnUNet_raw/Dataset003_AVM_T1+C/imagesVal_fold3
+Trainer: SwinViTTrainer_ep300  Plan: nnUNetResEncUNetLPlans   Config: 3d_fullres    Checkpoint: checkpoint_bestacc
+Running: python nnunet_cls_infer_nii.py -i /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_raw/Dataset003_AVM_T1+C/imagesVal_fold3 -o /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset003_AVM_T1+C/SwinViTTrainer_ep300__nnUNetResEncUNetLPlans__3d_fullres/fold_3/cls_results/ --model_path /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset003_AVM_T1+C/SwinViTTrainer_ep300__nnUNetResEncUNetLPlans__3d_fullres/ --fold 3 --checkpoint checkpoint_bestacc.pth
+/hpf/projects/jquon/sumin/nnUNet_data/nnUNet_raw/Dataset003_AVM_T1+C/imagesVal_fold4
+Trainer: SwinViTTrainer_ep300  Plan: nnUNetResEncUNetLPlans   Config: 3d_fullres    Checkpoint: checkpoint_bestacc
+Running: python nnunet_cls_infer_nii.py -i /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_raw/Dataset003_AVM_T1+C/imagesVal_fold4 -o /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset003_AVM_T1+C/SwinViTTrainer_ep300__nnUNetResEncUNetLPlans__3d_fullres/fold_4/cls_results/ --model_path /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset003_AVM_T1+C/SwinViTTrainer_ep300__nnUNetResEncUNetLPlans__3d_fullres/ --fold 4 --checkpoint checkpoint_bestacc.pth
