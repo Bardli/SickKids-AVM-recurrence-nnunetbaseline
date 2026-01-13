@@ -28,7 +28,8 @@ class nnUNetLogger(object):
             'val_mae': list(),
             'lrs': list(),
             'epoch_start_timestamps': list(),
-            'epoch_end_timestamps': list()
+            'epoch_end_timestamps': list(),
+            'val_balanced_accuracy': list(),   # 👈 ADD THIS LINE
         }
         self.verbose = verbose
         # shut up, this logging is great

@@ -73,6 +73,7 @@ from nnunetv2.training.nnUNetTrainer.variants.data_augmentation.nnUNetTrainerDA5
 from sklearn import metrics
 import wandb
 from monai.networks.nets import DenseNet121, SEResNet50, ViT, SwinUNETR, MedNeXt
+from nnunetv2.training.nnUNetTrainer.nnUNetTrainer import nnUNetTrainer, _TeeStderr
 
 
 class FocalBCEWithLogitsLoss(nn.Module):
@@ -439,14 +440,16 @@ class nnUNetCLSTrainer(nnUNetTrainer):
     def initialize(self):
         if not self.was_initialized:
             ## DDP batch size and oversampling can differ between workers and needs adaptation
-            # we need to change the batch size in DDP because we don't use any of those distributed samplers
             self._set_batch_size_and_oversample()
             self._best_acc = None
             self.enable_deep_supervision = False
-            self.num_input_channels = determine_num_input_channels(self.plans_manager, self.configuration_manager,
-                                                                   self.dataset_json)
+            self.num_input_channels = determine_num_input_channels(
+                self.plans_manager, self.configuration_manager, self.dataset_json
+            )
 
-            self.cls_class_num = self.get_cls_class_num(join(self.preprocessed_dataset_folder, os.pardir, 'cls_data.csv'))
+            self.cls_class_num = self.get_cls_class_num(
+                join(self.preprocessed_dataset_folder, os.pardir, 'cls_data.csv')
+            )
             cls_head_output = self.cls_class_num if self.cls_class_num > 2 else 1
             self.network = self.build_network_architecture(
                 self.configuration_manager.network_arch_class_name,
@@ -459,13 +462,12 @@ class nnUNetCLSTrainer(nnUNetTrainer):
                 cls_head_output,
                 self.configuration_manager.patch_size
             ).to(self.device)
-            # compile network for free speedup
+
             if self._do_i_compile():
                 self.print_to_log_file('Using torch.compile...')
                 self.network = torch.compile(self.network)
 
             self.optimizer, self.lr_scheduler = self.configure_optimizers()
-            # if ddp, wrap in DDP wrapper
             if self.is_ddp:
                 self.network = torch.nn.SyncBatchNorm.convert_sync_batchnorm(self.network)
                 self.network = DDP(self.network, device_ids=[self.local_rank])
@@ -477,14 +479,44 @@ class nnUNetCLSTrainer(nnUNetTrainer):
                 name=f"{self.__class__.__name__}_fold{self.fold}",
             )
 
-            # torch 2.2.2 crashes upon compiling CE loss
-            # if self._do_i_compile():
-            #     self.loss = torch.compile(self.loss)
+            # ---------------- NEW: early stopping + periodic checkpoint config ----------------
+            # default: save every 20 epochs unless overridden in a subclass
+            if not hasattr(self, "save_every"):
+                self.save_every = 20
+
+            # Early stopping configuration (you can tweak these per subclass if needed)
+            # monitor val_losses and stop when it hasn’t improved for `early_stopping_patience` epochs
+            self.early_stopping_metric = getattr(self, "early_stopping_metric", "val_losses")
+            self.early_stopping_mode = getattr(self, "early_stopping_mode", "min")  # 'min' for loss
+            self.early_stopping_patience = getattr(self, "early_stopping_patience", 50)
+            self.early_stopping_min_delta = getattr(self, "early_stopping_min_delta", 0.0)
+
+            self._early_stopping_best = None
+            self._early_stopping_num_bad_epochs = 0
+            self._early_stopping_triggered = False
+
+            # NEW: for periodic (every N epochs) checkpoint based on balanced accuracy
+            self._best_everyN_metric = None  # best val_balanced_accuracy seen at periodic checkpoints
+            self._best_everyN_auc = None     # best val_auc seen at periodic checkpoints
+            # ------------------------------------------------------------------------------ #
+
             self.was_initialized = True
+
         else:
             raise RuntimeError("You have called self.initialize even though the trainer was already initialized. "
                                "That should not happen.")
 
+    def perform_actual_validation(self, export_validation_probabilities: bool = True):
+        """
+        Disable nnU-Net's segmentation-style 'actual validation' for classification trainers.
+        We already do validation inside the training loop.
+        """
+        self.print_to_log_file(
+            "Skipping perform_actual_validation for classification trainer "
+            "(segmentation-style sliding window is not applicable)."
+        )
+        return
+    
     def get_cls_class_num(self, df_path: str) -> int:
         """
         Returns the number of classes for classification
@@ -635,7 +667,13 @@ class nnUNetCLSTrainer(nnUNetTrainer):
             seg_loss = 0
             cls_loss = self.classification_loss(cls_output, cls_label.unsqueeze(1).float())
         l = cls_loss
-
+        # SAFTEY:
+        if not torch.isfinite(l):
+            self.print_to_log_file(
+                f"ERROR: Non-finite loss detected at epoch {self.current_epoch}. "
+                f"Aborting training to avoid NaN propagation."
+            )
+            raise RuntimeError("Non-finite loss (NaN/Inf) encountered.")
 
         if self.grad_scaler is not None:
             self.grad_scaler.scale(l).backward()
@@ -725,32 +763,49 @@ class nnUNetCLSTrainer(nnUNetTrainer):
                 'all_ids': all_ids
                 }
 
+
     def on_validation_epoch_end(self, val_outputs: List[dict]):
         outputs_collated = collate_outputs(val_outputs)
 
-
         if self.is_ddp:
             world_size = dist.get_world_size()
-
             losses_val = [None for _ in range(world_size)]
             dist.all_gather_object(losses_val, outputs_collated['total_loss'])
             loss_here = np.vstack(losses_val).mean()
         else:
             loss_here = np.mean(outputs_collated['total_loss'])
 
-        all_preds = torch.tensor(np.array(outputs_collated['all_preds']))
-        all_probs = torch.tensor(np.array(outputs_collated['all_probs']))
-        all_labels = torch.tensor(np.array(outputs_collated['all_labels']))
+        # --- convert to numpy arrays instead of torch tensors ---
+        all_preds = np.array(outputs_collated['all_preds'])
+        all_probs = np.array(outputs_collated['all_probs'], dtype=float)
+        all_labels = np.array(outputs_collated['all_labels'])
         all_ids = outputs_collated['all_ids']
 
-        if self.cls_class_num == 2:
-            auc_metric = metrics.roc_auc_score(all_labels, all_probs)
-            classification_accuracy = metrics.accuracy_score(all_labels, all_preds)
-            balanced_accuracy = metrics.balanced_accuracy_score(all_labels, all_preds)
-        else:
-            auc_metric = metrics.multiclass.roc_auc_score(all_labels, all_probs, multi_class='ovr')
-            classification_accuracy = metrics.accuracy_score(all_labels, all_preds)
-            balanced_accuracy = metrics.balanced_accuracy_score(all_labels, all_preds)
+        # --- sanitize NaNs / Infs in probs ---
+        if not np.all(np.isfinite(all_probs)):
+            self.print_to_log_file(
+                f"WARNING: NaNs or Infs in validation probabilities at epoch {self.current_epoch}. "
+                f"Sanitizing with nan_to_num before metrics."
+            )
+            all_probs = np.nan_to_num(all_probs, nan=0.5, posinf=1.0, neginf=0.0)
+
+        # --- compute metrics with try/except so one bad epoch doesn't crash training ---
+        try:
+            if self.cls_class_num == 2:
+                auc_metric = metrics.roc_auc_score(all_labels, all_probs)
+            else:
+                auc_metric = metrics.multiclass.roc_auc_score(
+                    all_labels, all_probs, multi_class='ovr'
+                )
+        except ValueError as e:
+            self.print_to_log_file(
+                f"WARNING: Failed to compute AUC at epoch {self.current_epoch}: {e}. "
+                f"Setting AUC to NaN for this epoch."
+            )
+            auc_metric = float('nan')
+
+        classification_accuracy = metrics.accuracy_score(all_labels, all_preds)
+        balanced_accuracy = metrics.balanced_accuracy_score(all_labels, all_preds)
 
         wandb.log({
             'val/classification_loss': loss_here,
@@ -758,54 +813,255 @@ class nnUNetCLSTrainer(nnUNetTrainer):
             "val/classification_accuracy": classification_accuracy,
             "val/balanced_accuracy": balanced_accuracy
         })
-        # wandb.log({
-        #     'val/classification_loss': loss_here,
-        #     "val/AUC": auc_metric,
-        #     "val/classification_accuracy": classification_accuracy,
-        #     "val/balanced_accuracy": balanced_accuracy,
-        #     "epoch": self.current_epoch,
-        # })
-
 
         self.epoch_df = pd.DataFrame({
             'ids': all_ids,
-            'probs': all_probs.cpu().numpy().tolist(),
-            'labels': all_labels.cpu().numpy().tolist(),
+            'probs': all_probs.tolist(),
+            'labels': all_labels.tolist(),
         })
 
         self.logger.log('val_losses', loss_here, self.current_epoch)
         self.logger.log('val_classification_accuracy', classification_accuracy, self.current_epoch)
         self.logger.log('val_auc', auc_metric, self.current_epoch)
+        self.logger.log('val_balanced_accuracy', balanced_accuracy, self.current_epoch)
+
+    # def on_validation_epoch_end(self, val_outputs: List[dict]):
+    #     outputs_collated = collate_outputs(val_outputs)
+
+
+    #     if self.is_ddp:
+    #         world_size = dist.get_world_size()
+
+    #         losses_val = [None for _ in range(world_size)]
+    #         dist.all_gather_object(losses_val, outputs_collated['total_loss'])
+    #         loss_here = np.vstack(losses_val).mean()
+    #     else:
+    #         loss_here = np.mean(outputs_collated['total_loss'])
+
+    #     all_preds = torch.tensor(np.array(outputs_collated['all_preds']))
+    #     all_probs = torch.tensor(np.array(outputs_collated['all_probs']))
+    #     all_labels = torch.tensor(np.array(outputs_collated['all_labels']))
+    #     all_ids = outputs_collated['all_ids']
+
+    #     if self.cls_class_num == 2:
+    #         auc_metric = metrics.roc_auc_score(all_labels, all_probs)
+    #         classification_accuracy = metrics.accuracy_score(all_labels, all_preds)
+    #         balanced_accuracy = metrics.balanced_accuracy_score(all_labels, all_preds)
+    #     else:
+    #         auc_metric = metrics.multiclass.roc_auc_score(all_labels, all_probs, multi_class='ovr')
+    #         classification_accuracy = metrics.accuracy_score(all_labels, all_preds)
+    #         balanced_accuracy = metrics.balanced_accuracy_score(all_labels, all_preds)
+
+    #     wandb.log({
+    #         'val/classification_loss': loss_here,
+    #         "val/AUC": auc_metric,
+    #         "val/classification_accuracy": classification_accuracy,
+    #         "val/balanced_accuracy": balanced_accuracy
+    #     })
+    #     # wandb.log({
+    #     #     'val/classification_loss': loss_here,
+    #     #     "val/AUC": auc_metric,
+    #     #     "val/classification_accuracy": classification_accuracy,
+    #     #     "val/balanced_accuracy": balanced_accuracy,
+    #     #     "epoch": self.current_epoch,
+    #     # })
+
+
+    #     self.epoch_df = pd.DataFrame({
+    #         'ids': all_ids,
+    #         'probs': all_probs.cpu().numpy().tolist(),
+    #         'labels': all_labels.cpu().numpy().tolist(),
+    #     })
+
+    #     self.logger.log('val_losses', loss_here, self.current_epoch)
+    #     self.logger.log('val_classification_accuracy', classification_accuracy, self.current_epoch)
+    #     self.logger.log('val_auc', auc_metric, self.current_epoch)
+    #     self.logger.log('val_balanced_accuracy', balanced_accuracy, self.current_epoch)  # NEW
+
+    
     def on_epoch_end(self):
         self.logger.log('epoch_end_timestamps', time(), self.current_epoch)
 
-        self.print_to_log_file('train_loss', np.round(self.logger.my_fantastic_logging['train_losses'][-1], decimals=4))
-        self.print_to_log_file('val_loss', np.round(self.logger.my_fantastic_logging['val_losses'][-1], decimals=4))
-        self.print_to_log_file('val classification accuracy', np.round(self.logger.my_fantastic_logging['val_classification_accuracy'][-1], decimals=4))
-        self.print_to_log_file('val auc', np.round(self.logger.my_fantastic_logging['val_auc'][-1], decimals=4))
         self.print_to_log_file(
-            f"Epoch time: {np.round(self.logger.my_fantastic_logging['epoch_end_timestamps'][-1] - self.logger.my_fantastic_logging['epoch_start_timestamps'][-1], decimals=2)} s")
+            'train_loss',
+            np.round(self.logger.my_fantastic_logging['train_losses'][-1], decimals=4)
+        )
+        self.print_to_log_file(
+            'val_loss',
+            np.round(self.logger.my_fantastic_logging['val_losses'][-1], decimals=4)
+        )
+        self.print_to_log_file(
+            'val classification accuracy',
+            np.round(self.logger.my_fantastic_logging['val_classification_accuracy'][-1], decimals=4)
+        )
+        self.print_to_log_file(
+            'val auc',
+            np.round(self.logger.my_fantastic_logging['val_auc'][-1], decimals=4)
+        )
+        self.print_to_log_file(
+            f"Epoch time: {np.round(self.logger.my_fantastic_logging['epoch_end_timestamps'][-1] - self.logger.my_fantastic_logging['epoch_start_timestamps'][-1], decimals=2)} s"
+        )
 
-        # handling periodic checkpointing
+        # handling periodic checkpointing (every N epochs, gated by val_balanced_accuracy)
         current_epoch = self.current_epoch
-        if (current_epoch + 1) % self.save_every == 0 and current_epoch != (self.num_epochs - 1):
-            self.save_checkpoint(join(self.output_folder, 'checkpoint_latest.pth'))
 
-        # handle 'best' checkpointing. ema_fg_dice is computed by the logger and can be accessed like this
+        if self.local_rank == 0:
+            # handling periodic checkpointing (every N epochs, gated by val_balanced_accuracy)
+            if (current_epoch + 1) % self.save_every == 0 and current_epoch != (self.num_epochs - 1):
+                periodic_metric_name = "val_balanced_accuracy"
+                metric_history = self.logger.my_fantastic_logging.get(periodic_metric_name, None)
+
+                if metric_history is not None and len(metric_history) > 0:
+                    current_metric_value = metric_history[-1]
+                    improved = (self._best_everyN_metric is None) or (current_metric_value > self._best_everyN_metric)
+
+                    if improved:
+                        self._best_everyN_metric = current_metric_value
+                        ckpt_path = join(self.output_folder, f'checkpoint_every{self.save_every}_best_balacc.pth')
+                        self.save_checkpoint(ckpt_path)
+                        self.print_to_log_file(
+                            f"Saved periodic checkpoint {ckpt_path} at epoch {current_epoch} "
+                            f"with {periodic_metric_name}={current_metric_value:.4f}"
+                        )
+
+            # periodic checkpointing (every N epochs, gated by val_auc)
+            if (current_epoch + 1) % self.save_every == 0 and current_epoch != (self.num_epochs - 1):
+                periodic_metric_name = "val_auc"
+                metric_history = self.logger.my_fantastic_logging.get(periodic_metric_name, None)
+
+                if metric_history is not None and len(metric_history) > 0:
+                    current_metric_value = metric_history[-1]
+
+                    if np.isfinite(current_metric_value):
+                        improved = (self._best_everyN_auc is None) or (current_metric_value > self._best_everyN_auc)
+                        if improved:
+                            self._best_everyN_auc = current_metric_value
+                            ckpt_path = join(self.output_folder, f'checkpoint_every{self.save_every}_best_auroc.pth')
+                            self.save_checkpoint(ckpt_path)
+                            self.print_to_log_file(
+                                f"Saved periodic checkpoint {ckpt_path} at epoch {current_epoch} "
+                                f"with {periodic_metric_name}={current_metric_value:.4f}"
+                            )
+
+
+
+
+        # handle 'best' checkpointing (AUC)
         if self._best_ema is None or self.logger.my_fantastic_logging['val_auc'][-1] > self._best_ema:
             self._best_ema = self.logger.my_fantastic_logging['val_auc'][-1]
-            self.print_to_log_file(f"Yayy! New best EMA pseudo Dice: {np.round(self._best_ema, decimals=4)}")
+            self.print_to_log_file(
+                f"Yayy! New best EMA pseudo Dice: {np.round(self._best_ema, decimals=4)}"
+            )
             self.save_checkpoint(join(self.output_folder, 'checkpoint_bestauc.pth'))
-        
+
+        # handle 'best' checkpointing (accuracy)
         if self._best_acc is None or self.logger.my_fantastic_logging['val_classification_accuracy'][-1] > self._best_acc:
             self._best_acc = self.logger.my_fantastic_logging['val_classification_accuracy'][-1]
-            self.print_to_log_file(f"Yayy! New best classification accuracy: {np.round(self._best_acc, decimals=4)}")
+            self.print_to_log_file(
+                f"Yayy! New best classification accuracy: {np.round(self._best_acc, decimals=4)}"
+            )
             self.save_checkpoint(join(self.output_folder, 'checkpoint_bestacc.pth'))
+
+        # ---------------- NEW: Early stopping update ---------------------------------
+        metric_name = getattr(self, "early_stopping_metric", None)
+        if metric_name is not None:
+            metric_history = self.logger.my_fantastic_logging.get(metric_name, None)
+            if metric_history is not None and len(metric_history) > 0:
+                current_value = metric_history[-1]
+
+                if self._early_stopping_best is None:
+                    # first epoch with a value
+                    self._early_stopping_best = current_value
+                    self._early_stopping_num_bad_epochs = 0
+                else:
+                    if self.early_stopping_mode == "max":
+                        improvement = current_value - self._early_stopping_best
+                    else:  # "min"
+                        improvement = self._early_stopping_best - current_value
+
+                    if improvement > self.early_stopping_min_delta:
+                        # improved
+                        self._early_stopping_best = current_value
+                        self._early_stopping_num_bad_epochs = 0
+                    else:
+                        # no improvement
+                        self._early_stopping_num_bad_epochs += 1
+
+                if self._early_stopping_num_bad_epochs >= self.early_stopping_patience:
+                    self._early_stopping_triggered = True
+                    self.print_to_log_file(
+                        f"Early stopping triggered at epoch {self.current_epoch}. "
+                        f"Best {metric_name}={self._early_stopping_best:.4f}"
+                    )
+        # --------------------------------------------------------------------------- #
 
         if self.local_rank == 0:
             self.logger.plot_progress_png(self.output_folder)
 
         self.current_epoch += 1
+        
+    def run_training(self):
+        """
+        Same as nnUNetTrainer.run_training but with support for:
+          - early stopping (via _early_stopping_triggered)
+          - separate stderr tee into an error log file on rank 0
+        """
+        # Only rank 0 writes a separate error log
+        if self.local_rank == 0:
+            timestamp = datetime.now()
+            error_log_file = join(
+                self.output_folder,
+                "training_errors_%d_%d_%d_%02.0d_%02.0d_%02.0d.txt"
+                % (
+                    timestamp.year, timestamp.month, timestamp.day,
+                    timestamp.hour, timestamp.minute, timestamp.second,
+                )
+            )
+            orig_stderr = sys.stderr
+            stderr_fh = open(error_log_file, "a", buffering=1)
+            sys.stderr = _TeeStderr(orig_stderr, stderr_fh)
+        else:
+            orig_stderr = None
+            stderr_fh = None
+
+        try:
+            self.on_train_start()
+
+            for epoch in range(self.current_epoch, self.num_epochs):
+                self.on_epoch_start()
+
+                self.on_train_epoch_start()
+                train_outputs = []
+                for batch_id in range(self.num_iterations_per_epoch):
+                    train_outputs.append(self.train_step(next(self.dataloader_train)))
+                self.on_train_epoch_end(train_outputs)
+
+                with torch.no_grad():
+                    self.on_validation_epoch_start()
+                    val_outputs = []
+                    for batch_id in range(self.num_val_iterations_per_epoch):
+                        val_outputs.append(self.validation_step(next(self.dataloader_val)))
+                    self.on_validation_epoch_end(val_outputs)
+
+                self.on_epoch_end()
+
+                # --------------- Early stopping check ---------------
+                if getattr(self, "_early_stopping_triggered", False):
+                    self.print_to_log_file(
+                        "Stopping training early due to early stopping criterion.",
+                        also_print_to_console=True,
+                    )
+                    break
+                # ----------------------------------------------------
+
+            self.on_train_end()
+        finally:
+            # ALWAYS restore stderr and close the file even if there was an exception
+            if self.local_rank == 0 and stderr_fh is not None:
+                sys.stderr = orig_stderr
+                stderr_fh.close()
+
+
 
 class DenseNetTrainer(nnUNetCLSTrainer):
 
@@ -817,10 +1073,10 @@ class DenseNetTrainer(nnUNetCLSTrainer):
                                    num_output_channels: int,
                                    enable_deep_supervision: bool = True,
                                    emb_dim: int = 256,
-                                   cls_class_num: int = 1) -> nn.Module:
-
-        
-
+                                   cls_class_num: int = 1,
+                                   patch_size = None, # NEW: ninth parameter so the call matches
+                                   ) -> nn.Module:
+        # We ignore most of the nnU-Net-specific args and just return a DenseNet classifier
         return DenseNet121(
             spatial_dims=3,
             in_channels=num_input_channels,
@@ -872,57 +1128,13 @@ class ViTTrainer(nnUNetCLSTrainer):
         )
 
 class SwinViTTrainer(nnUNetCLSTrainer):
-
-    def initialize(self):
-        if not self.was_initialized:
-            ## DDP batch size and oversampling can differ between workers and needs adaptation
-            # we need to change the batch size in DDP because we don't use any of those distributed samplers
-            self._set_batch_size_and_oversample()
-            self.initial_lr = 1e-4
-            self._best_acc = None
-            self.enable_deep_supervision = False
-            self.num_input_channels = determine_num_input_channels(self.plans_manager, self.configuration_manager,
-                                                                   self.dataset_json)
-
-            self.cls_class_num = self.get_cls_class_num(join(self.preprocessed_dataset_folder, os.pardir, 'cls_data.csv'))
-            cls_head_output = self.cls_class_num if self.cls_class_num > 2 else 1
-            self.network = self.build_network_architecture(
-                self.configuration_manager.network_arch_class_name,
-                self.configuration_manager.network_arch_init_kwargs,
-                self.configuration_manager.network_arch_init_kwargs_req_import,
-                self.num_input_channels,
-                self.label_manager.num_segmentation_heads,
-                self.enable_deep_supervision,
-                self.configuration_manager.network_arch_init_kwargs['features_per_stage'][-1],
-                cls_head_output,
-                self.configuration_manager.patch_size
-            ).to(self.device)
-            # compile network for free speedup
-            if self._do_i_compile():
-                self.print_to_log_file('Using torch.compile...')
-                self.network = torch.compile(self.network)
-
-            self.optimizer, self.lr_scheduler = self.configure_optimizers()
-            # if ddp, wrap in DDP wrapper
-            if self.is_ddp:
-                self.network = torch.nn.SyncBatchNorm.convert_sync_batchnorm(self.network)
-                self.network = DDP(self.network, device_ids=[self.local_rank])
-
-            self.dataset_class = infer_dataset_class(self.preprocessed_dataset_folder)
-            self.dataset_name = self.preprocessed_dataset_folder.split('/')[-2]
-            wandb.init(
-                project=f"SickKids_{self.dataset_name}",
-                name=f"{self.__class__.__name__}_fold{self.fold}",
-            )
-
-            # torch 2.2.2 crashes upon compiling CE loss
-            # if self._do_i_compile():
-            #     self.loss = torch.compile(self.loss)
-            self.was_initialized = True
-        else:
-            raise RuntimeError("You have called self.initialize even though the trainer was already initialized. "
-                               "That should not happen.")
-
+    #deleted all of "def initialize(self):" since it only added learning rate 1e-4.
+    #instead use "def __init__" do add just that learning rate 1e-4 functionality
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        # override default LR before initialize() is ever called
+        self.initial_lr = 1e-4
     @staticmethod
     def build_network_architecture(architecture_class_name: str,
                                    arch_init_kwargs: dict,
@@ -933,18 +1145,15 @@ class SwinViTTrainer(nnUNetCLSTrainer):
                                    emb_dim: int = 256,
                                    cls_class_num: int = 1,
                                    patch_size=None) -> nn.Module:
-
         return SwinClassificationNetwork(
             in_channels=num_input_channels,
             num_classes=cls_class_num,
             depths=[2, 2, 6, 2],
             num_heads=[3, 6, 12, 24],
             embed_dim=96,
-            dropout_rate=0.1
-        )
+            dropout_rate=0.1)
 
 class MedNeXtTrainer(nnUNetCLSTrainer):
-
     @staticmethod
     def build_network_architecture(architecture_class_name: str,
                                    arch_init_kwargs: dict,
@@ -955,12 +1164,38 @@ class MedNeXtTrainer(nnUNetCLSTrainer):
                                    emb_dim: int = 256,
                                    cls_class_num: int = 1,
                                    patch_size=None) -> nn.Module:
-
         return MedNeXtClassifier(
             spatial_dims=3,
             in_channels=num_input_channels,
-            num_classes=cls_class_num,
-        )
+            num_classes=cls_class_num,)
+
+# class ViTTrainer_lr_1e_minus3(ViTTrainer):  
+#     """
+#     Same trainer as nnUNetTrainer but with a lower learning rate (default: 3e-4).
+#     You can pass a different lr when constructing via code; with the CLI you’ll just
+#     use the default unless you wrap the entrypoint.
+#     """
+#     def __init__(self, plans, configuration, fold, dataset_json,
+#                  device=torch.device('cuda')):
+#         super().__init__(plans, configuration, fold, dataset_json, device=device)
+#         # lower LR
+#         self.initial_lr = 1e-3
+#         self.num_epochs = 300
+
+# class ViTTrainer_lr_1e_minus4(ViTTrainer):  
+#     """
+#     Same trainer as nnUNetTrainer but with a lower learning rate (default: 3e-4).
+#     You can pass a different lr when constructing via code; with the CLI you’ll just
+#     use the default unless you wrap the entrypoint.
+#     """
+#     def __init__(self, plans, configuration, fold, dataset_json,
+#                  device=torch.device('cuda')):
+#         super().__init__(plans, configuration, fold, dataset_json, device=device)
+#         # lower LR
+#         self.initial_lr = 1e-4
+#         self.num_epochs = 300          # <-- run for 300 epochs
+
+
 
 
 
@@ -968,12 +1203,16 @@ class SwinViTTrainer_ep300(SwinViTTrainer):
     def __init__(self, plans, configuration, fold, dataset_json,
                  device=torch.device('cuda')):
         super().__init__(plans, configuration, fold, dataset_json, device=device)
-        self.num_epochs = 300  # <-- run for 300 epochs
-class SwinViTTrainer_ep300_NoMirroring(SwinViTTrainer):
+        self.initial_lr = 1e-4
+        self.num_epochs = 300               # run up to 300 epochs
+        self.save_every = 20                # save checkpoint every 20 epochs
+        # Optional: tighter patience for a long run
+        self.early_stopping_patience = 100   # override default if you want
+class SwinViTTrainer_ep300_NoMirroring(SwinViTTrainer_ep300):
     def __init__(self, plans, configuration, fold, dataset_json,
                  device=torch.device('cuda')):
         super().__init__(plans, configuration, fold, dataset_json, device=device)
-        self.num_epochs = 300  # <-- run for 300 epochs
+        # num_epochs, save_every, early_stopping_patience already set in parent
     # prevent mirroring !
     def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
         rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
@@ -983,29 +1222,128 @@ class SwinViTTrainer_ep300_NoMirroring(SwinViTTrainer):
         return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
 
 
-class ViTTrainer_lr_1e_minus3(ViTTrainer):  
-    """
-    Same trainer as nnUNetTrainer but with a lower learning rate (default: 3e-4).
-    You can pass a different lr when constructing via code; with the CLI you’ll just
-    use the default unless you wrap the entrypoint.
-    """
+class DenseNetTrainer_ep300(DenseNetTrainer):
     def __init__(self, plans, configuration, fold, dataset_json,
                  device=torch.device('cuda')):
         super().__init__(plans, configuration, fold, dataset_json, device=device)
-        # lower LR
-        self.initial_lr = 1e-3
+        # self.initial_lr = 1e-2 # default from nnUNetTrainer.nnUNetTrainer
         self.num_epochs = 300
-
-class ViTTrainer_lr_1e_minus4(ViTTrainer):  
-    """
-    Same trainer as nnUNetTrainer but with a lower learning rate (default: 3e-4).
-    You can pass a different lr when constructing via code; with the CLI you’ll just
-    use the default unless you wrap the entrypoint.
-    """
+        self.save_every = 20
+        self.early_stopping_patience = 100
+class DenseNetTrainer_ep300_NoMirroring(DenseNetTrainer_ep300):
     def __init__(self, plans, configuration, fold, dataset_json,
                  device=torch.device('cuda')):
         super().__init__(plans, configuration, fold, dataset_json, device=device)
-        # lower LR
+    def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
+        rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
+            super().configure_rotation_dummyDA_mirroring_and_inital_patch_size()
+        mirror_axes = None
+        self.inference_allowed_mirroring_axes = None
+        return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+
+
+class ViTTrainer_ep300(ViTTrainer):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
         self.initial_lr = 1e-4
-        self.num_epochs = 300          # <-- run for 300 epochs
+        self.num_epochs = 300
+        self.save_every = 20
+        self.early_stopping_patience = 100
+class ViTTrainer_ep300_NoMirroring(ViTTrainer_ep300):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+    def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
+        rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
+            super().configure_rotation_dummyDA_mirroring_and_inital_patch_size()
+        mirror_axes = None
+        self.inference_allowed_mirroring_axes = None
+        return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+
+
+class SEResNetTrainer_ep300(SEResNetTrainer):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        # self.initial_lr = 1e-2 # default from nnUNetTrainer.nnUNetTrainer
+        self.num_epochs = 300
+        self.save_every = 20
+        self.early_stopping_patience = 100
+class SEResNetTrainer_ep300_NoMirroring(SEResNetTrainer_ep300):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+    def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
+        rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
+            super().configure_rotation_dummyDA_mirroring_and_inital_patch_size()
+        mirror_axes = None
+        self.inference_allowed_mirroring_axes = None
+        return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# temporary x2
+
+class DenseNetTrainer_ep300_NoMirroring_x2(DenseNetTrainer_ep300):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        self.early_stopping_patience = 80
+    def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
+        rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
+            super().configure_rotation_dummyDA_mirroring_and_inital_patch_size()
+        mirror_axes = None
+        self.inference_allowed_mirroring_axes = None
+        return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+
+class SEResNetTrainer_ep300_NoMirroring_x2(SEResNetTrainer_ep300):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        self.early_stopping_patience = 80
+    def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
+        rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
+            super().configure_rotation_dummyDA_mirroring_and_inital_patch_size()
+        mirror_axes = None
+        self.inference_allowed_mirroring_axes = None
+        return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+
+class SwinViTTrainer_ep300_NoMirroring_x2(SwinViTTrainer_ep300):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        self.early_stopping_patience = 80
+    def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
+        rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
+            super().configure_rotation_dummyDA_mirroring_and_inital_patch_size()
+        mirror_axes = None
+        self.inference_allowed_mirroring_axes = None
+        return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+
+class ViTTrainer_ep300_NoMirroring_x2(ViTTrainer_ep300):
+    def __init__(self, plans, configuration, fold, dataset_json,
+                 device=torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
+        self.early_stopping_patience = 80
+    def configure_rotation_dummyDA_mirroring_and_inital_patch_size(self):
+        rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes = \
+            super().configure_rotation_dummyDA_mirroring_and_inital_patch_size()
+        mirror_axes = None
+        self.inference_allowed_mirroring_axes = None
+        return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+
 

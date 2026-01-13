@@ -1,0 +1,2456 @@
+Using device: cuda:0
+
+#######################################################################
+Please cite the following paper when using nnU-Net:
+Isensee, F., Jaeger, P. F., Kohl, S. A., Petersen, J., & Maier-Hein, K. H. (2021). nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation. Nature methods, 18(2), 203-211.
+#######################################################################
+
+2026-01-04 09:59:46.928221: Using torch.compile...
+2026-01-04 09:59:51.748443: do_dummy_2d_data_aug: False
+2026-01-04 09:59:51.752137: Using splits from existing split file: /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_preprocessed/Dataset033_AVM_T1+C/splits_final.json
+2026-01-04 09:59:51.755754: The split file contains 11 splits.
+2026-01-04 09:59:51.757657: Desired fold for training: 1
+2026-01-04 09:59:51.759315: This split has 472 training and 40 validation cases.
+using pin_memory on device 0
+using pin_memory on device 0
+
+This is the configuration used by this training:
+Configuration name: 3d_fullres
+ {'data_identifier': 'nnUNetPlans_3d_fullres', 'preprocessor_name': 'DefaultPreprocessor', 'batch_size': 2, 'patch_size': [160, 224, 192], 'median_image_size_in_voxels': [344.0, 448.0, 429.0], 'spacing': [0.500000923871994, 0.4910714328289032, 0.4910714328289032], 'normalization_schemes': ['ZScoreNormalization'], 'use_mask_for_norm': [False], 'resampling_fn_data': 'resample_data_or_seg_to_shape', 'resampling_fn_seg': 'resample_data_or_seg_to_shape', 'resampling_fn_data_kwargs': {'is_seg': False, 'order': 3, 'order_z': 0, 'force_separate_z': None}, 'resampling_fn_seg_kwargs': {'is_seg': True, 'order': 1, 'order_z': 0, 'force_separate_z': None}, 'resampling_fn_probabilities': 'resample_data_or_seg_to_shape', 'resampling_fn_probabilities_kwargs': {'is_seg': False, 'order': 1, 'order_z': 0, 'force_separate_z': None}, 'architecture': {'network_class_name': 'dynamic_network_architectures.architectures.unet.ResidualEncoderUNet', 'arch_kwargs': {'n_stages': 6, 'features_per_stage': [32, 64, 128, 256, 320, 320], 'conv_op': 'torch.nn.modules.conv.Conv3d', 'kernel_sizes': [[3, 3, 3], [3, 3, 3], [3, 3, 3], [3, 3, 3], [3, 3, 3], [3, 3, 3]], 'strides': [[1, 1, 1], [2, 2, 2], [2, 2, 2], [2, 2, 2], [2, 2, 2], [2, 2, 2]], 'n_blocks_per_stage': [1, 3, 4, 6, 6, 6], 'n_conv_per_stage_decoder': [1, 1, 1, 1, 1], 'conv_bias': True, 'norm_op': 'torch.nn.modules.instancenorm.InstanceNorm3d', 'norm_op_kwargs': {'eps': 1e-05, 'affine': True}, 'dropout_op': None, 'dropout_op_kwargs': None, 'nonlin': 'torch.nn.LeakyReLU', 'nonlin_kwargs': {'inplace': True}}, '_kw_requires_import': ['conv_op', 'norm_op', 'dropout_op', 'nonlin']}, 'batch_dice': True} 
+
+These are the global plan.json settings:
+ {'dataset_name': 'Dataset033_AVM_T1+C', 'plans_name': 'nnUNetResEncUNetLPlans', 'original_median_spacing_after_transp': [0.500000923871994, 0.4910714328289032, 0.4910714328289032], 'original_median_shape_after_transp': [330, 448, 424], 'image_reader_writer': 'SimpleITKIO', 'transpose_forward': [0, 1, 2], 'transpose_backward': [0, 1, 2], 'experiment_planner_used': 'nnUNetPlannerResEncL', 'label_manager': 'LabelManager', 'foreground_intensity_properties_per_channel': {'0': {'max': 12113.0, 'mean': 449.843505859375, 'median': 311.0, 'min': 0.0, 'percentile_00_5': 34.0, 'percentile_99_5': 3202.0, 'std': 471.56329345703125}}} 
+
+2026-01-04 09:59:54.457906: Unable to plot network architecture: nnUNet_compile is enabled!
+2026-01-04 09:59:54.483906: 
+2026-01-04 09:59:54.520729: Epoch 0
+2026-01-04 09:59:54.525445: Current learning rate: 0.0001
+2026-01-04 10:01:18.997267: train_loss 0.7305
+2026-01-04 10:01:19.002735: val_loss 0.7267
+2026-01-04 10:01:19.006069: val classification accuracy 0.525
+2026-01-04 10:01:19.009087: val auc 0.5788
+2026-01-04 10:01:19.011919: Epoch time: 84.52 s
+2026-01-04 10:01:19.014250: Yayy! New best EMA pseudo Dice: 0.5788
+2026-01-04 10:01:24.219815: Yayy! New best classification accuracy: 0.525
+2026-01-04 10:01:28.594423: 
+2026-01-04 10:01:28.597363: Epoch 1
+2026-01-04 10:01:28.599441: Current learning rate: 0.0001
+2026-01-04 10:02:22.550708: train_loss 0.7117
+2026-01-04 10:02:22.562969: val_loss 0.6768
+2026-01-04 10:02:22.565883: val classification accuracy 0.625
+2026-01-04 10:02:22.585545: val auc 0.645
+2026-01-04 10:02:22.597175: Epoch time: 53.96 s
+2026-01-04 10:02:22.603970: Yayy! New best EMA pseudo Dice: 0.645
+2026-01-04 10:02:28.210008: Yayy! New best classification accuracy: 0.625
+2026-01-04 10:02:32.954758: 
+2026-01-04 10:02:32.958214: Epoch 2
+2026-01-04 10:02:32.960709: Current learning rate: 0.0001
+2026-01-04 10:03:23.138409: train_loss 0.6996
+2026-01-04 10:03:23.142677: val_loss 0.6765
+2026-01-04 10:03:23.144811: val classification accuracy 0.625
+2026-01-04 10:03:23.146818: val auc 0.6788
+2026-01-04 10:03:23.148781: Epoch time: 50.18 s
+2026-01-04 10:03:23.150499: Yayy! New best EMA pseudo Dice: 0.6788
+2026-01-04 10:03:29.528446: 
+2026-01-04 10:03:29.531604: Epoch 3
+2026-01-04 10:03:29.533900: Current learning rate: 0.0001
+2026-01-04 10:04:21.531804: train_loss 0.7023
+2026-01-04 10:04:21.544596: val_loss 0.6954
+2026-01-04 10:04:21.553074: val classification accuracy 0.4
+2026-01-04 10:04:21.566383: val auc 0.5012
+2026-01-04 10:04:21.575791: Epoch time: 52.0 s
+2026-01-04 10:04:22.471623: 
+2026-01-04 10:04:22.474959: Epoch 4
+2026-01-04 10:04:22.477174: Current learning rate: 0.0001
+2026-01-04 10:05:13.180536: train_loss 0.6858
+2026-01-04 10:05:13.185358: val_loss 0.6538
+2026-01-04 10:05:13.187921: val classification accuracy 0.6
+2026-01-04 10:05:13.190199: val auc 0.6725
+2026-01-04 10:05:13.192460: Epoch time: 50.71 s
+2026-01-04 10:05:13.996241: 
+2026-01-04 10:05:13.999243: Epoch 5
+2026-01-04 10:05:14.001433: Current learning rate: 0.0001
+2026-01-04 10:06:05.384140: train_loss 0.686
+2026-01-04 10:06:05.389179: val_loss 0.7184
+2026-01-04 10:06:05.392005: val classification accuracy 0.5
+2026-01-04 10:06:05.394912: val auc 0.4625
+2026-01-04 10:06:05.397585: Epoch time: 51.39 s
+2026-01-04 10:06:06.247385: 
+2026-01-04 10:06:06.250552: Epoch 6
+2026-01-04 10:06:06.252520: Current learning rate: 0.0001
+2026-01-04 10:06:59.131372: train_loss 0.6867
+2026-01-04 10:06:59.135670: val_loss 0.6632
+2026-01-04 10:06:59.150553: val classification accuracy 0.55
+2026-01-04 10:06:59.153022: val auc 0.6587
+2026-01-04 10:06:59.155038: Epoch time: 52.89 s
+2026-01-04 10:07:00.046489: 
+2026-01-04 10:07:00.049110: Epoch 7
+2026-01-04 10:07:00.050925: Current learning rate: 0.0001
+2026-01-04 10:07:57.165149: train_loss 0.6903
+2026-01-04 10:07:57.169285: val_loss 0.7163
+2026-01-04 10:07:57.171950: val classification accuracy 0.5
+2026-01-04 10:07:57.174397: val auc 0.57
+2026-01-04 10:07:57.176893: Epoch time: 57.12 s
+2026-01-04 10:07:58.015280: 
+2026-01-04 10:07:58.018804: Epoch 8
+2026-01-04 10:07:58.021150: Current learning rate: 0.0001
+2026-01-04 10:08:48.279903: train_loss 0.6895
+2026-01-04 10:08:48.293064: val_loss 0.6761
+2026-01-04 10:08:48.296141: val classification accuracy 0.525
+2026-01-04 10:08:48.299170: val auc 0.6225
+2026-01-04 10:08:48.301871: Epoch time: 50.27 s
+2026-01-04 10:08:49.206822: 
+2026-01-04 10:08:49.209798: Epoch 9
+2026-01-04 10:08:49.211775: Current learning rate: 0.0001
+2026-01-04 10:09:41.995229: train_loss 0.6948
+2026-01-04 10:09:41.999524: val_loss 0.6688
+2026-01-04 10:09:42.002430: val classification accuracy 0.675
+2026-01-04 10:09:42.005037: val auc 0.66
+2026-01-04 10:09:42.007911: Epoch time: 52.79 s
+2026-01-04 10:09:42.010098: Yayy! New best classification accuracy: 0.675
+2026-01-04 10:09:48.382787: 
+2026-01-04 10:09:48.386052: Epoch 10
+2026-01-04 10:09:48.388128: Current learning rate: 0.0001
+2026-01-04 10:10:38.433210: train_loss 0.685
+2026-01-04 10:10:38.454361: val_loss 0.6579
+2026-01-04 10:10:38.468724: val classification accuracy 0.65
+2026-01-04 10:10:38.483318: val auc 0.6875
+2026-01-04 10:10:38.497581: Epoch time: 50.05 s
+2026-01-04 10:10:38.499751: Yayy! New best EMA pseudo Dice: 0.6875
+2026-01-04 10:10:44.858202: 
+2026-01-04 10:10:44.861680: Epoch 11
+2026-01-04 10:10:44.864157: Current learning rate: 0.0001
+2026-01-04 10:11:37.762842: train_loss 0.6819
+2026-01-04 10:11:37.817261: val_loss 0.6949
+2026-01-04 10:11:37.868126: val classification accuracy 0.5
+2026-01-04 10:11:37.877601: val auc 0.51
+2026-01-04 10:11:37.891729: Epoch time: 52.91 s
+2026-01-04 10:11:38.761100: 
+2026-01-04 10:11:38.765047: Epoch 12
+2026-01-04 10:11:38.767900: Current learning rate: 0.0001
+2026-01-04 10:12:30.880347: train_loss 0.685
+2026-01-04 10:12:30.884735: val_loss 0.6694
+2026-01-04 10:12:30.887779: val classification accuracy 0.525
+2026-01-04 10:12:30.890654: val auc 0.645
+2026-01-04 10:12:30.893565: Epoch time: 52.12 s
+2026-01-04 10:12:31.759752: 
+2026-01-04 10:12:31.763134: Epoch 13
+2026-01-04 10:12:31.765484: Current learning rate: 0.0001
+2026-01-04 10:13:27.494190: train_loss 0.6902
+2026-01-04 10:13:27.499833: val_loss 0.666
+2026-01-04 10:13:27.502978: val classification accuracy 0.625
+2026-01-04 10:13:27.505861: val auc 0.665
+2026-01-04 10:13:27.508925: Epoch time: 55.74 s
+2026-01-04 10:13:28.370122: 
+2026-01-04 10:13:28.374021: Epoch 14
+2026-01-04 10:13:28.376766: Current learning rate: 0.0001
+2026-01-04 10:14:24.310111: train_loss 0.6839
+2026-01-04 10:14:24.314322: val_loss 0.7015
+2026-01-04 10:14:24.317755: val classification accuracy 0.475
+2026-01-04 10:14:24.320961: val auc 0.5475
+2026-01-04 10:14:24.324117: Epoch time: 55.94 s
+2026-01-04 10:14:25.826383: 
+2026-01-04 10:14:25.829645: Epoch 15
+2026-01-04 10:14:25.831887: Current learning rate: 0.0001
+2026-01-04 10:15:17.251495: train_loss 0.6849
+2026-01-04 10:15:17.257128: val_loss 0.6612
+2026-01-04 10:15:17.260841: val classification accuracy 0.6
+2026-01-04 10:15:17.264280: val auc 0.65
+2026-01-04 10:15:17.267854: Epoch time: 51.43 s
+2026-01-04 10:15:18.113411: 
+2026-01-04 10:15:18.117510: Epoch 16
+2026-01-04 10:15:18.120158: Current learning rate: 0.0001
+2026-01-04 10:16:11.066179: train_loss 0.6931
+2026-01-04 10:16:11.075529: val_loss 0.6999
+2026-01-04 10:16:11.078295: val classification accuracy 0.525
+2026-01-04 10:16:11.080717: val auc 0.5688
+2026-01-04 10:16:11.083173: Epoch time: 52.95 s
+2026-01-04 10:16:11.945597: 
+2026-01-04 10:16:11.950088: Epoch 17
+2026-01-04 10:16:11.953228: Current learning rate: 9e-05
+2026-01-04 10:17:02.600435: train_loss 0.6852
+2026-01-04 10:17:02.627594: val_loss 0.6489
+2026-01-04 10:17:02.644511: val classification accuracy 0.65
+2026-01-04 10:17:02.647944: val auc 0.7525
+2026-01-04 10:17:02.652774: Epoch time: 50.66 s
+2026-01-04 10:17:02.655708: Yayy! New best EMA pseudo Dice: 0.7525
+2026-01-04 10:17:08.937850: 
+2026-01-04 10:17:08.940981: Epoch 18
+2026-01-04 10:17:08.943423: Current learning rate: 9e-05
+2026-01-04 10:17:56.756305: train_loss 0.6743
+2026-01-04 10:17:56.766983: val_loss 0.6615
+2026-01-04 10:17:56.782385: val classification accuracy 0.575
+2026-01-04 10:17:56.785606: val auc 0.6275
+2026-01-04 10:17:56.788588: Epoch time: 47.82 s
+2026-01-04 10:17:57.631093: 
+2026-01-04 10:17:57.635038: Epoch 19
+2026-01-04 10:17:57.637470: Current learning rate: 9e-05
+2026-01-04 10:18:47.125646: train_loss 0.6893
+2026-01-04 10:18:47.131200: val_loss 0.6822
+2026-01-04 10:18:47.135755: val classification accuracy 0.625
+2026-01-04 10:18:47.138642: val auc 0.4712
+2026-01-04 10:18:47.141685: Epoch time: 49.5 s
+2026-01-04 10:18:52.271609: Saved periodic checkpoint /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/ViTTrainer_ep300_NoMirroring_x2__nnUNetResEncUNetLPlans__3d_fullres/fold_1/checkpoint_every20_best_balacc.pth at epoch 19 with val_balanced_accuracy=0.6250
+2026-01-04 10:18:55.780200: Saved periodic checkpoint /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/ViTTrainer_ep300_NoMirroring_x2__nnUNetResEncUNetLPlans__3d_fullres/fold_1/checkpoint_every20_best_auroc.pth at epoch 19 with val_auc=0.4713
+2026-01-04 10:18:56.499393: 
+2026-01-04 10:18:56.503076: Epoch 20
+2026-01-04 10:18:56.505639: Current learning rate: 9e-05
+2026-01-04 10:19:45.618368: train_loss 0.676
+2026-01-04 10:19:45.622293: val_loss 0.6573
+2026-01-04 10:19:45.625099: val classification accuracy 0.575
+2026-01-04 10:19:45.627948: val auc 0.6912
+2026-01-04 10:19:45.630691: Epoch time: 49.12 s
+2026-01-04 10:19:46.510121: 
+2026-01-04 10:19:46.513515: Epoch 21
+2026-01-04 10:19:46.515990: Current learning rate: 9e-05
+2026-01-04 10:20:35.761706: train_loss 0.6889
+2026-01-04 10:20:35.796871: val_loss 0.6529
+2026-01-04 10:20:35.820429: val classification accuracy 0.6
+2026-01-04 10:20:35.824118: val auc 0.6962
+2026-01-04 10:20:35.827526: Epoch time: 49.25 s
+2026-01-04 10:20:36.657586: 
+2026-01-04 10:20:36.661026: Epoch 22
+2026-01-04 10:20:36.663680: Current learning rate: 9e-05
+2026-01-04 10:21:27.429471: train_loss 0.6854
+2026-01-04 10:21:27.438247: val_loss 0.6838
+2026-01-04 10:21:27.441233: val classification accuracy 0.55
+2026-01-04 10:21:27.444319: val auc 0.52
+2026-01-04 10:21:27.447679: Epoch time: 50.77 s
+2026-01-04 10:21:28.319549: 
+2026-01-04 10:21:28.322861: Epoch 23
+2026-01-04 10:21:28.325444: Current learning rate: 9e-05
+2026-01-04 10:22:21.933348: train_loss 0.6784
+2026-01-04 10:22:21.938447: val_loss 0.6377
+2026-01-04 10:22:21.942431: val classification accuracy 0.625
+2026-01-04 10:22:21.959404: val auc 0.715
+2026-01-04 10:22:21.961861: Epoch time: 53.61 s
+2026-01-04 10:22:22.834709: 
+2026-01-04 10:22:22.873171: Epoch 24
+2026-01-04 10:22:22.883811: Current learning rate: 9e-05
+2026-01-04 10:23:17.550442: train_loss 0.6891
+2026-01-04 10:23:17.555409: val_loss 0.729
+2026-01-04 10:23:17.558415: val classification accuracy 0.45
+2026-01-04 10:23:17.561376: val auc 0.4375
+2026-01-04 10:23:17.564289: Epoch time: 54.72 s
+2026-01-04 10:23:18.431248: 
+2026-01-04 10:23:18.435553: Epoch 25
+2026-01-04 10:23:18.438491: Current learning rate: 9e-05
+2026-01-04 10:24:10.696242: train_loss 0.6831
+2026-01-04 10:24:10.708663: val_loss 0.6791
+2026-01-04 10:24:10.712392: val classification accuracy 0.5
+2026-01-04 10:24:10.715712: val auc 0.5825
+2026-01-04 10:24:10.719188: Epoch time: 52.27 s
+2026-01-04 10:24:11.518086: 
+2026-01-04 10:24:11.521527: Epoch 26
+2026-01-04 10:24:11.524024: Current learning rate: 9e-05
+2026-01-04 10:25:02.696661: train_loss 0.6907
+2026-01-04 10:25:02.701770: val_loss 0.6401
+2026-01-04 10:25:02.707240: val classification accuracy 0.6
+2026-01-04 10:25:02.710742: val auc 0.6825
+2026-01-04 10:25:02.713518: Epoch time: 51.18 s
+2026-01-04 10:25:03.534235: 
+2026-01-04 10:25:03.537776: Epoch 27
+2026-01-04 10:25:03.540232: Current learning rate: 9e-05
+2026-01-04 10:25:57.033269: train_loss 0.6758
+2026-01-04 10:25:57.037826: val_loss 0.6965
+2026-01-04 10:25:57.040492: val classification accuracy 0.55
+2026-01-04 10:25:57.043455: val auc 0.6112
+2026-01-04 10:25:57.046307: Epoch time: 53.5 s
+2026-01-04 10:25:58.557867: 
+2026-01-04 10:25:58.561772: Epoch 28
+2026-01-04 10:25:58.564589: Current learning rate: 9e-05
+2026-01-04 10:26:50.939991: train_loss 0.6843
+2026-01-04 10:26:50.945070: val_loss 0.654
+2026-01-04 10:26:50.948599: val classification accuracy 0.575
+2026-01-04 10:26:50.951777: val auc 0.6437
+2026-01-04 10:26:50.956275: Epoch time: 52.38 s
+2026-01-04 10:26:51.746792: 
+2026-01-04 10:26:51.751201: Epoch 29
+2026-01-04 10:26:51.754357: Current learning rate: 9e-05
+2026-01-04 10:27:44.662046: train_loss 0.6979
+2026-01-04 10:27:44.693044: val_loss 0.6276
+2026-01-04 10:27:44.695827: val classification accuracy 0.525
+2026-01-04 10:27:44.698547: val auc 0.6688
+2026-01-04 10:27:44.701566: Epoch time: 52.92 s
+2026-01-04 10:27:45.558306: 
+2026-01-04 10:27:45.562082: Epoch 30
+2026-01-04 10:27:45.564804: Current learning rate: 9e-05
+2026-01-04 10:28:39.556443: train_loss 0.6785
+2026-01-04 10:28:39.561043: val_loss 0.6594
+2026-01-04 10:28:39.564195: val classification accuracy 0.6
+2026-01-04 10:28:39.601496: val auc 0.72
+2026-01-04 10:28:39.605479: Epoch time: 54.0 s
+2026-01-04 10:28:40.501136: 
+2026-01-04 10:28:40.504981: Epoch 31
+2026-01-04 10:28:40.507676: Current learning rate: 9e-05
+2026-01-04 10:29:34.356948: train_loss 0.6742
+2026-01-04 10:29:34.365773: val_loss 0.6348
+2026-01-04 10:29:34.387541: val classification accuracy 0.625
+2026-01-04 10:29:34.420807: val auc 0.6675
+2026-01-04 10:29:34.423988: Epoch time: 53.86 s
+2026-01-04 10:29:35.375730: 
+2026-01-04 10:29:35.379508: Epoch 32
+2026-01-04 10:29:35.382022: Current learning rate: 9e-05
+2026-01-04 10:30:30.303213: train_loss 0.6676
+2026-01-04 10:30:30.318274: val_loss 0.6287
+2026-01-04 10:30:30.321687: val classification accuracy 0.65
+2026-01-04 10:30:30.326861: val auc 0.7588
+2026-01-04 10:30:30.330533: Epoch time: 54.93 s
+2026-01-04 10:30:30.333453: Yayy! New best EMA pseudo Dice: 0.7588
+2026-01-04 10:30:36.651734: 
+2026-01-04 10:30:36.655528: Epoch 33
+2026-01-04 10:30:36.658314: Current learning rate: 9e-05
+2026-01-04 10:31:30.391328: train_loss 0.6827
+2026-01-04 10:31:30.472085: val_loss 0.6079
+2026-01-04 10:31:30.483312: val classification accuracy 0.625
+2026-01-04 10:31:30.485903: val auc 0.7925
+2026-01-04 10:31:30.488921: Epoch time: 53.74 s
+2026-01-04 10:31:30.491339: Yayy! New best EMA pseudo Dice: 0.7925
+2026-01-04 10:31:36.730817: 
+2026-01-04 10:31:36.734206: Epoch 34
+2026-01-04 10:31:36.737104: Current learning rate: 9e-05
+2026-01-04 10:32:26.818653: train_loss 0.6882
+2026-01-04 10:32:26.838575: val_loss 0.6477
+2026-01-04 10:32:26.868238: val classification accuracy 0.6
+2026-01-04 10:32:26.871242: val auc 0.6375
+2026-01-04 10:32:26.873823: Epoch time: 50.09 s
+2026-01-04 10:32:27.773582: 
+2026-01-04 10:32:27.776901: Epoch 35
+2026-01-04 10:32:27.779370: Current learning rate: 9e-05
+2026-01-04 10:33:20.130857: train_loss 0.6695
+2026-01-04 10:33:20.138128: val_loss 0.6397
+2026-01-04 10:33:20.152722: val classification accuracy 0.65
+2026-01-04 10:33:20.199457: val auc 0.6512
+2026-01-04 10:33:20.203218: Epoch time: 52.36 s
+2026-01-04 10:33:21.075779: 
+2026-01-04 10:33:21.079748: Epoch 36
+2026-01-04 10:33:21.082944: Current learning rate: 9e-05
+2026-01-04 10:34:12.570984: train_loss 0.6617
+2026-01-04 10:34:12.575503: val_loss 0.662
+2026-01-04 10:34:12.585521: val classification accuracy 0.6
+2026-01-04 10:34:12.588681: val auc 0.6275
+2026-01-04 10:34:12.591513: Epoch time: 51.5 s
+2026-01-04 10:34:13.468252: 
+2026-01-04 10:34:13.471710: Epoch 37
+2026-01-04 10:34:13.474146: Current learning rate: 9e-05
+2026-01-04 10:35:06.485040: train_loss 0.6798
+2026-01-04 10:35:06.507737: val_loss 0.6914
+2026-01-04 10:35:06.511651: val classification accuracy 0.575
+2026-01-04 10:35:06.514640: val auc 0.55
+2026-01-04 10:35:06.517447: Epoch time: 53.02 s
+2026-01-04 10:35:07.420331: 
+2026-01-04 10:35:07.423803: Epoch 38
+2026-01-04 10:35:07.426644: Current learning rate: 9e-05
+2026-01-04 10:36:00.221936: train_loss 0.6817
+2026-01-04 10:36:00.234990: val_loss 0.6432
+2026-01-04 10:36:00.238580: val classification accuracy 0.65
+2026-01-04 10:36:00.241775: val auc 0.7
+2026-01-04 10:36:00.245328: Epoch time: 52.8 s
+2026-01-04 10:36:01.040779: 
+2026-01-04 10:36:01.044312: Epoch 39
+2026-01-04 10:36:01.046666: Current learning rate: 9e-05
+2026-01-04 10:36:56.551056: train_loss 0.674
+2026-01-04 10:36:56.555285: val_loss 0.6141
+2026-01-04 10:36:56.590944: val classification accuracy 0.7
+2026-01-04 10:36:56.599962: val auc 0.72
+2026-01-04 10:36:56.602975: Epoch time: 55.51 s
+2026-01-04 10:37:02.106838: Saved periodic checkpoint /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/ViTTrainer_ep300_NoMirroring_x2__nnUNetResEncUNetLPlans__3d_fullres/fold_1/checkpoint_every20_best_balacc.pth at epoch 39 with val_balanced_accuracy=0.7000
+2026-01-04 10:37:05.953109: Saved periodic checkpoint /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/ViTTrainer_ep300_NoMirroring_x2__nnUNetResEncUNetLPlans__3d_fullres/fold_1/checkpoint_every20_best_auroc.pth at epoch 39 with val_auc=0.7200
+2026-01-04 10:37:05.956686: Yayy! New best classification accuracy: 0.7
+2026-01-04 10:37:12.188908: 
+2026-01-04 10:37:12.192136: Epoch 40
+2026-01-04 10:37:12.194638: Current learning rate: 9e-05
+2026-01-04 10:38:01.978313: train_loss 0.6576
+2026-01-04 10:38:01.987590: val_loss 0.6687
+2026-01-04 10:38:02.006256: val classification accuracy 0.65
+2026-01-04 10:38:02.051517: val auc 0.6775
+2026-01-04 10:38:02.055213: Epoch time: 49.79 s
+2026-01-04 10:38:03.522410: 
+2026-01-04 10:38:03.526004: Epoch 41
+2026-01-04 10:38:03.528568: Current learning rate: 9e-05
+2026-01-04 10:38:54.266256: train_loss 0.6747
+2026-01-04 10:38:54.277249: val_loss 0.6467
+2026-01-04 10:38:54.281146: val classification accuracy 0.575
+2026-01-04 10:38:54.284589: val auc 0.6525
+2026-01-04 10:38:54.288143: Epoch time: 50.74 s
+2026-01-04 10:38:55.144421: 
+2026-01-04 10:38:55.148123: Epoch 42
+2026-01-04 10:38:55.150978: Current learning rate: 9e-05
+2026-01-04 10:39:45.535025: train_loss 0.6805
+2026-01-04 10:39:45.551786: val_loss 0.6309
+2026-01-04 10:39:45.558447: val classification accuracy 0.7
+2026-01-04 10:39:45.562069: val auc 0.745
+2026-01-04 10:39:45.565650: Epoch time: 50.39 s
+2026-01-04 10:39:46.468166: 
+2026-01-04 10:39:46.472366: Epoch 43
+2026-01-04 10:39:46.475927: Current learning rate: 9e-05
+2026-01-04 10:40:36.995761: train_loss 0.6797
+2026-01-04 10:40:37.024341: val_loss 0.6704
+2026-01-04 10:40:37.028143: val classification accuracy 0.525
+2026-01-04 10:40:37.031307: val auc 0.59
+2026-01-04 10:40:37.042525: Epoch time: 50.53 s
+2026-01-04 10:40:37.881887: 
+2026-01-04 10:40:37.885341: Epoch 44
+2026-01-04 10:40:37.887833: Current learning rate: 9e-05
+2026-01-04 10:41:32.683050: train_loss 0.6632
+2026-01-04 10:41:32.689242: val_loss 0.6705
+2026-01-04 10:41:32.692127: val classification accuracy 0.625
+2026-01-04 10:41:32.694844: val auc 0.5288
+2026-01-04 10:41:32.697725: Epoch time: 54.8 s
+2026-01-04 10:41:33.548352: 
+2026-01-04 10:41:33.552715: Epoch 45
+2026-01-04 10:41:33.555405: Current learning rate: 9e-05
+2026-01-04 10:42:25.996658: train_loss 0.669
+2026-01-04 10:42:26.033869: val_loss 0.6983
+2026-01-04 10:42:26.073489: val classification accuracy 0.475
+2026-01-04 10:42:26.088501: val auc 0.505
+2026-01-04 10:42:26.091872: Epoch time: 52.45 s
+2026-01-04 10:42:26.949197: 
+2026-01-04 10:42:26.953260: Epoch 46
+2026-01-04 10:42:26.956093: Current learning rate: 9e-05
+2026-01-04 10:43:18.761911: train_loss 0.6603
+2026-01-04 10:43:18.768748: val_loss 0.6423
+2026-01-04 10:43:18.772255: val classification accuracy 0.575
+2026-01-04 10:43:18.777048: val auc 0.6675
+2026-01-04 10:43:18.780452: Epoch time: 51.81 s
+2026-01-04 10:43:19.584652: 
+2026-01-04 10:43:19.588433: Epoch 47
+2026-01-04 10:43:19.591650: Current learning rate: 9e-05
+2026-01-04 10:44:12.480590: train_loss 0.6971
+2026-01-04 10:44:12.510044: val_loss 0.6852
+2026-01-04 10:44:12.513428: val classification accuracy 0.575
+2026-01-04 10:44:12.516371: val auc 0.5625
+2026-01-04 10:44:12.519834: Epoch time: 52.9 s
+2026-01-04 10:44:13.358848: 
+2026-01-04 10:44:13.362290: Epoch 48
+2026-01-04 10:44:13.364693: Current learning rate: 9e-05
+2026-01-04 10:45:04.079696: train_loss 0.6778
+2026-01-04 10:45:04.084134: val_loss 0.6546
+2026-01-04 10:45:04.087134: val classification accuracy 0.625
+2026-01-04 10:45:04.089973: val auc 0.6625
+2026-01-04 10:45:04.092796: Epoch time: 50.72 s
+2026-01-04 10:45:04.975640: 
+2026-01-04 10:45:04.979102: Epoch 49
+2026-01-04 10:45:04.981613: Current learning rate: 9e-05
+2026-01-04 10:45:58.477261: train_loss 0.6656
+2026-01-04 10:45:58.499250: val_loss 0.6832
+2026-01-04 10:45:58.502460: val classification accuracy 0.5
+2026-01-04 10:45:58.505142: val auc 0.5312
+2026-01-04 10:45:58.516735: Epoch time: 53.5 s
+2026-01-04 10:45:59.330157: 
+2026-01-04 10:45:59.333522: Epoch 50
+2026-01-04 10:45:59.335922: Current learning rate: 8e-05
+2026-01-04 10:46:49.879946: train_loss 0.6755
+2026-01-04 10:46:49.916839: val_loss 0.6321
+2026-01-04 10:46:49.925701: val classification accuracy 0.625
+2026-01-04 10:46:49.931010: val auc 0.655
+2026-01-04 10:46:49.936195: Epoch time: 50.55 s
+2026-01-04 10:46:50.809064: 
+2026-01-04 10:46:50.812546: Epoch 51
+2026-01-04 10:46:50.815180: Current learning rate: 8e-05
+2026-01-04 10:47:45.094666: train_loss 0.6595
+2026-01-04 10:47:45.098866: val_loss 0.6172
+2026-01-04 10:47:45.101740: val classification accuracy 0.575
+2026-01-04 10:47:45.115492: val auc 0.7038
+2026-01-04 10:47:45.119562: Epoch time: 54.29 s
+2026-01-04 10:47:45.985762: 
+2026-01-04 10:47:45.989062: Epoch 52
+2026-01-04 10:47:45.991693: Current learning rate: 8e-05
+2026-01-04 10:48:39.662344: train_loss 0.6825
+2026-01-04 10:48:39.724791: val_loss 0.6494
+2026-01-04 10:48:39.727820: val classification accuracy 0.675
+2026-01-04 10:48:39.730804: val auc 0.695
+2026-01-04 10:48:39.733572: Epoch time: 53.68 s
+2026-01-04 10:48:40.628334: 
+2026-01-04 10:48:40.632071: Epoch 53
+2026-01-04 10:48:40.635231: Current learning rate: 8e-05
+2026-01-04 10:49:35.416000: train_loss 0.6828
+2026-01-04 10:49:35.442406: val_loss 0.6464
+2026-01-04 10:49:35.445972: val classification accuracy 0.625
+2026-01-04 10:49:35.479357: val auc 0.7275
+2026-01-04 10:49:35.483373: Epoch time: 54.79 s
+2026-01-04 10:49:36.951009: 
+2026-01-04 10:49:36.954241: Epoch 54
+2026-01-04 10:49:36.956865: Current learning rate: 8e-05
+2026-01-04 10:50:29.061010: train_loss 0.6637
+2026-01-04 10:50:29.133130: val_loss 0.6633
+2026-01-04 10:50:29.151977: val classification accuracy 0.65
+2026-01-04 10:50:29.160731: val auc 0.67
+2026-01-04 10:50:29.164076: Epoch time: 52.11 s
+2026-01-04 10:50:30.045852: 
+2026-01-04 10:50:30.049911: Epoch 55
+2026-01-04 10:50:30.052582: Current learning rate: 8e-05
+2026-01-04 10:51:25.068947: train_loss 0.6852
+2026-01-04 10:51:25.075135: val_loss 0.6566
+2026-01-04 10:51:25.078981: val classification accuracy 0.6
+2026-01-04 10:51:25.083383: val auc 0.72
+2026-01-04 10:51:25.086822: Epoch time: 55.02 s
+2026-01-04 10:51:26.010069: 
+2026-01-04 10:51:26.013650: Epoch 56
+2026-01-04 10:51:26.016066: Current learning rate: 8e-05
+2026-01-04 10:52:22.584829: train_loss 0.6681
+2026-01-04 10:52:22.615444: val_loss 0.6232
+2026-01-04 10:52:22.650916: val classification accuracy 0.7
+2026-01-04 10:52:22.680603: val auc 0.7537
+2026-01-04 10:52:22.687535: Epoch time: 56.58 s
+2026-01-04 10:52:23.482060: 
+2026-01-04 10:52:23.485776: Epoch 57
+2026-01-04 10:52:23.488454: Current learning rate: 8e-05
+2026-01-04 10:53:13.603569: train_loss 0.6704
+2026-01-04 10:53:13.608798: val_loss 0.6138
+2026-01-04 10:53:13.640274: val classification accuracy 0.675
+2026-01-04 10:53:13.699743: val auc 0.805
+2026-01-04 10:53:13.728979: Epoch time: 50.12 s
+2026-01-04 10:53:13.732758: Yayy! New best EMA pseudo Dice: 0.805
+2026-01-04 10:53:19.691664: 
+2026-01-04 10:53:19.695472: Epoch 58
+2026-01-04 10:53:19.698050: Current learning rate: 8e-05
+2026-01-04 10:54:12.245285: train_loss 0.696
+2026-01-04 10:54:12.249891: val_loss 0.6475
+2026-01-04 10:54:12.252719: val classification accuracy 0.6
+2026-01-04 10:54:12.258226: val auc 0.67
+2026-01-04 10:54:12.262238: Epoch time: 52.55 s
+2026-01-04 10:54:13.168716: 
+2026-01-04 10:54:13.172346: Epoch 59
+2026-01-04 10:54:13.175011: Current learning rate: 8e-05
+2026-01-04 10:55:06.371174: train_loss 0.6785
+2026-01-04 10:55:06.375932: val_loss 0.6386
+2026-01-04 10:55:06.379836: val classification accuracy 0.725
+2026-01-04 10:55:06.389620: val auc 0.7088
+2026-01-04 10:55:06.393306: Epoch time: 53.2 s
+2026-01-04 10:55:11.664253: Saved periodic checkpoint /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/ViTTrainer_ep300_NoMirroring_x2__nnUNetResEncUNetLPlans__3d_fullres/fold_1/checkpoint_every20_best_balacc.pth at epoch 59 with val_balanced_accuracy=0.7250
+2026-01-04 10:55:11.668399: Yayy! New best classification accuracy: 0.725
+2026-01-04 10:55:17.668787: 
+2026-01-04 10:55:17.672520: Epoch 60
+2026-01-04 10:55:17.675136: Current learning rate: 8e-05
+2026-01-04 10:56:08.928186: train_loss 0.6783
+2026-01-04 10:56:08.955313: val_loss 0.654
+2026-01-04 10:56:08.958551: val classification accuracy 0.625
+2026-01-04 10:56:08.964012: val auc 0.7088
+2026-01-04 10:56:08.970337: Epoch time: 51.26 s
+2026-01-04 10:56:09.769870: 
+2026-01-04 10:56:09.773179: Epoch 61
+2026-01-04 10:56:09.775766: Current learning rate: 8e-05
+2026-01-04 10:57:03.165490: train_loss 0.6834
+2026-01-04 10:57:03.173598: val_loss 0.6579
+2026-01-04 10:57:03.177970: val classification accuracy 0.7
+2026-01-04 10:57:03.180604: val auc 0.6762
+2026-01-04 10:57:03.183507: Epoch time: 53.4 s
+2026-01-04 10:57:04.013149: 
+2026-01-04 10:57:04.016843: Epoch 62
+2026-01-04 10:57:04.019582: Current learning rate: 8e-05
+2026-01-04 10:57:56.696676: train_loss 0.6755
+2026-01-04 10:57:56.701554: val_loss 0.7005
+2026-01-04 10:57:56.704363: val classification accuracy 0.475
+2026-01-04 10:57:56.706856: val auc 0.4412
+2026-01-04 10:57:56.709416: Epoch time: 52.68 s
+2026-01-04 10:57:57.494542: 
+2026-01-04 10:57:57.498015: Epoch 63
+2026-01-04 10:57:57.500526: Current learning rate: 8e-05
+2026-01-04 10:58:49.885957: train_loss 0.6621
+2026-01-04 10:58:49.895832: val_loss 0.651
+2026-01-04 10:58:49.899933: val classification accuracy 0.625
+2026-01-04 10:58:49.903759: val auc 0.5675
+2026-01-04 10:58:49.907364: Epoch time: 52.39 s
+2026-01-04 10:58:50.738916: 
+2026-01-04 10:58:50.742269: Epoch 64
+2026-01-04 10:58:50.744725: Current learning rate: 8e-05
+2026-01-04 10:59:42.046837: train_loss 0.6867
+2026-01-04 10:59:42.054476: val_loss 0.6633
+2026-01-04 10:59:42.058650: val classification accuracy 0.625
+2026-01-04 10:59:42.062519: val auc 0.5988
+2026-01-04 10:59:42.066050: Epoch time: 51.31 s
+2026-01-04 10:59:42.968275: 
+2026-01-04 10:59:42.972015: Epoch 65
+2026-01-04 10:59:42.974641: Current learning rate: 8e-05
+2026-01-04 11:00:33.980102: train_loss 0.6506
+2026-01-04 11:00:34.013350: val_loss 0.6068
+2026-01-04 11:00:34.016570: val classification accuracy 0.725
+2026-01-04 11:00:34.019443: val auc 0.675
+2026-01-04 11:00:34.022137: Epoch time: 51.01 s
+2026-01-04 11:00:34.843210: 
+2026-01-04 11:00:34.846388: Epoch 66
+2026-01-04 11:00:34.848779: Current learning rate: 8e-05
+2026-01-04 11:01:20.484918: train_loss 0.6799
+2026-01-04 11:01:20.491698: val_loss 0.6255
+2026-01-04 11:01:20.499274: val classification accuracy 0.75
+2026-01-04 11:01:20.527613: val auc 0.8575
+2026-01-04 11:01:20.531719: Epoch time: 45.64 s
+2026-01-04 11:01:20.536664: Yayy! New best EMA pseudo Dice: 0.8575
+2026-01-04 11:01:26.249905: Yayy! New best classification accuracy: 0.75
+2026-01-04 11:01:30.872983: 
+2026-01-04 11:01:30.876590: Epoch 67
+2026-01-04 11:01:30.879202: Current learning rate: 8e-05
+2026-01-04 11:02:22.395631: train_loss 0.6649
+2026-01-04 11:02:22.401648: val_loss 0.6803
+2026-01-04 11:02:22.405198: val classification accuracy 0.575
+2026-01-04 11:02:22.409169: val auc 0.6538
+2026-01-04 11:02:22.412885: Epoch time: 51.52 s
+2026-01-04 11:02:24.048345: 
+2026-01-04 11:02:24.053003: Epoch 68
+2026-01-04 11:02:24.056136: Current learning rate: 8e-05
+2026-01-04 11:03:19.120119: train_loss 0.6599
+2026-01-04 11:03:19.124840: val_loss 0.6249
+2026-01-04 11:03:19.128470: val classification accuracy 0.625
+2026-01-04 11:03:19.132644: val auc 0.7663
+2026-01-04 11:03:19.135926: Epoch time: 55.07 s
+2026-01-04 11:03:20.051675: 
+2026-01-04 11:03:20.055822: Epoch 69
+2026-01-04 11:03:20.058830: Current learning rate: 8e-05
+2026-01-04 11:04:14.422421: train_loss 0.6755
+2026-01-04 11:04:14.439313: val_loss 0.6739
+2026-01-04 11:04:14.442654: val classification accuracy 0.6
+2026-01-04 11:04:14.445642: val auc 0.5888
+2026-01-04 11:04:14.470842: Epoch time: 54.37 s
+2026-01-04 11:04:15.358365: 
+2026-01-04 11:04:15.361938: Epoch 70
+2026-01-04 11:04:15.364629: Current learning rate: 8e-05
+2026-01-04 11:05:15.823528: train_loss 0.6685
+2026-01-04 11:05:15.852562: val_loss 0.6642
+2026-01-04 11:05:15.864974: val classification accuracy 0.575
+2026-01-04 11:05:15.868404: val auc 0.665
+2026-01-04 11:05:15.871483: Epoch time: 60.47 s
+2026-01-04 11:05:16.675983: 
+2026-01-04 11:05:16.690185: Epoch 71
+2026-01-04 11:05:16.701958: Current learning rate: 8e-05
+2026-01-04 11:06:11.981601: train_loss 0.6652
+2026-01-04 11:06:11.985721: val_loss 0.7074
+2026-01-04 11:06:11.989075: val classification accuracy 0.525
+2026-01-04 11:06:11.992380: val auc 0.6125
+2026-01-04 11:06:11.995026: Epoch time: 55.31 s
+2026-01-04 11:06:12.877532: 
+2026-01-04 11:06:12.881247: Epoch 72
+2026-01-04 11:06:12.883629: Current learning rate: 8e-05
+2026-01-04 11:07:08.860659: train_loss 0.6841
+2026-01-04 11:07:08.876068: val_loss 0.688
+2026-01-04 11:07:08.879419: val classification accuracy 0.5
+2026-01-04 11:07:08.924047: val auc 0.495
+2026-01-04 11:07:08.935485: Epoch time: 55.98 s
+2026-01-04 11:07:09.775679: 
+2026-01-04 11:07:09.780156: Epoch 73
+2026-01-04 11:07:09.783247: Current learning rate: 8e-05
+2026-01-04 11:08:00.235193: train_loss 0.6615
+2026-01-04 11:08:00.239967: val_loss 0.6388
+2026-01-04 11:08:00.287444: val classification accuracy 0.65
+2026-01-04 11:08:00.291135: val auc 0.7562
+2026-01-04 11:08:00.294246: Epoch time: 50.46 s
+2026-01-04 11:08:01.262902: 
+2026-01-04 11:08:01.266378: Epoch 74
+2026-01-04 11:08:01.269052: Current learning rate: 8e-05
+2026-01-04 11:08:56.535638: train_loss 0.6744
+2026-01-04 11:08:56.543531: val_loss 0.642
+2026-01-04 11:08:56.546857: val classification accuracy 0.6
+2026-01-04 11:08:56.562958: val auc 0.7088
+2026-01-04 11:08:56.573324: Epoch time: 55.27 s
+2026-01-04 11:08:57.441183: 
+2026-01-04 11:08:57.445889: Epoch 75
+2026-01-04 11:08:57.449282: Current learning rate: 8e-05
+2026-01-04 11:09:50.941726: train_loss 0.6596
+2026-01-04 11:09:50.951365: val_loss 0.6978
+2026-01-04 11:09:50.962038: val classification accuracy 0.55
+2026-01-04 11:09:50.966581: val auc 0.5875
+2026-01-04 11:09:50.969676: Epoch time: 53.5 s
+2026-01-04 11:09:51.813965: 
+2026-01-04 11:09:51.817760: Epoch 76
+2026-01-04 11:09:51.820803: Current learning rate: 8e-05
+2026-01-04 11:10:45.973223: train_loss 0.6787
+2026-01-04 11:10:45.984255: val_loss 0.6599
+2026-01-04 11:10:45.987291: val classification accuracy 0.675
+2026-01-04 11:10:45.990581: val auc 0.6675
+2026-01-04 11:10:45.993932: Epoch time: 54.16 s
+2026-01-04 11:10:46.833662: 
+2026-01-04 11:10:46.837745: Epoch 77
+2026-01-04 11:10:46.840827: Current learning rate: 8e-05
+2026-01-04 11:11:40.387754: train_loss 0.6805
+2026-01-04 11:11:40.392699: val_loss 0.6501
+2026-01-04 11:11:40.395603: val classification accuracy 0.675
+2026-01-04 11:11:40.398356: val auc 0.735
+2026-01-04 11:11:40.448024: Epoch time: 53.56 s
+2026-01-04 11:11:41.364665: 
+2026-01-04 11:11:41.368560: Epoch 78
+2026-01-04 11:11:41.371603: Current learning rate: 8e-05
+2026-01-04 11:12:40.756020: train_loss 0.6888
+2026-01-04 11:12:40.785842: val_loss 0.6741
+2026-01-04 11:12:40.789469: val classification accuracy 0.575
+2026-01-04 11:12:40.793269: val auc 0.6675
+2026-01-04 11:12:40.796554: Epoch time: 59.39 s
+2026-01-04 11:12:41.657216: 
+2026-01-04 11:12:41.661187: Epoch 79
+2026-01-04 11:12:41.664060: Current learning rate: 8e-05
+2026-01-04 11:13:35.882771: train_loss 0.6702
+2026-01-04 11:13:35.894885: val_loss 0.6219
+2026-01-04 11:13:35.898843: val classification accuracy 0.65
+2026-01-04 11:13:35.902243: val auc 0.7575
+2026-01-04 11:13:35.905235: Epoch time: 54.23 s
+2026-01-04 11:13:40.848931: Saved periodic checkpoint /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/ViTTrainer_ep300_NoMirroring_x2__nnUNetResEncUNetLPlans__3d_fullres/fold_1/checkpoint_every20_best_auroc.pth at epoch 79 with val_auc=0.7575
+2026-01-04 11:13:41.652559: 
+2026-01-04 11:13:41.656706: Epoch 80
+2026-01-04 11:13:41.659477: Current learning rate: 8e-05
+2026-01-04 11:14:31.139709: train_loss 0.656
+2026-01-04 11:14:31.146612: val_loss 0.6506
+2026-01-04 11:14:31.149708: val classification accuracy 0.6
+2026-01-04 11:14:31.156998: val auc 0.6825
+2026-01-04 11:14:31.159945: Epoch time: 49.49 s
+2026-01-04 11:14:32.766000: 
+2026-01-04 11:14:32.769929: Epoch 81
+2026-01-04 11:14:32.773009: Current learning rate: 8e-05
+2026-01-04 11:15:26.147066: train_loss 0.6625
+2026-01-04 11:15:26.152182: val_loss 0.6357
+2026-01-04 11:15:26.155445: val classification accuracy 0.625
+2026-01-04 11:15:26.166830: val auc 0.7638
+2026-01-04 11:15:26.175708: Epoch time: 53.38 s
+2026-01-04 11:15:27.027398: 
+2026-01-04 11:15:27.030756: Epoch 82
+2026-01-04 11:15:27.033366: Current learning rate: 8e-05
+2026-01-04 11:16:18.151318: train_loss 0.6743
+2026-01-04 11:16:18.177079: val_loss 0.6082
+2026-01-04 11:16:18.193999: val classification accuracy 0.7
+2026-01-04 11:16:18.198353: val auc 0.7575
+2026-01-04 11:16:18.203331: Epoch time: 51.13 s
+2026-01-04 11:16:19.065713: 
+2026-01-04 11:16:19.070066: Epoch 83
+2026-01-04 11:16:19.072859: Current learning rate: 7e-05
+2026-01-04 11:17:15.097524: train_loss 0.6637
+2026-01-04 11:17:15.103344: val_loss 0.6289
+2026-01-04 11:17:15.130064: val classification accuracy 0.65
+2026-01-04 11:17:15.137687: val auc 0.7125
+2026-01-04 11:17:15.143730: Epoch time: 56.03 s
+2026-01-04 11:17:16.088107: 
+2026-01-04 11:17:16.091679: Epoch 84
+2026-01-04 11:17:16.094374: Current learning rate: 7e-05
+2026-01-04 11:18:14.350836: train_loss 0.6738
+2026-01-04 11:18:14.357108: val_loss 0.6601
+2026-01-04 11:18:14.360028: val classification accuracy 0.6
+2026-01-04 11:18:14.362733: val auc 0.635
+2026-01-04 11:18:14.366734: Epoch time: 58.26 s
+2026-01-04 11:18:15.209785: 
+2026-01-04 11:18:15.213115: Epoch 85
+2026-01-04 11:18:15.215739: Current learning rate: 7e-05
+2026-01-04 11:19:10.408811: train_loss 0.6775
+2026-01-04 11:19:10.458581: val_loss 0.6713
+2026-01-04 11:19:10.466316: val classification accuracy 0.5
+2026-01-04 11:19:10.470758: val auc 0.5988
+2026-01-04 11:19:10.474287: Epoch time: 55.2 s
+2026-01-04 11:19:11.382644: 
+2026-01-04 11:19:11.385970: Epoch 86
+2026-01-04 11:19:11.388424: Current learning rate: 7e-05
+2026-01-04 11:20:07.892807: train_loss 0.6747
+2026-01-04 11:20:07.938109: val_loss 0.6015
+2026-01-04 11:20:07.942176: val classification accuracy 0.675
+2026-01-04 11:20:07.946568: val auc 0.7975
+2026-01-04 11:20:07.949929: Epoch time: 56.51 s
+2026-01-04 11:20:08.821577: 
+2026-01-04 11:20:08.825526: Epoch 87
+2026-01-04 11:20:08.828722: Current learning rate: 7e-05
+2026-01-04 11:21:01.410688: train_loss 0.6471
+2026-01-04 11:21:01.414348: val_loss 0.5866
+2026-01-04 11:21:01.417886: val classification accuracy 0.725
+2026-01-04 11:21:01.421213: val auc 0.82
+2026-01-04 11:21:01.425518: Epoch time: 52.59 s
+2026-01-04 11:21:02.199924: 
+2026-01-04 11:21:02.203319: Epoch 88
+2026-01-04 11:21:02.205934: Current learning rate: 7e-05
+2026-01-04 11:21:52.816092: train_loss 0.6679
+2026-01-04 11:21:52.820609: val_loss 0.6522
+2026-01-04 11:21:52.823722: val classification accuracy 0.625
+2026-01-04 11:21:52.842628: val auc 0.69
+2026-01-04 11:21:52.857744: Epoch time: 50.62 s
+2026-01-04 11:21:53.691294: 
+2026-01-04 11:21:53.694962: Epoch 89
+2026-01-04 11:21:53.697592: Current learning rate: 7e-05
+2026-01-04 11:22:47.522158: train_loss 0.6322
+2026-01-04 11:22:47.527340: val_loss 0.6751
+2026-01-04 11:22:47.530835: val classification accuracy 0.5
+2026-01-04 11:22:47.534634: val auc 0.64
+2026-01-04 11:22:47.538070: Epoch time: 53.83 s
+2026-01-04 11:22:48.449035: 
+2026-01-04 11:22:48.467669: Epoch 90
+2026-01-04 11:22:48.491917: Current learning rate: 7e-05
+2026-01-04 11:23:50.087153: train_loss 0.6795
+2026-01-04 11:23:50.094605: val_loss 0.6765
+2026-01-04 11:23:50.097643: val classification accuracy 0.6
+2026-01-04 11:23:50.100272: val auc 0.6225
+2026-01-04 11:23:50.120011: Epoch time: 61.64 s
+2026-01-04 11:23:50.984329: 
+2026-01-04 11:23:50.987998: Epoch 91
+2026-01-04 11:23:50.990624: Current learning rate: 7e-05
+2026-01-04 11:24:45.081037: train_loss 0.6583
+2026-01-04 11:24:45.115166: val_loss 0.6567
+2026-01-04 11:24:45.118974: val classification accuracy 0.6
+2026-01-04 11:24:45.122061: val auc 0.55
+2026-01-04 11:24:45.124984: Epoch time: 54.1 s
+2026-01-04 11:24:45.976483: 
+2026-01-04 11:24:45.981122: Epoch 92
+2026-01-04 11:24:45.983975: Current learning rate: 7e-05
+2026-01-04 11:25:39.467284: train_loss 0.6594
+2026-01-04 11:25:39.472131: val_loss 0.6369
+2026-01-04 11:25:39.475790: val classification accuracy 0.675
+2026-01-04 11:25:39.479226: val auc 0.7012
+2026-01-04 11:25:39.482334: Epoch time: 53.49 s
+2026-01-04 11:25:40.442226: 
+2026-01-04 11:25:40.445927: Epoch 93
+2026-01-04 11:25:40.448864: Current learning rate: 7e-05
+2026-01-04 11:26:36.730604: train_loss 0.6872
+2026-01-04 11:26:36.743039: val_loss 0.6675
+2026-01-04 11:26:36.746718: val classification accuracy 0.6
+2026-01-04 11:26:36.749970: val auc 0.6362
+2026-01-04 11:26:36.753466: Epoch time: 56.29 s
+2026-01-04 11:26:37.703732: 
+2026-01-04 11:26:37.707721: Epoch 94
+2026-01-04 11:26:37.710615: Current learning rate: 7e-05
+2026-01-04 11:27:32.526039: train_loss 0.6783
+2026-01-04 11:27:32.562117: val_loss 0.5926
+2026-01-04 11:27:32.566022: val classification accuracy 0.675
+2026-01-04 11:27:32.569366: val auc 0.8238
+2026-01-04 11:27:32.572661: Epoch time: 54.82 s
+2026-01-04 11:27:34.150449: 
+2026-01-04 11:27:34.154358: Epoch 95
+2026-01-04 11:27:34.157030: Current learning rate: 7e-05
+2026-01-04 11:28:25.643927: train_loss 0.6707
+2026-01-04 11:28:25.649606: val_loss 0.652
+2026-01-04 11:28:25.653085: val classification accuracy 0.6
+2026-01-04 11:28:25.656395: val auc 0.6688
+2026-01-04 11:28:25.659455: Epoch time: 51.49 s
+2026-01-04 11:28:26.517465: 
+2026-01-04 11:28:26.520744: Epoch 96
+2026-01-04 11:28:26.523190: Current learning rate: 7e-05
+2026-01-04 11:29:22.873617: train_loss 0.6578
+2026-01-04 11:29:22.880862: val_loss 0.6608
+2026-01-04 11:29:22.884236: val classification accuracy 0.65
+2026-01-04 11:29:22.887440: val auc 0.665
+2026-01-04 11:29:22.890535: Epoch time: 56.36 s
+2026-01-04 11:29:23.841391: 
+2026-01-04 11:29:23.845400: Epoch 97
+2026-01-04 11:29:23.848289: Current learning rate: 7e-05
+2026-01-04 11:30:18.923704: train_loss 0.682
+2026-01-04 11:30:18.941900: val_loss 0.6566
+2026-01-04 11:30:18.946646: val classification accuracy 0.625
+2026-01-04 11:30:18.963006: val auc 0.695
+2026-01-04 11:30:18.967699: Epoch time: 55.08 s
+2026-01-04 11:30:19.880860: 
+2026-01-04 11:30:19.884575: Epoch 98
+2026-01-04 11:30:19.887356: Current learning rate: 7e-05
+2026-01-04 11:31:15.440208: train_loss 0.6606
+2026-01-04 11:31:15.463721: val_loss 0.622
+2026-01-04 11:31:15.473975: val classification accuracy 0.6
+2026-01-04 11:31:15.510147: val auc 0.835
+2026-01-04 11:31:15.520848: Epoch time: 55.56 s
+2026-01-04 11:31:16.512447: 
+2026-01-04 11:31:16.521163: Epoch 99
+2026-01-04 11:31:16.524123: Current learning rate: 7e-05
+2026-01-04 11:32:13.771088: train_loss 0.6587
+2026-01-04 11:32:13.790102: val_loss 0.6451
+2026-01-04 11:32:13.794091: val classification accuracy 0.675
+2026-01-04 11:32:13.797631: val auc 0.6162
+2026-01-04 11:32:13.801027: Epoch time: 57.26 s
+2026-01-04 11:32:14.653783: 
+2026-01-04 11:32:14.657540: Epoch 100
+2026-01-04 11:32:14.660288: Current learning rate: 7e-05
+2026-01-04 11:33:12.650076: train_loss 0.6914
+2026-01-04 11:33:12.662291: val_loss 0.6102
+2026-01-04 11:33:12.666334: val classification accuracy 0.7
+2026-01-04 11:33:12.669785: val auc 0.8025
+2026-01-04 11:33:12.672995: Epoch time: 58.0 s
+2026-01-04 11:33:13.541467: 
+2026-01-04 11:33:13.544810: Epoch 101
+2026-01-04 11:33:13.547392: Current learning rate: 7e-05
+2026-01-04 11:34:04.651134: train_loss 0.6707
+2026-01-04 11:34:04.674564: val_loss 0.6771
+2026-01-04 11:34:04.678325: val classification accuracy 0.525
+2026-01-04 11:34:04.709963: val auc 0.6075
+2026-01-04 11:34:04.715350: Epoch time: 51.11 s
+2026-01-04 11:34:05.589918: 
+2026-01-04 11:34:05.593862: Epoch 102
+2026-01-04 11:34:05.596694: Current learning rate: 7e-05
+2026-01-04 11:35:00.261272: train_loss 0.6712
+2026-01-04 11:35:00.339282: val_loss 0.688
+2026-01-04 11:35:00.345353: val classification accuracy 0.6
+2026-01-04 11:35:00.348615: val auc 0.535
+2026-01-04 11:35:00.370293: Epoch time: 54.67 s
+2026-01-04 11:35:01.249269: 
+2026-01-04 11:35:01.252763: Epoch 103
+2026-01-04 11:35:01.255474: Current learning rate: 7e-05
+2026-01-04 11:35:54.450021: train_loss 0.6619
+2026-01-04 11:35:54.456656: val_loss 0.6375
+2026-01-04 11:35:54.460207: val classification accuracy 0.625
+2026-01-04 11:35:54.463546: val auc 0.685
+2026-01-04 11:35:54.466988: Epoch time: 53.2 s
+2026-01-04 11:35:55.311955: 
+2026-01-04 11:35:55.315553: Epoch 104
+2026-01-04 11:35:55.317967: Current learning rate: 7e-05
+2026-01-04 11:36:51.312558: train_loss 0.6718
+2026-01-04 11:36:51.354111: val_loss 0.6361
+2026-01-04 11:36:51.357772: val classification accuracy 0.7
+2026-01-04 11:36:51.363184: val auc 0.7075
+2026-01-04 11:36:51.368701: Epoch time: 56.0 s
+2026-01-04 11:36:52.240542: 
+2026-01-04 11:36:52.244953: Epoch 105
+2026-01-04 11:36:52.247997: Current learning rate: 7e-05
+2026-01-04 11:37:44.042017: train_loss 0.6533
+2026-01-04 11:37:44.088144: val_loss 0.6805
+2026-01-04 11:37:44.096281: val classification accuracy 0.525
+2026-01-04 11:37:44.099801: val auc 0.5525
+2026-01-04 11:37:44.103086: Epoch time: 51.8 s
+2026-01-04 11:37:44.852352: 
+2026-01-04 11:37:44.856884: Epoch 106
+2026-01-04 11:37:44.859905: Current learning rate: 7e-05
+2026-01-04 11:38:36.495361: train_loss 0.6607
+2026-01-04 11:38:36.501531: val_loss 0.6467
+2026-01-04 11:38:36.505041: val classification accuracy 0.625
+2026-01-04 11:38:36.508160: val auc 0.7163
+2026-01-04 11:38:36.541551: Epoch time: 51.64 s
+2026-01-04 11:38:37.433703: 
+2026-01-04 11:38:37.437447: Epoch 107
+2026-01-04 11:38:37.440210: Current learning rate: 7e-05
+2026-01-04 11:39:34.159062: train_loss 0.6651
+2026-01-04 11:39:34.163098: val_loss 0.6531
+2026-01-04 11:39:34.199351: val classification accuracy 0.575
+2026-01-04 11:39:34.208199: val auc 0.745
+2026-01-04 11:39:34.220997: Epoch time: 56.73 s
+2026-01-04 11:39:35.579563: 
+2026-01-04 11:39:35.583018: Epoch 108
+2026-01-04 11:39:35.585603: Current learning rate: 7e-05
+2026-01-04 11:40:30.121242: train_loss 0.6766
+2026-01-04 11:40:30.126688: val_loss 0.6226
+2026-01-04 11:40:30.129775: val classification accuracy 0.675
+2026-01-04 11:40:30.133609: val auc 0.7775
+2026-01-04 11:40:30.137737: Epoch time: 54.54 s
+2026-01-04 11:40:31.038680: 
+2026-01-04 11:40:31.042962: Epoch 109
+2026-01-04 11:40:31.045897: Current learning rate: 7e-05
+2026-01-04 11:41:26.905469: train_loss 0.6629
+2026-01-04 11:41:26.972148: val_loss 0.7196
+2026-01-04 11:41:26.984725: val classification accuracy 0.575
+2026-01-04 11:41:26.995134: val auc 0.6625
+2026-01-04 11:41:26.998866: Epoch time: 55.87 s
+2026-01-04 11:41:27.884313: 
+2026-01-04 11:41:27.887892: Epoch 110
+2026-01-04 11:41:27.890414: Current learning rate: 7e-05
+2026-01-04 11:42:20.082641: train_loss 0.6814
+2026-01-04 11:42:20.125289: val_loss 0.6284
+2026-01-04 11:42:20.179949: val classification accuracy 0.7
+2026-01-04 11:42:20.196792: val auc 0.7512
+2026-01-04 11:42:20.200625: Epoch time: 52.2 s
+2026-01-04 11:42:21.032608: 
+2026-01-04 11:42:21.037061: Epoch 111
+2026-01-04 11:42:21.043841: Current learning rate: 7e-05
+2026-01-04 11:43:19.882571: train_loss 0.6544
+2026-01-04 11:43:19.886436: val_loss 0.6075
+2026-01-04 11:43:19.889278: val classification accuracy 0.625
+2026-01-04 11:43:19.892470: val auc 0.69
+2026-01-04 11:43:19.895761: Epoch time: 58.85 s
+2026-01-04 11:43:20.813346: 
+2026-01-04 11:43:20.816757: Epoch 112
+2026-01-04 11:43:20.819291: Current learning rate: 7e-05
+2026-01-04 11:44:16.305024: train_loss 0.6592
+2026-01-04 11:44:16.328515: val_loss 0.655
+2026-01-04 11:44:16.367990: val classification accuracy 0.65
+2026-01-04 11:44:16.376425: val auc 0.6375
+2026-01-04 11:44:16.379995: Epoch time: 55.49 s
+2026-01-04 11:44:17.258333: 
+2026-01-04 11:44:17.262668: Epoch 113
+2026-01-04 11:44:17.265616: Current learning rate: 7e-05
+2026-01-04 11:45:16.248616: train_loss 0.6723
+2026-01-04 11:45:16.255278: val_loss 0.663
+2026-01-04 11:45:16.258024: val classification accuracy 0.675
+2026-01-04 11:45:16.260990: val auc 0.7075
+2026-01-04 11:45:16.263764: Epoch time: 58.99 s
+2026-01-04 11:45:17.101603: 
+2026-01-04 11:45:17.106885: Epoch 114
+2026-01-04 11:45:17.109740: Current learning rate: 7e-05
+2026-01-04 11:46:15.423598: train_loss 0.6501
+2026-01-04 11:46:15.430784: val_loss 0.6452
+2026-01-04 11:46:15.433419: val classification accuracy 0.7
+2026-01-04 11:46:15.436299: val auc 0.64
+2026-01-04 11:46:15.439209: Epoch time: 58.32 s
+2026-01-04 11:46:16.289251: 
+2026-01-04 11:46:16.292920: Epoch 115
+2026-01-04 11:46:16.295528: Current learning rate: 6e-05
+2026-01-04 11:47:12.172556: train_loss 0.6651
+2026-01-04 11:47:12.181218: val_loss 0.6482
+2026-01-04 11:47:12.186572: val classification accuracy 0.675
+2026-01-04 11:47:12.189436: val auc 0.7075
+2026-01-04 11:47:12.192202: Epoch time: 55.88 s
+2026-01-04 11:47:13.098700: 
+2026-01-04 11:47:13.112923: Epoch 116
+2026-01-04 11:47:13.121119: Current learning rate: 6e-05
+2026-01-04 11:48:05.516818: train_loss 0.6608
+2026-01-04 11:48:05.550407: val_loss 0.6191
+2026-01-04 11:48:05.602865: val classification accuracy 0.7
+2026-01-04 11:48:05.610699: val auc 0.6975
+2026-01-04 11:48:05.614357: Epoch time: 52.42 s
+2026-01-04 11:48:06.489254: 
+2026-01-04 11:48:06.505288: Epoch 117
+2026-01-04 11:48:06.509858: Current learning rate: 6e-05
+2026-01-04 11:48:58.925272: train_loss 0.6825
+2026-01-04 11:48:58.929747: val_loss 0.6474
+2026-01-04 11:48:58.934104: val classification accuracy 0.575
+2026-01-04 11:48:58.937477: val auc 0.635
+2026-01-04 11:48:58.941087: Epoch time: 52.44 s
+2026-01-04 11:48:59.749941: 
+2026-01-04 11:48:59.753443: Epoch 118
+2026-01-04 11:48:59.756115: Current learning rate: 6e-05
+2026-01-04 11:49:55.953009: train_loss 0.6624
+2026-01-04 11:49:55.963533: val_loss 0.7412
+2026-01-04 11:49:55.966992: val classification accuracy 0.55
+2026-01-04 11:49:55.970037: val auc 0.395
+2026-01-04 11:49:55.973326: Epoch time: 56.2 s
+2026-01-04 11:49:56.840555: 
+2026-01-04 11:49:56.844895: Epoch 119
+2026-01-04 11:49:56.848041: Current learning rate: 6e-05
+2026-01-04 11:50:54.294259: train_loss 0.6673
+2026-01-04 11:50:54.311385: val_loss 0.6298
+2026-01-04 11:50:54.315378: val classification accuracy 0.6
+2026-01-04 11:50:54.327193: val auc 0.7225
+2026-01-04 11:50:54.331890: Epoch time: 57.45 s
+2026-01-04 11:50:55.190895: 
+2026-01-04 11:50:55.195112: Epoch 120
+2026-01-04 11:50:55.198002: Current learning rate: 6e-05
+2026-01-04 11:51:50.703556: train_loss 0.6771
+2026-01-04 11:51:50.724146: val_loss 0.6894
+2026-01-04 11:51:50.733419: val classification accuracy 0.425
+2026-01-04 11:51:50.737271: val auc 0.485
+2026-01-04 11:51:50.740907: Epoch time: 55.51 s
+2026-01-04 11:51:51.529792: 
+2026-01-04 11:51:51.533657: Epoch 121
+2026-01-04 11:51:51.536697: Current learning rate: 6e-05
+2026-01-04 11:52:47.179134: train_loss 0.6827
+2026-01-04 11:52:47.189191: val_loss 0.6773
+2026-01-04 11:52:47.192586: val classification accuracy 0.525
+2026-01-04 11:52:47.195621: val auc 0.6588
+2026-01-04 11:52:47.198547: Epoch time: 55.65 s
+2026-01-04 11:52:48.884547: 
+2026-01-04 11:52:48.888538: Epoch 122
+2026-01-04 11:52:48.891301: Current learning rate: 6e-05
+2026-01-04 11:53:42.477578: train_loss 0.6664
+2026-01-04 11:53:42.508096: val_loss 0.662
+2026-01-04 11:53:42.521214: val classification accuracy 0.675
+2026-01-04 11:53:42.525352: val auc 0.66
+2026-01-04 11:53:42.528825: Epoch time: 53.59 s
+2026-01-04 11:53:43.377801: 
+2026-01-04 11:53:43.381228: Epoch 123
+2026-01-04 11:53:43.383808: Current learning rate: 6e-05
+2026-01-04 11:54:37.780333: train_loss 0.678
+2026-01-04 11:54:37.791490: val_loss 0.632
+2026-01-04 11:54:37.795031: val classification accuracy 0.6
+2026-01-04 11:54:37.809170: val auc 0.6625
+2026-01-04 11:54:37.821201: Epoch time: 54.4 s
+2026-01-04 11:54:38.672162: 
+2026-01-04 11:54:38.675736: Epoch 124
+2026-01-04 11:54:38.678655: Current learning rate: 6e-05
+2026-01-04 11:55:33.360586: train_loss 0.665
+2026-01-04 11:55:33.375990: val_loss 0.6883
+2026-01-04 11:55:33.381426: val classification accuracy 0.5
+2026-01-04 11:55:33.416411: val auc 0.5438
+2026-01-04 11:55:33.420432: Epoch time: 54.69 s
+2026-01-04 11:55:34.227681: 
+2026-01-04 11:55:34.231178: Epoch 125
+2026-01-04 11:55:34.233685: Current learning rate: 6e-05
+2026-01-04 11:56:31.142519: train_loss 0.6775
+2026-01-04 11:56:31.152052: val_loss 0.6703
+2026-01-04 11:56:31.156159: val classification accuracy 0.55
+2026-01-04 11:56:31.159500: val auc 0.7612
+2026-01-04 11:56:31.163054: Epoch time: 56.92 s
+2026-01-04 11:56:32.144885: 
+2026-01-04 11:56:32.148582: Epoch 126
+2026-01-04 11:56:32.151937: Current learning rate: 6e-05
+2026-01-04 11:57:26.733165: train_loss 0.6688
+2026-01-04 11:57:26.740688: val_loss 0.6952
+2026-01-04 11:57:26.758778: val classification accuracy 0.55
+2026-01-04 11:57:26.764204: val auc 0.7188
+2026-01-04 11:57:26.767046: Epoch time: 54.59 s
+2026-01-04 11:57:27.730097: 
+2026-01-04 11:57:27.733483: Epoch 127
+2026-01-04 11:57:27.736077: Current learning rate: 6e-05
+2026-01-04 11:58:24.770772: train_loss 0.666
+2026-01-04 11:58:24.804762: val_loss 0.5999
+2026-01-04 11:58:24.809299: val classification accuracy 0.7
+2026-01-04 11:58:24.814591: val auc 0.755
+2026-01-04 11:58:24.831672: Epoch time: 57.04 s
+2026-01-04 11:58:25.824689: 
+2026-01-04 11:58:25.828363: Epoch 128
+2026-01-04 11:58:25.831159: Current learning rate: 6e-05
+2026-01-04 11:59:20.178763: train_loss 0.6667
+2026-01-04 11:59:20.183420: val_loss 0.6426
+2026-01-04 11:59:20.186278: val classification accuracy 0.675
+2026-01-04 11:59:20.189065: val auc 0.6875
+2026-01-04 11:59:20.192018: Epoch time: 54.36 s
+2026-01-04 11:59:21.012434: 
+2026-01-04 11:59:21.016093: Epoch 129
+2026-01-04 11:59:21.018809: Current learning rate: 6e-05
+2026-01-04 12:00:15.499146: train_loss 0.6593
+2026-01-04 12:00:15.506281: val_loss 0.657
+2026-01-04 12:00:15.509734: val classification accuracy 0.65
+2026-01-04 12:00:15.512548: val auc 0.6162
+2026-01-04 12:00:15.519867: Epoch time: 54.49 s
+2026-01-04 12:00:16.415694: 
+2026-01-04 12:00:16.419403: Epoch 130
+2026-01-04 12:00:16.422300: Current learning rate: 6e-05
+2026-01-04 12:01:09.598785: train_loss 0.6602
+2026-01-04 12:01:09.603496: val_loss 0.6789
+2026-01-04 12:01:09.606324: val classification accuracy 0.6
+2026-01-04 12:01:09.609270: val auc 0.6325
+2026-01-04 12:01:09.612132: Epoch time: 53.18 s
+2026-01-04 12:01:10.462473: 
+2026-01-04 12:01:10.466097: Epoch 131
+2026-01-04 12:01:10.468682: Current learning rate: 6e-05
+2026-01-04 12:02:04.998051: train_loss 0.6763
+2026-01-04 12:02:05.004663: val_loss 0.607
+2026-01-04 12:02:05.007662: val classification accuracy 0.725
+2026-01-04 12:02:05.010137: val auc 0.84
+2026-01-04 12:02:05.012631: Epoch time: 54.54 s
+2026-01-04 12:02:05.838675: 
+2026-01-04 12:02:05.842222: Epoch 132
+2026-01-04 12:02:05.844906: Current learning rate: 6e-05
+2026-01-04 12:03:01.313894: train_loss 0.6538
+2026-01-04 12:03:01.340847: val_loss 0.6364
+2026-01-04 12:03:01.344216: val classification accuracy 0.625
+2026-01-04 12:03:01.347463: val auc 0.6725
+2026-01-04 12:03:01.350681: Epoch time: 55.48 s
+2026-01-04 12:03:02.180139: 
+2026-01-04 12:03:02.183861: Epoch 133
+2026-01-04 12:03:02.186614: Current learning rate: 6e-05
+2026-01-04 12:03:56.212808: train_loss 0.6536
+2026-01-04 12:03:56.221131: val_loss 0.6125
+2026-01-04 12:03:56.236197: val classification accuracy 0.75
+2026-01-04 12:03:56.246349: val auc 0.745
+2026-01-04 12:03:56.249505: Epoch time: 54.03 s
+2026-01-04 12:03:57.135099: 
+2026-01-04 12:03:57.139296: Epoch 134
+2026-01-04 12:03:57.142273: Current learning rate: 6e-05
+2026-01-04 12:04:53.594247: train_loss 0.6791
+2026-01-04 12:04:53.623745: val_loss 0.6919
+2026-01-04 12:04:53.627684: val classification accuracy 0.55
+2026-01-04 12:04:53.631366: val auc 0.535
+2026-01-04 12:04:53.642961: Epoch time: 56.46 s
+2026-01-04 12:04:55.409724: 
+2026-01-04 12:04:55.413669: Epoch 135
+2026-01-04 12:04:55.416562: Current learning rate: 6e-05
+2026-01-04 12:05:50.304270: train_loss 0.6604
+2026-01-04 12:05:50.310090: val_loss 0.6519
+2026-01-04 12:05:50.313494: val classification accuracy 0.625
+2026-01-04 12:05:50.316680: val auc 0.655
+2026-01-04 12:05:50.344270: Epoch time: 54.9 s
+2026-01-04 12:05:51.183709: 
+2026-01-04 12:05:51.195028: Epoch 136
+2026-01-04 12:05:51.197659: Current learning rate: 6e-05
+2026-01-04 12:06:46.025183: train_loss 0.6507
+2026-01-04 12:06:46.030196: val_loss 0.6865
+2026-01-04 12:06:46.033342: val classification accuracy 0.65
+2026-01-04 12:06:46.036309: val auc 0.5962
+2026-01-04 12:06:46.039521: Epoch time: 54.84 s
+2026-01-04 12:06:46.877278: 
+2026-01-04 12:06:46.881396: Epoch 137
+2026-01-04 12:06:46.884557: Current learning rate: 6e-05
+2026-01-04 12:07:45.762468: train_loss 0.6967
+2026-01-04 12:07:45.767045: val_loss 0.6462
+2026-01-04 12:07:45.770095: val classification accuracy 0.6
+2026-01-04 12:07:45.785058: val auc 0.6375
+2026-01-04 12:07:45.803602: Epoch time: 58.89 s
+2026-01-04 12:07:46.691658: 
+2026-01-04 12:07:46.695441: Epoch 138
+2026-01-04 12:07:46.698289: Current learning rate: 6e-05
+2026-01-04 12:08:44.227330: train_loss 0.6578
+2026-01-04 12:08:44.273937: val_loss 0.6671
+2026-01-04 12:08:44.278051: val classification accuracy 0.625
+2026-01-04 12:08:44.281250: val auc 0.695
+2026-01-04 12:08:44.295295: Epoch time: 57.54 s
+2026-01-04 12:08:45.150779: 
+2026-01-04 12:08:45.154831: Epoch 139
+2026-01-04 12:08:45.162248: Current learning rate: 6e-05
+2026-01-04 12:09:41.251165: train_loss 0.6659
+2026-01-04 12:09:41.312529: val_loss 0.6522
+2026-01-04 12:09:41.316237: val classification accuracy 0.625
+2026-01-04 12:09:41.319559: val auc 0.6725
+2026-01-04 12:09:41.322906: Epoch time: 56.1 s
+2026-01-04 12:09:42.141088: 
+2026-01-04 12:09:42.144831: Epoch 140
+2026-01-04 12:09:42.147676: Current learning rate: 6e-05
+2026-01-04 12:10:36.562311: train_loss 0.6678
+2026-01-04 12:10:36.600497: val_loss 0.5857
+2026-01-04 12:10:36.607049: val classification accuracy 0.7
+2026-01-04 12:10:36.616396: val auc 0.7237
+2026-01-04 12:10:36.621275: Epoch time: 54.42 s
+2026-01-04 12:10:37.599727: 
+2026-01-04 12:10:37.603480: Epoch 141
+2026-01-04 12:10:37.606399: Current learning rate: 6e-05
+2026-01-04 12:11:32.039115: train_loss 0.6736
+2026-01-04 12:11:32.111061: val_loss 0.6085
+2026-01-04 12:11:32.116702: val classification accuracy 0.775
+2026-01-04 12:11:32.119963: val auc 0.825
+2026-01-04 12:11:32.122917: Epoch time: 54.44 s
+2026-01-04 12:11:32.133946: Yayy! New best classification accuracy: 0.775
+2026-01-04 12:11:38.379931: 
+2026-01-04 12:11:38.384108: Epoch 142
+2026-01-04 12:11:38.387391: Current learning rate: 6e-05
+2026-01-04 12:12:35.533168: train_loss 0.6718
+2026-01-04 12:12:35.538265: val_loss 0.6424
+2026-01-04 12:12:35.541120: val classification accuracy 0.7
+2026-01-04 12:12:35.544147: val auc 0.73
+2026-01-04 12:12:35.546920: Epoch time: 57.15 s
+2026-01-04 12:12:36.455679: 
+2026-01-04 12:12:36.459809: Epoch 143
+2026-01-04 12:12:36.463208: Current learning rate: 6e-05
+2026-01-04 12:13:31.208913: train_loss 0.6607
+2026-01-04 12:13:31.245279: val_loss 0.5976
+2026-01-04 12:13:31.254597: val classification accuracy 0.675
+2026-01-04 12:13:31.265570: val auc 0.805
+2026-01-04 12:13:31.269181: Epoch time: 54.75 s
+2026-01-04 12:13:32.195103: 
+2026-01-04 12:13:32.198638: Epoch 144
+2026-01-04 12:13:32.201357: Current learning rate: 6e-05
+2026-01-04 12:14:28.153589: train_loss 0.6554
+2026-01-04 12:14:28.173084: val_loss 0.6255
+2026-01-04 12:14:28.176963: val classification accuracy 0.55
+2026-01-04 12:14:28.180866: val auc 0.6975
+2026-01-04 12:14:28.185585: Epoch time: 55.96 s
+2026-01-04 12:14:29.047296: 
+2026-01-04 12:14:29.050803: Epoch 145
+2026-01-04 12:14:29.053481: Current learning rate: 6e-05
+2026-01-04 12:15:25.294034: train_loss 0.6865
+2026-01-04 12:15:25.320100: val_loss 0.6441
+2026-01-04 12:15:25.323822: val classification accuracy 0.625
+2026-01-04 12:15:25.327359: val auc 0.6825
+2026-01-04 12:15:25.330621: Epoch time: 56.25 s
+2026-01-04 12:15:26.206228: 
+2026-01-04 12:15:26.209999: Epoch 146
+2026-01-04 12:15:26.212797: Current learning rate: 5e-05
+2026-01-04 12:16:21.670098: train_loss 0.6538
+2026-01-04 12:16:21.682363: val_loss 0.6862
+2026-01-04 12:16:21.686388: val classification accuracy 0.5
+2026-01-04 12:16:21.690003: val auc 0.5775
+2026-01-04 12:16:21.693518: Epoch time: 55.46 s
+2026-01-04 12:16:22.458631: 
+2026-01-04 12:16:22.461886: Epoch 147
+2026-01-04 12:16:22.464454: Current learning rate: 5e-05
+2026-01-04 12:17:19.000426: train_loss 0.6555
+2026-01-04 12:17:19.005793: val_loss 0.6869
+2026-01-04 12:17:19.009493: val classification accuracy 0.55
+2026-01-04 12:17:19.013300: val auc 0.4988
+2026-01-04 12:17:19.016563: Epoch time: 56.54 s
+2026-01-04 12:17:19.903978: 
+2026-01-04 12:17:19.907846: Epoch 148
+2026-01-04 12:17:19.911006: Current learning rate: 5e-05
+2026-01-04 12:18:16.192121: train_loss 0.675
+2026-01-04 12:18:16.203059: val_loss 0.6199
+2026-01-04 12:18:16.206501: val classification accuracy 0.65
+2026-01-04 12:18:16.209638: val auc 0.7625
+2026-01-04 12:18:16.213968: Epoch time: 56.29 s
+2026-01-04 12:18:17.878715: 
+2026-01-04 12:18:17.882614: Epoch 149
+2026-01-04 12:18:17.885354: Current learning rate: 5e-05
+2026-01-04 12:19:14.558981: train_loss 0.6717
+2026-01-04 12:19:14.563444: val_loss 0.6285
+2026-01-04 12:19:14.566831: val classification accuracy 0.625
+2026-01-04 12:19:14.569798: val auc 0.7775
+2026-01-04 12:19:14.572713: Epoch time: 56.68 s
+2026-01-04 12:19:15.424831: 
+2026-01-04 12:19:15.428782: Epoch 150
+2026-01-04 12:19:15.431819: Current learning rate: 5e-05
+2026-01-04 12:20:13.026038: train_loss 0.6743
+2026-01-04 12:20:13.031393: val_loss 0.6079
+2026-01-04 12:20:13.034546: val classification accuracy 0.7
+2026-01-04 12:20:13.037509: val auc 0.81
+2026-01-04 12:20:13.040328: Epoch time: 57.6 s
+2026-01-04 12:20:13.933241: 
+2026-01-04 12:20:13.936856: Epoch 151
+2026-01-04 12:20:13.939566: Current learning rate: 5e-05
+2026-01-04 12:21:10.036543: train_loss 0.6554
+2026-01-04 12:21:10.043181: val_loss 0.6652
+2026-01-04 12:21:10.048972: val classification accuracy 0.65
+2026-01-04 12:21:10.055820: val auc 0.6462
+2026-01-04 12:21:10.059058: Epoch time: 56.1 s
+2026-01-04 12:21:10.903356: 
+2026-01-04 12:21:10.906846: Epoch 152
+2026-01-04 12:21:10.909410: Current learning rate: 5e-05
+2026-01-04 12:22:11.871821: train_loss 0.6562
+2026-01-04 12:22:11.936739: val_loss 0.6865
+2026-01-04 12:22:11.954689: val classification accuracy 0.55
+2026-01-04 12:22:11.968787: val auc 0.7025
+2026-01-04 12:22:11.975522: Epoch time: 60.97 s
+2026-01-04 12:22:12.866678: 
+2026-01-04 12:22:12.870310: Epoch 153
+2026-01-04 12:22:12.873061: Current learning rate: 5e-05
+2026-01-04 12:23:05.884943: train_loss 0.6549
+2026-01-04 12:23:05.889818: val_loss 0.61
+2026-01-04 12:23:05.893284: val classification accuracy 0.7
+2026-01-04 12:23:05.929139: val auc 0.7312
+2026-01-04 12:23:05.934910: Epoch time: 53.02 s
+2026-01-04 12:23:06.841214: 
+2026-01-04 12:23:06.844799: Epoch 154
+2026-01-04 12:23:06.847309: Current learning rate: 5e-05
+2026-01-04 12:23:59.418833: train_loss 0.6715
+2026-01-04 12:23:59.427004: val_loss 0.6703
+2026-01-04 12:23:59.430735: val classification accuracy 0.55
+2026-01-04 12:23:59.434075: val auc 0.7225
+2026-01-04 12:23:59.437393: Epoch time: 52.58 s
+2026-01-04 12:24:00.333676: 
+2026-01-04 12:24:00.337126: Epoch 155
+2026-01-04 12:24:00.339753: Current learning rate: 5e-05
+2026-01-04 12:24:56.019337: train_loss 0.6499
+2026-01-04 12:24:56.049749: val_loss 0.6205
+2026-01-04 12:24:56.093014: val classification accuracy 0.625
+2026-01-04 12:24:56.096498: val auc 0.7575
+2026-01-04 12:24:56.099772: Epoch time: 55.69 s
+2026-01-04 12:24:56.971815: 
+2026-01-04 12:24:56.975418: Epoch 156
+2026-01-04 12:24:56.978185: Current learning rate: 5e-05
+2026-01-04 12:25:52.346667: train_loss 0.6738
+2026-01-04 12:25:52.369091: val_loss 0.6588
+2026-01-04 12:25:52.374550: val classification accuracy 0.55
+2026-01-04 12:25:52.378412: val auc 0.7075
+2026-01-04 12:25:52.382129: Epoch time: 55.38 s
+2026-01-04 12:25:53.345256: 
+2026-01-04 12:25:53.349677: Epoch 157
+2026-01-04 12:25:53.352654: Current learning rate: 5e-05
+2026-01-04 12:26:52.170385: train_loss 0.6549
+2026-01-04 12:26:52.192993: val_loss 0.6207
+2026-01-04 12:26:52.197499: val classification accuracy 0.7
+2026-01-04 12:26:52.201443: val auc 0.7488
+2026-01-04 12:26:52.205079: Epoch time: 58.83 s
+2026-01-04 12:26:53.123247: 
+2026-01-04 12:26:53.126982: Epoch 158
+2026-01-04 12:26:53.129929: Current learning rate: 5e-05
+2026-01-04 12:27:46.632398: train_loss 0.6637
+2026-01-04 12:27:46.636682: val_loss 0.661
+2026-01-04 12:27:46.639678: val classification accuracy 0.575
+2026-01-04 12:27:46.654131: val auc 0.6075
+2026-01-04 12:27:46.657398: Epoch time: 53.51 s
+2026-01-04 12:27:47.492083: 
+2026-01-04 12:27:47.495448: Epoch 159
+2026-01-04 12:27:47.498208: Current learning rate: 5e-05
+2026-01-04 12:28:41.329916: train_loss 0.6498
+2026-01-04 12:28:41.336410: val_loss 0.7009
+2026-01-04 12:28:41.340769: val classification accuracy 0.55
+2026-01-04 12:28:41.345498: val auc 0.57
+2026-01-04 12:28:41.371369: Epoch time: 53.84 s
+2026-01-04 12:28:42.261261: 
+2026-01-04 12:28:42.264830: Epoch 160
+2026-01-04 12:28:42.267781: Current learning rate: 5e-05
+2026-01-04 12:29:34.471626: train_loss 0.6744
+2026-01-04 12:29:34.481205: val_loss 0.5758
+2026-01-04 12:29:34.484860: val classification accuracy 0.775
+2026-01-04 12:29:34.488151: val auc 0.8325
+2026-01-04 12:29:34.491684: Epoch time: 52.21 s
+2026-01-04 12:29:35.385381: 
+2026-01-04 12:29:35.389719: Epoch 161
+2026-01-04 12:29:35.392444: Current learning rate: 5e-05
+2026-01-04 12:30:29.491037: train_loss 0.6616
+2026-01-04 12:30:29.496812: val_loss 0.5535
+2026-01-04 12:30:29.500104: val classification accuracy 0.75
+2026-01-04 12:30:29.503890: val auc 0.8225
+2026-01-04 12:30:29.507928: Epoch time: 54.11 s
+2026-01-04 12:30:30.338661: 
+2026-01-04 12:30:30.342611: Epoch 162
+2026-01-04 12:30:30.345704: Current learning rate: 5e-05
+2026-01-04 12:31:24.193586: train_loss 0.6585
+2026-01-04 12:31:24.216134: val_loss 0.6
+2026-01-04 12:31:24.221400: val classification accuracy 0.675
+2026-01-04 12:31:24.226178: val auc 0.715
+2026-01-04 12:31:24.230620: Epoch time: 53.86 s
+2026-01-04 12:31:25.061335: 
+2026-01-04 12:31:25.065712: Epoch 163
+2026-01-04 12:31:25.069065: Current learning rate: 5e-05
+2026-01-04 12:32:20.404062: train_loss 0.6584
+2026-01-04 12:32:20.409076: val_loss 0.6331
+2026-01-04 12:32:20.412275: val classification accuracy 0.6
+2026-01-04 12:32:20.415510: val auc 0.6762
+2026-01-04 12:32:20.418476: Epoch time: 55.34 s
+2026-01-04 12:32:21.269207: 
+2026-01-04 12:32:21.272513: Epoch 164
+2026-01-04 12:32:21.275252: Current learning rate: 5e-05
+2026-01-04 12:33:18.731956: train_loss 0.6467
+2026-01-04 12:33:18.754001: val_loss 0.6242
+2026-01-04 12:33:18.769394: val classification accuracy 0.675
+2026-01-04 12:33:18.772433: val auc 0.6738
+2026-01-04 12:33:18.775397: Epoch time: 57.46 s
+2026-01-04 12:33:19.682116: 
+2026-01-04 12:33:19.686004: Epoch 165
+2026-01-04 12:33:19.688872: Current learning rate: 5e-05
+2026-01-04 12:34:13.322827: train_loss 0.6453
+2026-01-04 12:34:13.336393: val_loss 0.5769
+2026-01-04 12:34:13.339857: val classification accuracy 0.675
+2026-01-04 12:34:13.343243: val auc 0.7763
+2026-01-04 12:34:13.349409: Epoch time: 53.64 s
+2026-01-04 12:34:14.181172: 
+2026-01-04 12:34:14.185218: Epoch 166
+2026-01-04 12:34:14.188143: Current learning rate: 5e-05
+2026-01-04 12:35:09.461916: train_loss 0.6553
+2026-01-04 12:35:09.467965: val_loss 0.676
+2026-01-04 12:35:09.470829: val classification accuracy 0.625
+2026-01-04 12:35:09.473753: val auc 0.5512
+2026-01-04 12:35:09.476607: Epoch time: 55.28 s
+2026-01-04 12:35:10.322922: 
+2026-01-04 12:35:10.326255: Epoch 167
+2026-01-04 12:35:10.328970: Current learning rate: 5e-05
+2026-01-04 12:36:10.993257: train_loss 0.6725
+2026-01-04 12:36:10.999608: val_loss 0.6627
+2026-01-04 12:36:11.003364: val classification accuracy 0.625
+2026-01-04 12:36:11.009786: val auc 0.685
+2026-01-04 12:36:11.016079: Epoch time: 60.67 s
+2026-01-04 12:36:11.946121: 
+2026-01-04 12:36:11.949754: Epoch 168
+2026-01-04 12:36:11.952557: Current learning rate: 5e-05
+2026-01-04 12:37:10.159199: train_loss 0.6504
+2026-01-04 12:37:10.163561: val_loss 0.6506
+2026-01-04 12:37:10.166567: val classification accuracy 0.625
+2026-01-04 12:37:10.197644: val auc 0.6325
+2026-01-04 12:37:10.201858: Epoch time: 58.21 s
+2026-01-04 12:37:11.045426: 
+2026-01-04 12:37:11.050255: Epoch 169
+2026-01-04 12:37:11.053248: Current learning rate: 5e-05
+2026-01-04 12:38:08.300198: train_loss 0.6758
+2026-01-04 12:38:08.308749: val_loss 0.6223
+2026-01-04 12:38:08.312025: val classification accuracy 0.7
+2026-01-04 12:38:08.315130: val auc 0.7025
+2026-01-04 12:38:08.364184: Epoch time: 57.26 s
+2026-01-04 12:38:09.191124: 
+2026-01-04 12:38:09.195346: Epoch 170
+2026-01-04 12:38:09.198412: Current learning rate: 5e-05
+2026-01-04 12:39:04.029383: train_loss 0.6475
+2026-01-04 12:39:04.051989: val_loss 0.6223
+2026-01-04 12:39:04.055167: val classification accuracy 0.675
+2026-01-04 12:39:04.058608: val auc 0.735
+2026-01-04 12:39:04.061861: Epoch time: 54.84 s
+2026-01-04 12:39:04.969815: 
+2026-01-04 12:39:04.973411: Epoch 171
+2026-01-04 12:39:04.976163: Current learning rate: 5e-05
+2026-01-04 12:39:57.804397: train_loss 0.6779
+2026-01-04 12:39:57.811026: val_loss 0.6154
+2026-01-04 12:39:57.814185: val classification accuracy 0.675
+2026-01-04 12:39:57.817125: val auc 0.7762
+2026-01-04 12:39:57.820112: Epoch time: 52.84 s
+2026-01-04 12:39:58.623278: 
+2026-01-04 12:39:58.626984: Epoch 172
+2026-01-04 12:39:58.629747: Current learning rate: 5e-05
+2026-01-04 12:40:54.343711: train_loss 0.6624
+2026-01-04 12:40:54.349173: val_loss 0.6421
+2026-01-04 12:40:54.352716: val classification accuracy 0.625
+2026-01-04 12:40:54.356040: val auc 0.6688
+2026-01-04 12:40:54.359734: Epoch time: 55.72 s
+2026-01-04 12:40:55.177165: 
+2026-01-04 12:40:55.180931: Epoch 173
+2026-01-04 12:40:55.183861: Current learning rate: 5e-05
+2026-01-04 12:41:51.771809: train_loss 0.6493
+2026-01-04 12:41:51.776471: val_loss 0.6487
+2026-01-04 12:41:51.792233: val classification accuracy 0.65
+2026-01-04 12:41:51.809331: val auc 0.6712
+2026-01-04 12:41:51.813738: Epoch time: 56.6 s
+2026-01-04 12:41:52.657952: 
+2026-01-04 12:41:52.661613: Epoch 174
+2026-01-04 12:41:52.664735: Current learning rate: 5e-05
+2026-01-04 12:42:45.001328: train_loss 0.6612
+2026-01-04 12:42:45.012278: val_loss 0.616
+2026-01-04 12:42:45.029099: val classification accuracy 0.575
+2026-01-04 12:42:45.033109: val auc 0.7662
+2026-01-04 12:42:45.036498: Epoch time: 52.34 s
+2026-01-04 12:42:45.918935: 
+2026-01-04 12:42:45.922363: Epoch 175
+2026-01-04 12:42:45.925014: Current learning rate: 5e-05
+2026-01-04 12:43:40.425745: train_loss 0.6346
+2026-01-04 12:43:40.439508: val_loss 0.5782
+2026-01-04 12:43:40.443334: val classification accuracy 0.7
+2026-01-04 12:43:40.447345: val auc 0.7525
+2026-01-04 12:43:40.450776: Epoch time: 54.51 s
+2026-01-04 12:43:42.113848: 
+2026-01-04 12:43:42.131573: Epoch 176
+2026-01-04 12:43:42.134470: Current learning rate: 5e-05
+2026-01-04 12:44:40.623731: train_loss 0.6535
+2026-01-04 12:44:40.628710: val_loss 0.6154
+2026-01-04 12:44:40.632756: val classification accuracy 0.65
+2026-01-04 12:44:40.635984: val auc 0.6975
+2026-01-04 12:44:40.639706: Epoch time: 58.51 s
+2026-01-04 12:44:41.510163: 
+2026-01-04 12:44:41.513986: Epoch 177
+2026-01-04 12:44:41.517303: Current learning rate: 4e-05
+2026-01-04 12:45:37.728905: train_loss 0.6619
+2026-01-04 12:45:37.759782: val_loss 0.6085
+2026-01-04 12:45:37.765142: val classification accuracy 0.6
+2026-01-04 12:45:37.769030: val auc 0.8138
+2026-01-04 12:45:37.772904: Epoch time: 56.22 s
+2026-01-04 12:45:38.626032: 
+2026-01-04 12:45:38.630288: Epoch 178
+2026-01-04 12:45:38.633339: Current learning rate: 4e-05
+2026-01-04 12:46:35.800602: train_loss 0.6492
+2026-01-04 12:46:35.805807: val_loss 0.6376
+2026-01-04 12:46:35.809718: val classification accuracy 0.65
+2026-01-04 12:46:35.813345: val auc 0.7088
+2026-01-04 12:46:35.830135: Epoch time: 57.18 s
+2026-01-04 12:46:36.625300: 
+2026-01-04 12:46:36.629269: Epoch 179
+2026-01-04 12:46:36.632243: Current learning rate: 4e-05
+2026-01-04 12:47:33.404283: train_loss 0.6725
+2026-01-04 12:47:33.417164: val_loss 0.6463
+2026-01-04 12:47:33.420618: val classification accuracy 0.65
+2026-01-04 12:47:33.423665: val auc 0.6925
+2026-01-04 12:47:33.427603: Epoch time: 56.78 s
+2026-01-04 12:47:34.225865: 
+2026-01-04 12:47:34.229808: Epoch 180
+2026-01-04 12:47:34.232943: Current learning rate: 4e-05
+2026-01-04 12:48:27.089386: train_loss 0.6626
+2026-01-04 12:48:27.093923: val_loss 0.6154
+2026-01-04 12:48:27.097296: val classification accuracy 0.65
+2026-01-04 12:48:27.101670: val auc 0.7775
+2026-01-04 12:48:27.105414: Epoch time: 52.86 s
+2026-01-04 12:48:27.972393: 
+2026-01-04 12:48:27.976044: Epoch 181
+2026-01-04 12:48:27.980312: Current learning rate: 4e-05
+2026-01-04 12:49:22.932090: train_loss 0.6605
+2026-01-04 12:49:22.940896: val_loss 0.6235
+2026-01-04 12:49:22.945266: val classification accuracy 0.625
+2026-01-04 12:49:22.948532: val auc 0.74
+2026-01-04 12:49:22.951537: Epoch time: 54.96 s
+2026-01-04 12:49:23.855489: 
+2026-01-04 12:49:23.859202: Epoch 182
+2026-01-04 12:49:23.861783: Current learning rate: 4e-05
+2026-01-04 12:50:19.429089: train_loss 0.663
+2026-01-04 12:50:19.435792: val_loss 0.6627
+2026-01-04 12:50:19.439867: val classification accuracy 0.65
+2026-01-04 12:50:19.444262: val auc 0.6363
+2026-01-04 12:50:19.448760: Epoch time: 55.57 s
+2026-01-04 12:50:20.361755: 
+2026-01-04 12:50:20.365667: Epoch 183
+2026-01-04 12:50:20.368635: Current learning rate: 4e-05
+2026-01-04 12:51:18.640548: train_loss 0.6638
+2026-01-04 12:51:18.673105: val_loss 0.6233
+2026-01-04 12:51:18.677741: val classification accuracy 0.725
+2026-01-04 12:51:18.688364: val auc 0.745
+2026-01-04 12:51:18.709751: Epoch time: 58.28 s
+2026-01-04 12:51:19.522722: 
+2026-01-04 12:51:19.526939: Epoch 184
+2026-01-04 12:51:19.529649: Current learning rate: 4e-05
+2026-01-04 12:52:12.701337: train_loss 0.655
+2026-01-04 12:52:12.707571: val_loss 0.6707
+2026-01-04 12:52:12.711084: val classification accuracy 0.55
+2026-01-04 12:52:12.714411: val auc 0.6075
+2026-01-04 12:52:12.717685: Epoch time: 53.18 s
+2026-01-04 12:52:13.557823: 
+2026-01-04 12:52:13.561275: Epoch 185
+2026-01-04 12:52:13.563887: Current learning rate: 4e-05
+2026-01-04 12:53:11.399394: train_loss 0.6592
+2026-01-04 12:53:11.405095: val_loss 0.7236
+2026-01-04 12:53:11.409110: val classification accuracy 0.525
+2026-01-04 12:53:11.412592: val auc 0.5963
+2026-01-04 12:53:11.416061: Epoch time: 57.84 s
+2026-01-04 12:53:12.269703: 
+2026-01-04 12:53:12.272978: Epoch 186
+2026-01-04 12:53:12.276042: Current learning rate: 4e-05
+2026-01-04 12:54:07.725680: train_loss 0.6755
+2026-01-04 12:54:07.730369: val_loss 0.6404
+2026-01-04 12:54:07.738248: val classification accuracy 0.6
+2026-01-04 12:54:07.746306: val auc 0.7875
+2026-01-04 12:54:07.749592: Epoch time: 55.46 s
+2026-01-04 12:54:08.580846: 
+2026-01-04 12:54:08.585050: Epoch 187
+2026-01-04 12:54:08.588469: Current learning rate: 4e-05
+2026-01-04 12:55:00.167485: train_loss 0.6638
+2026-01-04 12:55:00.179799: val_loss 0.6933
+2026-01-04 12:55:00.183344: val classification accuracy 0.575
+2026-01-04 12:55:00.188924: val auc 0.585
+2026-01-04 12:55:00.192674: Epoch time: 51.59 s
+2026-01-04 12:55:01.038908: 
+2026-01-04 12:55:01.042970: Epoch 188
+2026-01-04 12:55:01.045668: Current learning rate: 4e-05
+2026-01-04 12:55:59.180933: train_loss 0.6568
+2026-01-04 12:55:59.197506: val_loss 0.6763
+2026-01-04 12:55:59.201865: val classification accuracy 0.55
+2026-01-04 12:55:59.205905: val auc 0.5625
+2026-01-04 12:55:59.210060: Epoch time: 58.14 s
+2026-01-04 12:56:00.132040: 
+2026-01-04 12:56:00.147252: Epoch 189
+2026-01-04 12:56:00.160334: Current learning rate: 4e-05
+2026-01-04 12:56:56.796524: train_loss 0.6475
+2026-01-04 12:56:56.802534: val_loss 0.5873
+2026-01-04 12:56:56.805806: val classification accuracy 0.675
+2026-01-04 12:56:56.808925: val auc 0.715
+2026-01-04 12:56:56.811990: Epoch time: 56.67 s
+2026-01-04 12:56:57.683724: 
+2026-01-04 12:56:57.687495: Epoch 190
+2026-01-04 12:56:57.690247: Current learning rate: 4e-05
+2026-01-04 12:57:55.053367: train_loss 0.6738
+2026-01-04 12:57:55.059790: val_loss 0.6264
+2026-01-04 12:57:55.073076: val classification accuracy 0.675
+2026-01-04 12:57:55.076674: val auc 0.745
+2026-01-04 12:57:55.081947: Epoch time: 57.37 s
+2026-01-04 12:57:55.898720: 
+2026-01-04 12:57:55.902655: Epoch 191
+2026-01-04 12:57:55.905477: Current learning rate: 4e-05
+2026-01-04 12:58:56.373176: train_loss 0.6459
+2026-01-04 12:58:56.379229: val_loss 0.5806
+2026-01-04 12:58:56.383162: val classification accuracy 0.65
+2026-01-04 12:58:56.387247: val auc 0.7975
+2026-01-04 12:58:56.391520: Epoch time: 60.48 s
+2026-01-04 12:58:57.193239: 
+2026-01-04 12:58:57.197988: Epoch 192
+2026-01-04 12:58:57.201042: Current learning rate: 4e-05
+2026-01-04 12:59:52.500648: train_loss 0.6559
+2026-01-04 12:59:52.510415: val_loss 0.6079
+2026-01-04 12:59:52.515546: val classification accuracy 0.65
+2026-01-04 12:59:52.519628: val auc 0.805
+2026-01-04 12:59:52.523073: Epoch time: 55.31 s
+2026-01-04 12:59:53.609843: 
+2026-01-04 12:59:53.614446: Epoch 193
+2026-01-04 12:59:53.617633: Current learning rate: 4e-05
+2026-01-04 13:00:45.557201: train_loss 0.6318
+2026-01-04 13:00:45.587282: val_loss 0.6168
+2026-01-04 13:00:45.590251: val classification accuracy 0.65
+2026-01-04 13:00:45.593441: val auc 0.755
+2026-01-04 13:00:45.596557: Epoch time: 51.95 s
+2026-01-04 13:00:46.467200: 
+2026-01-04 13:00:46.470982: Epoch 194
+2026-01-04 13:00:46.473623: Current learning rate: 4e-05
+2026-01-04 13:01:42.766756: train_loss 0.6693
+2026-01-04 13:01:42.773702: val_loss 0.6179
+2026-01-04 13:01:42.781564: val classification accuracy 0.625
+2026-01-04 13:01:42.785361: val auc 0.66
+2026-01-04 13:01:42.788851: Epoch time: 56.3 s
+2026-01-04 13:01:43.735477: 
+2026-01-04 13:01:43.739756: Epoch 195
+2026-01-04 13:01:43.743195: Current learning rate: 4e-05
+2026-01-04 13:02:42.838451: train_loss 0.6472
+2026-01-04 13:02:42.899359: val_loss 0.6051
+2026-01-04 13:02:42.913306: val classification accuracy 0.675
+2026-01-04 13:02:42.917024: val auc 0.74
+2026-01-04 13:02:42.919991: Epoch time: 59.1 s
+2026-01-04 13:02:43.759971: 
+2026-01-04 13:02:43.766545: Epoch 196
+2026-01-04 13:02:43.770125: Current learning rate: 4e-05
+2026-01-04 13:03:40.860418: train_loss 0.6569
+2026-01-04 13:03:40.872862: val_loss 0.6264
+2026-01-04 13:03:40.880068: val classification accuracy 0.65
+2026-01-04 13:03:40.884292: val auc 0.735
+2026-01-04 13:03:40.887814: Epoch time: 57.1 s
+2026-01-04 13:03:41.700310: 
+2026-01-04 13:03:41.703998: Epoch 197
+2026-01-04 13:03:41.707142: Current learning rate: 4e-05
+2026-01-04 13:04:40.780017: train_loss 0.6577
+2026-01-04 13:04:40.787310: val_loss 0.6013
+2026-01-04 13:04:40.790456: val classification accuracy 0.725
+2026-01-04 13:04:40.793305: val auc 0.75
+2026-01-04 13:04:40.796397: Epoch time: 59.08 s
+2026-01-04 13:04:41.606384: 
+2026-01-04 13:04:41.609809: Epoch 198
+2026-01-04 13:04:41.612663: Current learning rate: 4e-05
+2026-01-04 13:05:39.650459: train_loss 0.6621
+2026-01-04 13:05:39.675289: val_loss 0.5786
+2026-01-04 13:05:39.679286: val classification accuracy 0.75
+2026-01-04 13:05:39.682672: val auc 0.8212
+2026-01-04 13:05:39.697662: Epoch time: 58.05 s
+2026-01-04 13:05:40.552320: 
+2026-01-04 13:05:40.555816: Epoch 199
+2026-01-04 13:05:40.558810: Current learning rate: 4e-05
+2026-01-04 13:06:36.594702: train_loss 0.6458
+2026-01-04 13:06:36.610757: val_loss 0.5572
+2026-01-04 13:06:36.614170: val classification accuracy 0.7
+2026-01-04 13:06:36.617231: val auc 0.805
+2026-01-04 13:06:36.620365: Epoch time: 56.04 s
+2026-01-04 13:06:42.133756: Saved periodic checkpoint /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/ViTTrainer_ep300_NoMirroring_x2__nnUNetResEncUNetLPlans__3d_fullres/fold_1/checkpoint_every20_best_auroc.pth at epoch 199 with val_auc=0.8050
+2026-01-04 13:06:42.946416: 
+2026-01-04 13:06:42.950326: Epoch 200
+2026-01-04 13:06:42.953095: Current learning rate: 4e-05
+2026-01-04 13:07:39.856720: train_loss 0.6425
+2026-01-04 13:07:39.861540: val_loss 0.7082
+2026-01-04 13:07:39.864849: val classification accuracy 0.525
+2026-01-04 13:07:39.867872: val auc 0.5962
+2026-01-04 13:07:39.870977: Epoch time: 56.91 s
+2026-01-04 13:07:40.708622: 
+2026-01-04 13:07:40.712216: Epoch 201
+2026-01-04 13:07:40.715079: Current learning rate: 4e-05
+2026-01-04 13:08:37.732997: train_loss 0.6296
+2026-01-04 13:08:37.760496: val_loss 0.6499
+2026-01-04 13:08:37.764675: val classification accuracy 0.675
+2026-01-04 13:08:37.768607: val auc 0.6838
+2026-01-04 13:08:37.786588: Epoch time: 57.03 s
+2026-01-04 13:08:38.738744: 
+2026-01-04 13:08:38.742581: Epoch 202
+2026-01-04 13:08:38.745579: Current learning rate: 4e-05
+2026-01-04 13:09:34.243022: train_loss 0.6321
+2026-01-04 13:09:34.249148: val_loss 0.546
+2026-01-04 13:09:34.286252: val classification accuracy 0.7
+2026-01-04 13:09:34.290268: val auc 0.87
+2026-01-04 13:09:34.293993: Epoch time: 55.51 s
+2026-01-04 13:09:34.297182: Yayy! New best EMA pseudo Dice: 0.87
+2026-01-04 13:09:41.419303: 
+2026-01-04 13:09:41.423050: Epoch 203
+2026-01-04 13:09:41.425614: Current learning rate: 4e-05
+2026-01-04 13:10:36.071814: train_loss 0.6486
+2026-01-04 13:10:36.098428: val_loss 0.6021
+2026-01-04 13:10:36.102670: val classification accuracy 0.675
+2026-01-04 13:10:36.107986: val auc 0.735
+2026-01-04 13:10:36.111698: Epoch time: 54.65 s
+2026-01-04 13:10:36.918338: 
+2026-01-04 13:10:36.922185: Epoch 204
+2026-01-04 13:10:36.924953: Current learning rate: 4e-05
+2026-01-04 13:11:33.708106: train_loss 0.6524
+2026-01-04 13:11:33.722466: val_loss 0.5692
+2026-01-04 13:11:33.726585: val classification accuracy 0.625
+2026-01-04 13:11:33.729981: val auc 0.8062
+2026-01-04 13:11:33.736793: Epoch time: 56.79 s
+2026-01-04 13:11:34.538382: 
+2026-01-04 13:11:34.542057: Epoch 205
+2026-01-04 13:11:34.545114: Current learning rate: 4e-05
+2026-01-04 13:12:28.634851: train_loss 0.6554
+2026-01-04 13:12:28.640718: val_loss 0.714
+2026-01-04 13:12:28.643735: val classification accuracy 0.575
+2026-01-04 13:12:28.646832: val auc 0.53
+2026-01-04 13:12:28.649922: Epoch time: 54.1 s
+2026-01-04 13:12:29.472209: 
+2026-01-04 13:12:29.476287: Epoch 206
+2026-01-04 13:12:29.479344: Current learning rate: 4e-05
+2026-01-04 13:13:24.659163: train_loss 0.6674
+2026-01-04 13:13:24.664982: val_loss 0.5962
+2026-01-04 13:13:24.668193: val classification accuracy 0.575
+2026-01-04 13:13:24.671109: val auc 0.715
+2026-01-04 13:13:24.675135: Epoch time: 55.19 s
+2026-01-04 13:13:25.493858: 
+2026-01-04 13:13:25.497439: Epoch 207
+2026-01-04 13:13:25.500112: Current learning rate: 3e-05
+2026-01-04 13:14:23.914570: train_loss 0.6401
+2026-01-04 13:14:23.927908: val_loss 0.618
+2026-01-04 13:14:23.946522: val classification accuracy 0.775
+2026-01-04 13:14:23.952659: val auc 0.79
+2026-01-04 13:14:23.955929: Epoch time: 58.42 s
+2026-01-04 13:14:24.872997: 
+2026-01-04 13:14:24.877100: Epoch 208
+2026-01-04 13:14:24.880189: Current learning rate: 3e-05
+2026-01-04 13:15:21.922823: train_loss 0.6204
+2026-01-04 13:15:21.963354: val_loss 0.6833
+2026-01-04 13:15:21.966624: val classification accuracy 0.55
+2026-01-04 13:15:21.969888: val auc 0.67
+2026-01-04 13:15:21.976784: Epoch time: 57.05 s
+2026-01-04 13:15:22.822883: 
+2026-01-04 13:15:22.826610: Epoch 209
+2026-01-04 13:15:22.829357: Current learning rate: 3e-05
+2026-01-04 13:16:17.158747: train_loss 0.6222
+2026-01-04 13:16:17.174091: val_loss 0.5954
+2026-01-04 13:16:17.197915: val classification accuracy 0.65
+2026-01-04 13:16:17.215121: val auc 0.755
+2026-01-04 13:16:17.219104: Epoch time: 54.34 s
+2026-01-04 13:16:18.073220: 
+2026-01-04 13:16:18.076829: Epoch 210
+2026-01-04 13:16:18.079776: Current learning rate: 3e-05
+2026-01-04 13:17:13.089165: train_loss 0.6846
+2026-01-04 13:17:13.104881: val_loss 0.6221
+2026-01-04 13:17:13.108965: val classification accuracy 0.7
+2026-01-04 13:17:13.112415: val auc 0.77
+2026-01-04 13:17:13.115800: Epoch time: 55.02 s
+2026-01-04 13:17:13.969374: 
+2026-01-04 13:17:13.972929: Epoch 211
+2026-01-04 13:17:13.975601: Current learning rate: 3e-05
+2026-01-04 13:18:08.928955: train_loss 0.6399
+2026-01-04 13:18:08.933814: val_loss 0.5987
+2026-01-04 13:18:08.937159: val classification accuracy 0.675
+2026-01-04 13:18:08.940410: val auc 0.7575
+2026-01-04 13:18:08.943654: Epoch time: 54.96 s
+2026-01-04 13:18:09.834259: 
+2026-01-04 13:18:09.838621: Epoch 212
+2026-01-04 13:18:09.841625: Current learning rate: 3e-05
+2026-01-04 13:19:03.496604: train_loss 0.6615
+2026-01-04 13:19:03.511615: val_loss 0.6332
+2026-01-04 13:19:03.515483: val classification accuracy 0.55
+2026-01-04 13:19:03.518860: val auc 0.7625
+2026-01-04 13:19:03.526403: Epoch time: 53.66 s
+2026-01-04 13:19:04.376472: 
+2026-01-04 13:19:04.380704: Epoch 213
+2026-01-04 13:19:04.384029: Current learning rate: 3e-05
+2026-01-04 13:20:00.849803: train_loss 0.6425
+2026-01-04 13:20:00.860405: val_loss 0.6091
+2026-01-04 13:20:00.863894: val classification accuracy 0.725
+2026-01-04 13:20:00.867053: val auc 0.7012
+2026-01-04 13:20:00.870850: Epoch time: 56.47 s
+2026-01-04 13:20:01.836983: 
+2026-01-04 13:20:01.840696: Epoch 214
+2026-01-04 13:20:01.843357: Current learning rate: 3e-05
+2026-01-04 13:20:55.988946: train_loss 0.653
+2026-01-04 13:20:55.993594: val_loss 0.7215
+2026-01-04 13:20:55.996852: val classification accuracy 0.475
+2026-01-04 13:20:55.999683: val auc 0.47
+2026-01-04 13:20:56.002534: Epoch time: 54.15 s
+2026-01-04 13:20:56.806851: 
+2026-01-04 13:20:56.812257: Epoch 215
+2026-01-04 13:20:56.815346: Current learning rate: 3e-05
+2026-01-04 13:21:49.336035: train_loss 0.6371
+2026-01-04 13:21:49.350065: val_loss 0.6466
+2026-01-04 13:21:49.381537: val classification accuracy 0.6
+2026-01-04 13:21:49.389931: val auc 0.8262
+2026-01-04 13:21:49.393204: Epoch time: 52.53 s
+2026-01-04 13:21:51.031110: 
+2026-01-04 13:21:51.034619: Epoch 216
+2026-01-04 13:21:51.037372: Current learning rate: 3e-05
+2026-01-04 13:22:43.855343: train_loss 0.6407
+2026-01-04 13:22:43.860377: val_loss 0.6137
+2026-01-04 13:22:43.871199: val classification accuracy 0.675
+2026-01-04 13:22:43.874666: val auc 0.785
+2026-01-04 13:22:43.878138: Epoch time: 52.83 s
+2026-01-04 13:22:44.701178: 
+2026-01-04 13:22:44.704713: Epoch 217
+2026-01-04 13:22:44.707464: Current learning rate: 3e-05
+2026-01-04 13:23:38.185652: train_loss 0.6454
+2026-01-04 13:23:38.190940: val_loss 0.6118
+2026-01-04 13:23:38.194229: val classification accuracy 0.7
+2026-01-04 13:23:38.197567: val auc 0.7425
+2026-01-04 13:23:38.200897: Epoch time: 53.49 s
+2026-01-04 13:23:39.083617: 
+2026-01-04 13:23:39.087439: Epoch 218
+2026-01-04 13:23:39.090240: Current learning rate: 3e-05
+2026-01-04 13:24:34.139661: train_loss 0.648
+2026-01-04 13:24:34.145583: val_loss 0.6001
+2026-01-04 13:24:34.160660: val classification accuracy 0.675
+2026-01-04 13:24:34.166074: val auc 0.7512
+2026-01-04 13:24:34.171192: Epoch time: 55.06 s
+2026-01-04 13:24:35.008452: 
+2026-01-04 13:24:35.012002: Epoch 219
+2026-01-04 13:24:35.014643: Current learning rate: 3e-05
+2026-01-04 13:25:29.715613: train_loss 0.6768
+2026-01-04 13:25:29.724532: val_loss 0.6065
+2026-01-04 13:25:29.728109: val classification accuracy 0.65
+2026-01-04 13:25:29.730976: val auc 0.7637
+2026-01-04 13:25:29.734000: Epoch time: 54.71 s
+2026-01-04 13:25:30.639165: 
+2026-01-04 13:25:30.643116: Epoch 220
+2026-01-04 13:25:30.646277: Current learning rate: 3e-05
+2026-01-04 13:26:22.108333: train_loss 0.6575
+2026-01-04 13:26:22.113389: val_loss 0.5668
+2026-01-04 13:26:22.116885: val classification accuracy 0.75
+2026-01-04 13:26:22.121338: val auc 0.78
+2026-01-04 13:26:22.124869: Epoch time: 51.47 s
+2026-01-04 13:26:23.126852: 
+2026-01-04 13:26:23.130969: Epoch 221
+2026-01-04 13:26:23.136158: Current learning rate: 3e-05
+2026-01-04 13:27:21.181424: train_loss 0.6459
+2026-01-04 13:27:21.186465: val_loss 0.5611
+2026-01-04 13:27:21.189936: val classification accuracy 0.75
+2026-01-04 13:27:21.205158: val auc 0.845
+2026-01-04 13:27:21.208864: Epoch time: 58.06 s
+2026-01-04 13:27:22.039819: 
+2026-01-04 13:27:22.043960: Epoch 222
+2026-01-04 13:27:22.047220: Current learning rate: 3e-05
+2026-01-04 13:28:16.021121: train_loss 0.644
+2026-01-04 13:28:16.026299: val_loss 0.6497
+2026-01-04 13:28:16.030249: val classification accuracy 0.6
+2026-01-04 13:28:16.034393: val auc 0.7388
+2026-01-04 13:28:16.038193: Epoch time: 53.98 s
+2026-01-04 13:28:17.092765: 
+2026-01-04 13:28:17.106491: Epoch 223
+2026-01-04 13:28:17.126972: Current learning rate: 3e-05
+2026-01-04 13:29:11.040326: train_loss 0.6584
+2026-01-04 13:29:11.057943: val_loss 0.6248
+2026-01-04 13:29:11.063950: val classification accuracy 0.65
+2026-01-04 13:29:11.067477: val auc 0.76
+2026-01-04 13:29:11.071313: Epoch time: 53.95 s
+2026-01-04 13:29:11.920513: 
+2026-01-04 13:29:11.924062: Epoch 224
+2026-01-04 13:29:11.927664: Current learning rate: 3e-05
+2026-01-04 13:30:12.853071: train_loss 0.6387
+2026-01-04 13:30:12.887816: val_loss 0.6476
+2026-01-04 13:30:12.892330: val classification accuracy 0.55
+2026-01-04 13:30:12.895912: val auc 0.7825
+2026-01-04 13:30:12.899858: Epoch time: 60.93 s
+2026-01-04 13:30:13.716118: 
+2026-01-04 13:30:13.719901: Epoch 225
+2026-01-04 13:30:13.723177: Current learning rate: 3e-05
+2026-01-04 13:31:10.410661: train_loss 0.6418
+2026-01-04 13:31:10.418074: val_loss 0.6955
+2026-01-04 13:31:10.422415: val classification accuracy 0.525
+2026-01-04 13:31:10.425937: val auc 0.6225
+2026-01-04 13:31:10.429482: Epoch time: 56.7 s
+2026-01-04 13:31:11.333826: 
+2026-01-04 13:31:11.337731: Epoch 226
+2026-01-04 13:31:11.341077: Current learning rate: 3e-05
+2026-01-04 13:32:08.468843: train_loss 0.646
+2026-01-04 13:32:08.475857: val_loss 0.6494
+2026-01-04 13:32:08.479230: val classification accuracy 0.575
+2026-01-04 13:32:08.482524: val auc 0.68
+2026-01-04 13:32:08.485894: Epoch time: 57.14 s
+2026-01-04 13:32:09.441900: 
+2026-01-04 13:32:09.445720: Epoch 227
+2026-01-04 13:32:09.448793: Current learning rate: 3e-05
+2026-01-04 13:33:05.682608: train_loss 0.6426
+2026-01-04 13:33:05.704482: val_loss 0.529
+2026-01-04 13:33:05.711761: val classification accuracy 0.7
+2026-01-04 13:33:05.714890: val auc 0.8762
+2026-01-04 13:33:05.718024: Epoch time: 56.24 s
+2026-01-04 13:33:05.721731: Yayy! New best EMA pseudo Dice: 0.8762
+2026-01-04 13:33:11.919268: 
+2026-01-04 13:33:11.923293: Epoch 228
+2026-01-04 13:33:11.926455: Current learning rate: 3e-05
+2026-01-04 13:34:06.552576: train_loss 0.6354
+2026-01-04 13:34:06.558433: val_loss 0.6755
+2026-01-04 13:34:06.561454: val classification accuracy 0.575
+2026-01-04 13:34:06.564501: val auc 0.6925
+2026-01-04 13:34:06.567483: Epoch time: 54.63 s
+2026-01-04 13:34:07.401984: 
+2026-01-04 13:34:07.405485: Epoch 229
+2026-01-04 13:34:07.408278: Current learning rate: 3e-05
+2026-01-04 13:35:03.339636: train_loss 0.639
+2026-01-04 13:35:03.385576: val_loss 0.6303
+2026-01-04 13:35:03.391092: val classification accuracy 0.65
+2026-01-04 13:35:03.394896: val auc 0.7225
+2026-01-04 13:35:03.443145: Epoch time: 55.94 s
+2026-01-04 13:35:04.303395: 
+2026-01-04 13:35:04.307347: Epoch 230
+2026-01-04 13:35:04.310439: Current learning rate: 3e-05
+2026-01-04 13:36:02.427148: train_loss 0.6328
+2026-01-04 13:36:02.439763: val_loss 0.5754
+2026-01-04 13:36:02.443242: val classification accuracy 0.7
+2026-01-04 13:36:02.459588: val auc 0.8038
+2026-01-04 13:36:02.463727: Epoch time: 58.12 s
+2026-01-04 13:36:03.296555: 
+2026-01-04 13:36:03.300318: Epoch 231
+2026-01-04 13:36:03.303740: Current learning rate: 3e-05
+2026-01-04 13:36:58.657823: train_loss 0.6462
+2026-01-04 13:36:58.676120: val_loss 0.6966
+2026-01-04 13:36:58.680244: val classification accuracy 0.575
+2026-01-04 13:36:58.684113: val auc 0.635
+2026-01-04 13:36:58.691675: Epoch time: 55.36 s
+2026-01-04 13:36:59.614007: 
+2026-01-04 13:36:59.617556: Epoch 232
+2026-01-04 13:36:59.620369: Current learning rate: 3e-05
+2026-01-04 13:37:54.061918: train_loss 0.6496
+2026-01-04 13:37:54.092252: val_loss 0.6972
+2026-01-04 13:37:54.095779: val classification accuracy 0.575
+2026-01-04 13:37:54.098982: val auc 0.5638
+2026-01-04 13:37:54.102411: Epoch time: 54.45 s
+2026-01-04 13:37:54.898602: 
+2026-01-04 13:37:54.903089: Epoch 233
+2026-01-04 13:37:54.906111: Current learning rate: 3e-05
+2026-01-04 13:38:53.390158: train_loss 0.6427
+2026-01-04 13:38:53.403024: val_loss 0.6403
+2026-01-04 13:38:53.406417: val classification accuracy 0.675
+2026-01-04 13:38:53.409866: val auc 0.7238
+2026-01-04 13:38:53.413315: Epoch time: 58.49 s
+2026-01-04 13:38:54.316954: 
+2026-01-04 13:38:54.320887: Epoch 234
+2026-01-04 13:38:54.324155: Current learning rate: 3e-05
+2026-01-04 13:39:50.990557: train_loss 0.6242
+2026-01-04 13:39:51.010845: val_loss 0.6647
+2026-01-04 13:39:51.014200: val classification accuracy 0.6
+2026-01-04 13:39:51.017472: val auc 0.6875
+2026-01-04 13:39:51.031712: Epoch time: 56.67 s
+2026-01-04 13:39:51.866309: 
+2026-01-04 13:39:51.870241: Epoch 235
+2026-01-04 13:39:51.873330: Current learning rate: 3e-05
+2026-01-04 13:40:43.036211: train_loss 0.6431
+2026-01-04 13:40:43.040776: val_loss 0.6341
+2026-01-04 13:40:43.043684: val classification accuracy 0.65
+2026-01-04 13:40:43.055841: val auc 0.7012
+2026-01-04 13:40:43.059030: Epoch time: 51.17 s
+2026-01-04 13:40:43.971334: 
+2026-01-04 13:40:43.974756: Epoch 236
+2026-01-04 13:40:43.977466: Current learning rate: 2e-05
+2026-01-04 13:41:39.676666: train_loss 0.6237
+2026-01-04 13:41:39.680917: val_loss 0.6439
+2026-01-04 13:41:39.683934: val classification accuracy 0.65
+2026-01-04 13:41:39.687652: val auc 0.705
+2026-01-04 13:41:39.691081: Epoch time: 55.71 s
+2026-01-04 13:41:40.566221: 
+2026-01-04 13:41:40.570339: Epoch 237
+2026-01-04 13:41:40.573675: Current learning rate: 2e-05
+2026-01-04 13:42:32.082957: train_loss 0.6316
+2026-01-04 13:42:32.113464: val_loss 0.6585
+2026-01-04 13:42:32.117014: val classification accuracy 0.675
+2026-01-04 13:42:32.130170: val auc 0.6512
+2026-01-04 13:42:32.134121: Epoch time: 51.52 s
+2026-01-04 13:42:33.030039: 
+2026-01-04 13:42:33.034403: Epoch 238
+2026-01-04 13:42:33.037772: Current learning rate: 2e-05
+2026-01-04 13:43:26.189412: train_loss 0.6104
+2026-01-04 13:43:26.194043: val_loss 0.6892
+2026-01-04 13:43:26.198364: val classification accuracy 0.575
+2026-01-04 13:43:26.201836: val auc 0.6838
+2026-01-04 13:43:26.230796: Epoch time: 53.16 s
+2026-01-04 13:43:27.159209: 
+2026-01-04 13:43:27.163547: Epoch 239
+2026-01-04 13:43:27.166963: Current learning rate: 2e-05
+2026-01-04 13:44:21.949185: train_loss 0.6332
+2026-01-04 13:44:22.028554: val_loss 0.592
+2026-01-04 13:44:22.047676: val classification accuracy 0.65
+2026-01-04 13:44:22.052744: val auc 0.8025
+2026-01-04 13:44:22.062269: Epoch time: 54.79 s
+2026-01-04 13:44:22.938472: 
+2026-01-04 13:44:22.942180: Epoch 240
+2026-01-04 13:44:22.945127: Current learning rate: 2e-05
+2026-01-04 13:45:14.560764: train_loss 0.6266
+2026-01-04 13:45:14.566640: val_loss 0.6214
+2026-01-04 13:45:14.584004: val classification accuracy 0.575
+2026-01-04 13:45:14.587458: val auc 0.69
+2026-01-04 13:45:14.591039: Epoch time: 51.62 s
+2026-01-04 13:45:15.445267: 
+2026-01-04 13:45:15.448953: Epoch 241
+2026-01-04 13:45:15.451755: Current learning rate: 2e-05
+2026-01-04 13:46:04.324590: train_loss 0.655
+2026-01-04 13:46:04.329617: val_loss 0.6317
+2026-01-04 13:46:04.332720: val classification accuracy 0.6
+2026-01-04 13:46:04.336555: val auc 0.72
+2026-01-04 13:46:04.340089: Epoch time: 48.88 s
+2026-01-04 13:46:05.102412: 
+2026-01-04 13:46:05.105724: Epoch 242
+2026-01-04 13:46:05.108393: Current learning rate: 2e-05
+2026-01-04 13:46:58.738227: train_loss 0.6166
+2026-01-04 13:46:58.752993: val_loss 0.6269
+2026-01-04 13:46:58.777289: val classification accuracy 0.675
+2026-01-04 13:46:58.781132: val auc 0.685
+2026-01-04 13:46:58.784937: Epoch time: 53.64 s
+2026-01-04 13:47:00.493026: 
+2026-01-04 13:47:00.496677: Epoch 243
+2026-01-04 13:47:00.499851: Current learning rate: 2e-05
+2026-01-04 13:47:56.546086: train_loss 0.6123
+2026-01-04 13:47:56.596492: val_loss 0.6444
+2026-01-04 13:47:56.609275: val classification accuracy 0.625
+2026-01-04 13:47:56.612905: val auc 0.635
+2026-01-04 13:47:56.615693: Epoch time: 56.05 s
+2026-01-04 13:47:57.442966: 
+2026-01-04 13:47:57.446854: Epoch 244
+2026-01-04 13:47:57.449805: Current learning rate: 2e-05
+2026-01-04 13:48:47.505517: train_loss 0.6139
+2026-01-04 13:48:47.510420: val_loss 0.6452
+2026-01-04 13:48:47.514559: val classification accuracy 0.575
+2026-01-04 13:48:47.518385: val auc 0.6912
+2026-01-04 13:48:47.550049: Epoch time: 50.06 s
+2026-01-04 13:48:48.494311: 
+2026-01-04 13:48:48.511631: Epoch 245
+2026-01-04 13:48:48.515121: Current learning rate: 2e-05
+2026-01-04 13:49:43.655159: train_loss 0.661
+2026-01-04 13:49:43.691092: val_loss 0.6473
+2026-01-04 13:49:43.701515: val classification accuracy 0.65
+2026-01-04 13:49:43.704871: val auc 0.6775
+2026-01-04 13:49:43.708281: Epoch time: 55.16 s
+2026-01-04 13:49:44.548809: 
+2026-01-04 13:49:44.552248: Epoch 246
+2026-01-04 13:49:44.555196: Current learning rate: 2e-05
+2026-01-04 13:50:37.656997: train_loss 0.6598
+2026-01-04 13:50:37.662314: val_loss 0.5937
+2026-01-04 13:50:37.665749: val classification accuracy 0.7
+2026-01-04 13:50:37.669301: val auc 0.8
+2026-01-04 13:50:37.672546: Epoch time: 53.11 s
+2026-01-04 13:50:38.612332: 
+2026-01-04 13:50:38.616256: Epoch 247
+2026-01-04 13:50:38.619500: Current learning rate: 2e-05
+2026-01-04 13:51:36.220264: train_loss 0.6347
+2026-01-04 13:51:36.237699: val_loss 0.5343
+2026-01-04 13:51:36.241483: val classification accuracy 0.725
+2026-01-04 13:51:36.244821: val auc 0.8462
+2026-01-04 13:51:36.248224: Epoch time: 57.61 s
+2026-01-04 13:51:37.160953: 
+2026-01-04 13:51:37.164762: Epoch 248
+2026-01-04 13:51:37.168054: Current learning rate: 2e-05
+2026-01-04 13:52:32.231648: train_loss 0.6205
+2026-01-04 13:52:32.267766: val_loss 0.593
+2026-01-04 13:52:32.271506: val classification accuracy 0.625
+2026-01-04 13:52:32.275169: val auc 0.7975
+2026-01-04 13:52:32.278526: Epoch time: 55.07 s
+2026-01-04 13:52:33.074295: 
+2026-01-04 13:52:33.078260: Epoch 249
+2026-01-04 13:52:33.081439: Current learning rate: 2e-05
+2026-01-04 13:53:25.383460: train_loss 0.6344
+2026-01-04 13:53:25.390711: val_loss 0.629
+2026-01-04 13:53:25.394703: val classification accuracy 0.65
+2026-01-04 13:53:25.398124: val auc 0.6875
+2026-01-04 13:53:25.401376: Epoch time: 52.31 s
+2026-01-04 13:53:26.228529: 
+2026-01-04 13:53:26.232230: Epoch 250
+2026-01-04 13:53:26.234927: Current learning rate: 2e-05
+2026-01-04 13:54:21.029684: train_loss 0.6472
+2026-01-04 13:54:21.043443: val_loss 0.5561
+2026-01-04 13:54:21.047358: val classification accuracy 0.75
+2026-01-04 13:54:21.050708: val auc 0.8725
+2026-01-04 13:54:21.053636: Epoch time: 54.8 s
+2026-01-04 13:54:21.939347: 
+2026-01-04 13:54:21.943630: Epoch 251
+2026-01-04 13:54:21.947922: Current learning rate: 2e-05
+2026-01-04 13:55:18.099542: train_loss 0.6273
+2026-01-04 13:55:18.116659: val_loss 0.4916
+2026-01-04 13:55:18.120634: val classification accuracy 0.75
+2026-01-04 13:55:18.124074: val auc 0.9025
+2026-01-04 13:55:18.127423: Epoch time: 56.16 s
+2026-01-04 13:55:18.130468: Yayy! New best EMA pseudo Dice: 0.9025
+2026-01-04 13:55:23.940684: 
+2026-01-04 13:55:23.944757: Epoch 252
+2026-01-04 13:55:23.947721: Current learning rate: 2e-05
+2026-01-04 13:56:17.415749: train_loss 0.6462
+2026-01-04 13:56:17.441180: val_loss 0.5929
+2026-01-04 13:56:17.451158: val classification accuracy 0.7
+2026-01-04 13:56:17.454482: val auc 0.7925
+2026-01-04 13:56:17.457855: Epoch time: 53.48 s
+2026-01-04 13:56:18.269528: 
+2026-01-04 13:56:18.273470: Epoch 253
+2026-01-04 13:56:18.276454: Current learning rate: 2e-05
+2026-01-04 13:57:15.230885: train_loss 0.6421
+2026-01-04 13:57:15.236568: val_loss 0.5978
+2026-01-04 13:57:15.253604: val classification accuracy 0.65
+2026-01-04 13:57:15.264746: val auc 0.7712
+2026-01-04 13:57:15.268068: Epoch time: 56.96 s
+2026-01-04 13:57:16.063511: 
+2026-01-04 13:57:16.067505: Epoch 254
+2026-01-04 13:57:16.070899: Current learning rate: 2e-05
+2026-01-04 13:58:12.871001: train_loss 0.6292
+2026-01-04 13:58:12.877377: val_loss 0.5935
+2026-01-04 13:58:12.881562: val classification accuracy 0.7
+2026-01-04 13:58:12.884903: val auc 0.7175
+2026-01-04 13:58:12.888392: Epoch time: 56.81 s
+2026-01-04 13:58:13.746211: 
+2026-01-04 13:58:13.751061: Epoch 255
+2026-01-04 13:58:13.754904: Current learning rate: 2e-05
+2026-01-04 13:59:12.784686: train_loss 0.6279
+2026-01-04 13:59:12.834267: val_loss 0.547
+2026-01-04 13:59:12.838472: val classification accuracy 0.65
+2026-01-04 13:59:12.842469: val auc 0.79
+2026-01-04 13:59:12.845988: Epoch time: 59.04 s
+2026-01-04 13:59:13.768115: 
+2026-01-04 13:59:13.772574: Epoch 256
+2026-01-04 13:59:13.775772: Current learning rate: 2e-05
+2026-01-04 14:00:11.187524: train_loss 0.6384
+2026-01-04 14:00:11.204706: val_loss 0.6166
+2026-01-04 14:00:11.208516: val classification accuracy 0.575
+2026-01-04 14:00:11.212553: val auc 0.8088
+2026-01-04 14:00:11.216208: Epoch time: 57.42 s
+2026-01-04 14:00:13.041219: 
+2026-01-04 14:00:13.047398: Epoch 257
+2026-01-04 14:00:13.051184: Current learning rate: 2e-05
+2026-01-04 14:01:07.708162: train_loss 0.6677
+2026-01-04 14:01:07.716449: val_loss 0.5827
+2026-01-04 14:01:07.719851: val classification accuracy 0.7
+2026-01-04 14:01:07.723060: val auc 0.77
+2026-01-04 14:01:07.737389: Epoch time: 54.67 s
+2026-01-04 14:01:08.577236: 
+2026-01-04 14:01:08.581519: Epoch 258
+2026-01-04 14:01:08.584995: Current learning rate: 2e-05
+2026-01-04 14:02:05.660641: train_loss 0.6149
+2026-01-04 14:02:05.706919: val_loss 0.569
+2026-01-04 14:02:05.741535: val classification accuracy 0.65
+2026-01-04 14:02:05.745661: val auc 0.7175
+2026-01-04 14:02:05.749700: Epoch time: 57.08 s
+2026-01-04 14:02:06.685011: 
+2026-01-04 14:02:06.689089: Epoch 259
+2026-01-04 14:02:06.692505: Current learning rate: 2e-05
+2026-01-04 14:03:03.639609: train_loss 0.6304
+2026-01-04 14:03:03.647343: val_loss 0.5874
+2026-01-04 14:03:03.650726: val classification accuracy 0.65
+2026-01-04 14:03:03.673339: val auc 0.76
+2026-01-04 14:03:03.677463: Epoch time: 56.96 s
+2026-01-04 14:03:04.507006: 
+2026-01-04 14:03:04.510744: Epoch 260
+2026-01-04 14:03:04.513784: Current learning rate: 2e-05
+2026-01-04 14:04:05.898584: train_loss 0.6432
+2026-01-04 14:04:05.911262: val_loss 0.6066
+2026-01-04 14:04:05.914984: val classification accuracy 0.675
+2026-01-04 14:04:05.919271: val auc 0.7075
+2026-01-04 14:04:05.923391: Epoch time: 61.39 s
+2026-01-04 14:04:06.783842: 
+2026-01-04 14:04:06.788215: Epoch 261
+2026-01-04 14:04:06.791707: Current learning rate: 2e-05
+2026-01-04 14:05:04.777075: train_loss 0.6298
+2026-01-04 14:05:04.789332: val_loss 0.6515
+2026-01-04 14:05:04.792901: val classification accuracy 0.575
+2026-01-04 14:05:04.796011: val auc 0.6362
+2026-01-04 14:05:04.799045: Epoch time: 57.99 s
+2026-01-04 14:05:05.702317: 
+2026-01-04 14:05:05.705724: Epoch 262
+2026-01-04 14:05:05.708354: Current learning rate: 2e-05
+2026-01-04 14:06:01.123095: train_loss 0.6537
+2026-01-04 14:06:01.130104: val_loss 0.6637
+2026-01-04 14:06:01.140800: val classification accuracy 0.55
+2026-01-04 14:06:01.146214: val auc 0.7075
+2026-01-04 14:06:01.150575: Epoch time: 55.42 s
+2026-01-04 14:06:02.052649: 
+2026-01-04 14:06:02.056479: Epoch 263
+2026-01-04 14:06:02.059785: Current learning rate: 2e-05
+2026-01-04 14:06:54.770664: train_loss 0.6182
+2026-01-04 14:06:54.780455: val_loss 0.6426
+2026-01-04 14:06:54.785197: val classification accuracy 0.6
+2026-01-04 14:06:54.790467: val auc 0.685
+2026-01-04 14:06:54.796910: Epoch time: 52.72 s
+2026-01-04 14:06:55.635537: 
+2026-01-04 14:06:55.639140: Epoch 264
+2026-01-04 14:06:55.642009: Current learning rate: 1e-05
+2026-01-04 14:07:49.921193: train_loss 0.6244
+2026-01-04 14:07:49.927145: val_loss 0.5608
+2026-01-04 14:07:49.930634: val classification accuracy 0.725
+2026-01-04 14:07:49.934144: val auc 0.8225
+2026-01-04 14:07:49.937483: Epoch time: 54.29 s
+2026-01-04 14:07:50.745968: 
+2026-01-04 14:07:50.749636: Epoch 265
+2026-01-04 14:07:50.752577: Current learning rate: 1e-05
+2026-01-04 14:08:43.889865: train_loss 0.6359
+2026-01-04 14:08:43.895997: val_loss 0.5416
+2026-01-04 14:08:43.899513: val classification accuracy 0.775
+2026-01-04 14:08:43.902747: val auc 0.8288
+2026-01-04 14:08:43.905916: Epoch time: 53.14 s
+2026-01-04 14:08:44.718840: 
+2026-01-04 14:08:44.722934: Epoch 266
+2026-01-04 14:08:44.725711: Current learning rate: 1e-05
+2026-01-04 14:09:38.701028: train_loss 0.6384
+2026-01-04 14:09:38.723362: val_loss 0.5674
+2026-01-04 14:09:38.740946: val classification accuracy 0.75
+2026-01-04 14:09:38.749369: val auc 0.8188
+2026-01-04 14:09:38.752736: Epoch time: 53.98 s
+2026-01-04 14:09:39.625704: 
+2026-01-04 14:09:39.629610: Epoch 267
+2026-01-04 14:09:39.633026: Current learning rate: 1e-05
+2026-01-04 14:10:30.998023: train_loss 0.6302
+2026-01-04 14:10:31.011494: val_loss 0.6252
+2026-01-04 14:10:31.015418: val classification accuracy 0.55
+2026-01-04 14:10:31.018983: val auc 0.7412
+2026-01-04 14:10:31.026456: Epoch time: 51.37 s
+2026-01-04 14:10:31.900729: 
+2026-01-04 14:10:31.909240: Epoch 268
+2026-01-04 14:10:32.125630: Current learning rate: 1e-05
+2026-01-04 14:11:25.381464: train_loss 0.6411
+2026-01-04 14:11:25.387753: val_loss 0.5861
+2026-01-04 14:11:25.391900: val classification accuracy 0.625
+2026-01-04 14:11:25.395394: val auc 0.8562
+2026-01-04 14:11:25.399150: Epoch time: 53.48 s
+2026-01-04 14:11:26.241516: 
+2026-01-04 14:11:26.245628: Epoch 269
+2026-01-04 14:11:26.249403: Current learning rate: 1e-05
+2026-01-04 14:12:17.299379: train_loss 0.6401
+2026-01-04 14:12:17.304886: val_loss 0.597
+2026-01-04 14:12:17.308691: val classification accuracy 0.7
+2026-01-04 14:12:17.312057: val auc 0.7525
+2026-01-04 14:12:17.315711: Epoch time: 51.06 s
+2026-01-04 14:12:18.964893: 
+2026-01-04 14:12:18.968652: Epoch 270
+2026-01-04 14:12:18.971770: Current learning rate: 1e-05
+2026-01-04 14:13:15.010708: train_loss 0.6399
+2026-01-04 14:13:15.015757: val_loss 0.6141
+2026-01-04 14:13:15.019071: val classification accuracy 0.625
+2026-01-04 14:13:15.021924: val auc 0.7775
+2026-01-04 14:13:15.025128: Epoch time: 56.05 s
+2026-01-04 14:13:15.931646: 
+2026-01-04 14:13:15.935409: Epoch 271
+2026-01-04 14:13:15.938025: Current learning rate: 1e-05
+2026-01-04 14:14:09.190850: train_loss 0.6182
+2026-01-04 14:14:09.196537: val_loss 0.6247
+2026-01-04 14:14:09.199791: val classification accuracy 0.625
+2026-01-04 14:14:09.203435: val auc 0.6888
+2026-01-04 14:14:09.219811: Epoch time: 53.26 s
+2026-01-04 14:14:10.028278: 
+2026-01-04 14:14:10.032197: Epoch 272
+2026-01-04 14:14:10.035380: Current learning rate: 1e-05
+2026-01-04 14:15:04.979470: train_loss 0.6256
+2026-01-04 14:15:04.985653: val_loss 0.6017
+2026-01-04 14:15:04.989242: val classification accuracy 0.65
+2026-01-04 14:15:04.992924: val auc 0.805
+2026-01-04 14:15:04.996608: Epoch time: 54.95 s
+2026-01-04 14:15:05.878293: 
+2026-01-04 14:15:05.882429: Epoch 273
+2026-01-04 14:15:05.885750: Current learning rate: 1e-05
+2026-01-04 14:16:04.250832: train_loss 0.6286
+2026-01-04 14:16:04.256863: val_loss 0.6046
+2026-01-04 14:16:04.281599: val classification accuracy 0.7
+2026-01-04 14:16:04.294396: val auc 0.7425
+2026-01-04 14:16:04.298723: Epoch time: 58.37 s
+2026-01-04 14:16:05.227427: 
+2026-01-04 14:16:05.231260: Epoch 274
+2026-01-04 14:16:05.233935: Current learning rate: 1e-05
+2026-01-04 14:16:59.181349: train_loss 0.6202
+2026-01-04 14:16:59.185805: val_loss 0.5768
+2026-01-04 14:16:59.189047: val classification accuracy 0.65
+2026-01-04 14:16:59.192428: val auc 0.7437
+2026-01-04 14:16:59.195484: Epoch time: 53.96 s
+2026-01-04 14:17:00.131344: 
+2026-01-04 14:17:00.135561: Epoch 275
+2026-01-04 14:17:00.138935: Current learning rate: 1e-05
+2026-01-04 14:17:53.978462: train_loss 0.6049
+2026-01-04 14:17:53.989218: val_loss 0.6124
+2026-01-04 14:17:53.993366: val classification accuracy 0.7
+2026-01-04 14:17:53.997355: val auc 0.735
+2026-01-04 14:17:54.001239: Epoch time: 53.85 s
+2026-01-04 14:17:54.826997: 
+2026-01-04 14:17:54.831368: Epoch 276
+2026-01-04 14:17:54.834473: Current learning rate: 1e-05
+2026-01-04 14:18:48.082900: train_loss 0.5964
+2026-01-04 14:18:48.088398: val_loss 0.5628
+2026-01-04 14:18:48.092061: val classification accuracy 0.7
+2026-01-04 14:18:48.095783: val auc 0.84
+2026-01-04 14:18:48.099514: Epoch time: 53.26 s
+2026-01-04 14:18:48.964711: 
+2026-01-04 14:18:48.969389: Epoch 277
+2026-01-04 14:18:48.972749: Current learning rate: 1e-05
+2026-01-04 14:19:44.643893: train_loss 0.6315
+2026-01-04 14:19:44.651525: val_loss 0.6282
+2026-01-04 14:19:44.654821: val classification accuracy 0.6
+2026-01-04 14:19:44.659352: val auc 0.7562
+2026-01-04 14:19:44.662548: Epoch time: 55.68 s
+2026-01-04 14:19:45.493509: 
+2026-01-04 14:19:45.497570: Epoch 278
+2026-01-04 14:19:45.500742: Current learning rate: 1e-05
+2026-01-04 14:20:42.913135: train_loss 0.6417
+2026-01-04 14:20:42.918627: val_loss 0.5136
+2026-01-04 14:20:42.922536: val classification accuracy 0.75
+2026-01-04 14:20:42.926243: val auc 0.865
+2026-01-04 14:20:42.930157: Epoch time: 57.42 s
+2026-01-04 14:20:43.798896: 
+2026-01-04 14:20:43.802685: Epoch 279
+2026-01-04 14:20:43.805684: Current learning rate: 1e-05
+2026-01-04 14:21:40.562140: train_loss 0.5981
+2026-01-04 14:21:40.575227: val_loss 0.5751
+2026-01-04 14:21:40.578961: val classification accuracy 0.725
+2026-01-04 14:21:40.617934: val auc 0.8
+2026-01-04 14:21:40.621811: Epoch time: 56.76 s
+2026-01-04 14:21:41.509990: 
+2026-01-04 14:21:41.514014: Epoch 280
+2026-01-04 14:21:41.517785: Current learning rate: 1e-05
+2026-01-04 14:22:34.902938: train_loss 0.6436
+2026-01-04 14:22:34.908640: val_loss 0.6313
+2026-01-04 14:22:34.913085: val classification accuracy 0.65
+2026-01-04 14:22:34.916491: val auc 0.6788
+2026-01-04 14:22:34.927307: Epoch time: 53.39 s
+2026-01-04 14:22:35.778938: 
+2026-01-04 14:22:35.783330: Epoch 281
+2026-01-04 14:22:35.786454: Current learning rate: 1e-05
+2026-01-04 14:23:32.750615: train_loss 0.5985
+2026-01-04 14:23:32.757607: val_loss 0.5582
+2026-01-04 14:23:32.761800: val classification accuracy 0.75
+2026-01-04 14:23:32.765669: val auc 0.8012
+2026-01-04 14:23:32.769534: Epoch time: 56.97 s
+2026-01-04 14:23:33.618458: 
+2026-01-04 14:23:33.622694: Epoch 282
+2026-01-04 14:23:33.626109: Current learning rate: 1e-05
+2026-01-04 14:24:28.794851: train_loss 0.6281
+2026-01-04 14:24:28.818958: val_loss 0.5788
+2026-01-04 14:24:28.823379: val classification accuracy 0.7
+2026-01-04 14:24:28.832770: val auc 0.8237
+2026-01-04 14:24:28.837613: Epoch time: 55.18 s
+2026-01-04 14:24:29.651881: 
+2026-01-04 14:24:29.656972: Epoch 283
+2026-01-04 14:24:29.660042: Current learning rate: 1e-05
+2026-01-04 14:25:25.760170: train_loss 0.6182
+2026-01-04 14:25:25.768863: val_loss 0.613
+2026-01-04 14:25:25.772653: val classification accuracy 0.725
+2026-01-04 14:25:25.776219: val auc 0.73
+2026-01-04 14:25:25.787653: Epoch time: 56.11 s
+2026-01-04 14:25:27.428693: 
+2026-01-04 14:25:27.433640: Epoch 284
+2026-01-04 14:25:27.437252: Current learning rate: 1e-05
+2026-01-04 14:26:20.548565: train_loss 0.6349
+2026-01-04 14:26:20.554186: val_loss 0.6279
+2026-01-04 14:26:20.558202: val classification accuracy 0.575
+2026-01-04 14:26:20.561756: val auc 0.755
+2026-01-04 14:26:20.565120: Epoch time: 53.12 s
+2026-01-04 14:26:21.451154: 
+2026-01-04 14:26:21.455091: Epoch 285
+2026-01-04 14:26:21.458518: Current learning rate: 1e-05
+2026-01-04 14:27:18.645348: train_loss 0.6207
+2026-01-04 14:27:18.686544: val_loss 0.6183
+2026-01-04 14:27:18.691228: val classification accuracy 0.675
+2026-01-04 14:27:18.694357: val auc 0.7325
+2026-01-04 14:27:18.697340: Epoch time: 57.2 s
+2026-01-04 14:27:19.511366: 
+2026-01-04 14:27:19.515258: Epoch 286
+2026-01-04 14:27:19.518663: Current learning rate: 1e-05
+2026-01-04 14:28:13.910375: train_loss 0.6044
+2026-01-04 14:28:13.922190: val_loss 0.6564
+2026-01-04 14:28:13.926129: val classification accuracy 0.65
+2026-01-04 14:28:13.930329: val auc 0.7125
+2026-01-04 14:28:13.939003: Epoch time: 54.4 s
+2026-01-04 14:28:14.811871: 
+2026-01-04 14:28:14.815825: Epoch 287
+2026-01-04 14:28:14.819165: Current learning rate: 1e-05
+2026-01-04 14:29:10.577010: train_loss 0.6117
+2026-01-04 14:29:10.594180: val_loss 0.6745
+2026-01-04 14:29:10.598475: val classification accuracy 0.525
+2026-01-04 14:29:10.602146: val auc 0.6675
+2026-01-04 14:29:10.605772: Epoch time: 55.77 s
+2026-01-04 14:29:11.456519: 
+2026-01-04 14:29:11.460268: Epoch 288
+2026-01-04 14:29:11.463490: Current learning rate: 1e-05
+2026-01-04 14:30:07.770108: train_loss 0.6185
+2026-01-04 14:30:07.775044: val_loss 0.5513
+2026-01-04 14:30:07.778311: val classification accuracy 0.675
+2026-01-04 14:30:07.781295: val auc 0.81
+2026-01-04 14:30:07.784125: Epoch time: 56.31 s
+2026-01-04 14:30:08.625485: 
+2026-01-04 14:30:08.629624: Epoch 289
+2026-01-04 14:30:08.633174: Current learning rate: 1e-05
+2026-01-04 14:31:04.190241: train_loss 0.6164
+2026-01-04 14:31:04.203452: val_loss 0.5726
+2026-01-04 14:31:04.207242: val classification accuracy 0.675
+2026-01-04 14:31:04.211926: val auc 0.825
+2026-01-04 14:31:04.216734: Epoch time: 55.57 s
+2026-01-04 14:31:05.062052: 
+2026-01-04 14:31:05.066024: Epoch 290
+2026-01-04 14:31:05.069349: Current learning rate: 0.0
+2026-01-04 14:31:59.569844: train_loss 0.6071
+2026-01-04 14:31:59.578869: val_loss 0.6287
+2026-01-04 14:31:59.584676: val classification accuracy 0.625
+2026-01-04 14:31:59.588625: val auc 0.7075
+2026-01-04 14:31:59.592516: Epoch time: 54.51 s
+2026-01-04 14:32:00.460726: 
+2026-01-04 14:32:00.465592: Epoch 291
+2026-01-04 14:32:00.468949: Current learning rate: 0.0
+2026-01-04 14:32:55.891205: train_loss 0.6134
+2026-01-04 14:32:55.897815: val_loss 0.5439
+2026-01-04 14:32:55.901123: val classification accuracy 0.725
+2026-01-04 14:32:55.904738: val auc 0.8325
+2026-01-04 14:32:55.908007: Epoch time: 55.43 s
+2026-01-04 14:32:56.769599: 
+2026-01-04 14:32:56.773287: Epoch 292
+2026-01-04 14:32:56.776493: Current learning rate: 0.0
+2026-01-04 14:33:52.126725: train_loss 0.6106
+2026-01-04 14:33:52.131929: val_loss 0.6205
+2026-01-04 14:33:52.148379: val classification accuracy 0.6
+2026-01-04 14:33:52.152323: val auc 0.6725
+2026-01-04 14:33:52.155887: Epoch time: 55.36 s
+2026-01-04 14:33:53.070917: 
+2026-01-04 14:33:53.074563: Epoch 293
+2026-01-04 14:33:53.077457: Current learning rate: 0.0
+2026-01-04 14:34:52.078376: train_loss 0.614
+2026-01-04 14:34:52.088116: val_loss 0.5776
+2026-01-04 14:34:52.091993: val classification accuracy 0.65
+2026-01-04 14:34:52.095673: val auc 0.8
+2026-01-04 14:34:52.099385: Epoch time: 59.01 s
+2026-01-04 14:34:53.055004: 
+2026-01-04 14:34:53.089452: Epoch 294
+2026-01-04 14:34:53.093100: Current learning rate: 0.0
+2026-01-04 14:35:48.231405: train_loss 0.6335
+2026-01-04 14:35:48.237241: val_loss 0.6666
+2026-01-04 14:35:48.265097: val classification accuracy 0.7
+2026-01-04 14:35:48.270657: val auc 0.71
+2026-01-04 14:35:48.275020: Epoch time: 55.18 s
+2026-01-04 14:35:49.077574: 
+2026-01-04 14:35:49.082097: Epoch 295
+2026-01-04 14:35:49.085636: Current learning rate: 0.0
+2026-01-04 14:36:42.241220: train_loss 0.6348
+2026-01-04 14:36:42.247657: val_loss 0.5253
+2026-01-04 14:36:42.252632: val classification accuracy 0.75
+2026-01-04 14:36:42.256337: val auc 0.86
+2026-01-04 14:36:42.260135: Epoch time: 53.16 s
+2026-01-04 14:36:43.076094: 
+2026-01-04 14:36:43.088182: Epoch 296
+2026-01-04 14:36:43.094242: Current learning rate: 0.0
+2026-01-04 14:37:39.121969: train_loss 0.6294
+2026-01-04 14:37:39.153863: val_loss 0.5772
+2026-01-04 14:37:39.166734: val classification accuracy 0.675
+2026-01-04 14:37:39.170995: val auc 0.85
+2026-01-04 14:37:39.189199: Epoch time: 56.05 s
+2026-01-04 14:37:40.877449: 
+2026-01-04 14:37:40.881293: Epoch 297
+2026-01-04 14:37:40.884361: Current learning rate: 0.0
+2026-01-04 14:38:38.983304: train_loss 0.6618
+2026-01-04 14:38:38.989418: val_loss 0.6151
+2026-01-04 14:38:38.992843: val classification accuracy 0.7
+2026-01-04 14:38:38.997327: val auc 0.7188
+2026-01-04 14:38:39.000804: Epoch time: 58.11 s
+2026-01-04 14:38:39.891209: 
+2026-01-04 14:38:39.894849: Epoch 298
+2026-01-04 14:38:39.897822: Current learning rate: 0.0
+2026-01-04 14:39:33.284575: train_loss 0.6204
+2026-01-04 14:39:33.315336: val_loss 0.7157
+2026-01-04 14:39:33.324017: val classification accuracy 0.6
+2026-01-04 14:39:33.327665: val auc 0.5588
+2026-01-04 14:39:33.331058: Epoch time: 53.39 s
+2026-01-04 14:39:34.219947: 
+2026-01-04 14:39:34.224774: Epoch 299
+2026-01-04 14:39:34.228580: Current learning rate: 0.0
+2026-01-04 14:40:28.023386: train_loss 0.6472
+2026-01-04 14:40:28.034052: val_loss 0.4739
+2026-01-04 14:40:28.070184: val classification accuracy 0.75
+2026-01-04 14:40:28.083774: val auc 0.9125
+2026-01-04 14:40:28.087654: Epoch time: 53.81 s
+2026-01-04 14:40:28.090777: Yayy! New best EMA pseudo Dice: 0.9125
+2026-01-04 14:40:38.388110: Training done.
+2026-01-04 14:40:38.424135: Skipping perform_actual_validation for classification trainer (segmentation-style sliding window is not applicable).
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mViTTrainer_ep300_NoMirroring_x2_fold1[0m at: [34m[0m
+[1;34mwandb[0m: Find logs at: [1;35m../../tmp/wandb/wandb/run-20260104_095950-pxf6eg57/logs[0m

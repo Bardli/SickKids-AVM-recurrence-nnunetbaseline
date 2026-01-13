@@ -65,6 +65,35 @@ from nnunetv2.utilities.get_network_from_plans import get_network_from_plans
 from nnunetv2.utilities.helpers import empty_cache, dummy_context
 from nnunetv2.utilities.label_handling.label_handling import convert_labelmap_to_one_hot, determine_num_input_channels
 from nnunetv2.utilities.plans_handling.plans_handler import PlansManager
+class _TeeStderr:
+    def __init__(self, original, file_handle):
+        self.original = original
+        self.file_handle = file_handle
+
+    def write(self, data):
+        self.original.write(data)
+        self.file_handle.write(data)
+
+    def flush(self):
+        self.original.flush()
+        self.file_handle.flush()
+
+    def isatty(self):
+        # WandB expects this
+        return getattr(self.original, "isatty", lambda: False)()
+
+    def fileno(self):
+        # Some libs may call this too
+        return getattr(self.original, "fileno", lambda: -1)()
+
+    @property
+    def encoding(self):
+        return getattr(self.original, "encoding", None)
+
+    def __getattr__(self, name):
+        # Delegate any other attribute/method to the original stderr
+        return getattr(self.original, name)
+
 
 
 class nnUNetTrainer(object):
@@ -172,6 +201,24 @@ class nnUNetTrainer(object):
                              (timestamp.year, timestamp.month, timestamp.day, timestamp.hour, timestamp.minute,
                               timestamp.second))
         self.logger = nnUNetLogger()
+        # # --- NEW: separate error log, but KEEP existing stderr behavior (tee) ---
+        # if self.local_rank == 0:
+        #     self.error_log_file = join(
+        #         self.output_folder,
+        #         "training_errors_%d_%d_%d_%02.0d_%02.0d_%02.0d.txt"
+        #         % (timestamp.year, timestamp.month, timestamp.day,
+        #            timestamp.hour, timestamp.minute, timestamp.second)
+        #     )
+        #     self._orig_stderr = sys.stderr
+        #     self._stderr_fh = open(self.error_log_file, "a", buffering=1)
+        #     self._stderr_tee = _TeeStderr(self._orig_stderr, self._stderr_fh)
+        #     sys.stderr = self._stderr_tee
+        # else:
+        #     self.error_log_file = None
+        #     self._orig_stderr = None
+        #     self._stderr_fh = None
+        #     self._stderr_tee = None
+
 
         ### placeholders
         self.dataloader_train = self.dataloader_val = None  # see on_train_start
@@ -959,6 +1006,12 @@ class nnUNetTrainer(object):
 
         empty_cache(self.device)
         self.print_to_log_file("Training done.")
+        # # --- NEW: restore stderr and close error log ---
+        # if self.local_rank == 0 and self._stderr_fh is not None:
+        #     sys.stderr = self._orig_stderr
+        #     self._stderr_fh.close()
+        #     self._stderr_fh = None
+        #     self._stderr_tee = None
 
     def on_train_epoch_start(self):
         self.network.train()
@@ -1358,26 +1411,74 @@ class nnUNetTrainer(object):
 
         self.set_deep_supervision_enabled(True)
         compute_gaussian.cache_clear()
-
+    
     def run_training(self):
-        self.on_train_start()
+        # Only rank 0 writes a separate error log
+        if self.local_rank == 0:
+            timestamp = datetime.now()
+            error_log_file = join(
+                self.output_folder,
+                "training_errors_%d_%d_%d_%02.0d_%02.0d_%02.0d.txt"
+                % (
+                    timestamp.year, timestamp.month, timestamp.day,
+                    timestamp.hour, timestamp.minute, timestamp.second,
+                )
+            )
+            orig_stderr = sys.stderr
+            stderr_fh = open(error_log_file, "a", buffering=1)
+            sys.stderr = _TeeStderr(orig_stderr, stderr_fh)
+        else:
+            orig_stderr = None
+            stderr_fh = None
 
-        for epoch in range(self.current_epoch, self.num_epochs):
-            self.on_epoch_start()
+        try:
+            # --- your original training loop, unchanged ---
+            self.on_train_start()
 
-            self.on_train_epoch_start()
-            train_outputs = []
-            for batch_id in range(self.num_iterations_per_epoch):
-                train_outputs.append(self.train_step(next(self.dataloader_train)))
-            self.on_train_epoch_end(train_outputs)
+            for epoch in range(self.current_epoch, self.num_epochs):
+                self.on_epoch_start()
 
-            with torch.no_grad():
-                self.on_validation_epoch_start()
-                val_outputs = []
-                for batch_id in range(self.num_val_iterations_per_epoch):
-                    val_outputs.append(self.validation_step(next(self.dataloader_val)))
-                self.on_validation_epoch_end(val_outputs)
+                self.on_train_epoch_start()
+                train_outputs = []
+                for batch_id in range(self.num_iterations_per_epoch):
+                    train_outputs.append(self.train_step(next(self.dataloader_train)))
+                self.on_train_epoch_end(train_outputs)
 
-            self.on_epoch_end()
+                with torch.no_grad():
+                    self.on_validation_epoch_start()
+                    val_outputs = []
+                    for batch_id in range(self.num_val_iterations_per_epoch):
+                        val_outputs.append(self.validation_step(next(self.dataloader_val)))
+                    self.on_validation_epoch_end(val_outputs)
 
-        self.on_train_end()
+                self.on_epoch_end()
+
+            self.on_train_end()
+        finally:
+            # ALWAYS restore stderr and close the file
+            if self.local_rank == 0 and stderr_fh is not None:
+                sys.stderr = orig_stderr
+                stderr_fh.close()
+
+    # def run_training(self):
+    #     self.on_train_start()
+
+    #     for epoch in range(self.current_epoch, self.num_epochs):
+    #         self.on_epoch_start()
+
+    #         self.on_train_epoch_start()
+    #         train_outputs = []
+    #         for batch_id in range(self.num_iterations_per_epoch):
+    #             train_outputs.append(self.train_step(next(self.dataloader_train)))
+    #         self.on_train_epoch_end(train_outputs)
+
+    #         with torch.no_grad():
+    #             self.on_validation_epoch_start()
+    #             val_outputs = []
+    #             for batch_id in range(self.num_val_iterations_per_epoch):
+    #                 val_outputs.append(self.validation_step(next(self.dataloader_val)))
+    #             self.on_validation_epoch_end(val_outputs)
+
+    #         self.on_epoch_end()
+
+    #     self.on_train_end()

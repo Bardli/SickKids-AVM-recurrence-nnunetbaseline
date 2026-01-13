@@ -30,6 +30,7 @@ import json
 from tqdm import tqdm
 import re
 from collections import defaultdict
+print(">>> USING MODIFIED nnunet_cls_infer_nii.py <<<")
 
 def logit_to_segment(predicted_logits):
     max_logit, max_class = torch.max(predicted_logits, dim=0)
@@ -195,6 +196,16 @@ class SimplePredictor(nnUNetPredictor):
     def _internal_maybe_mirror_and_predict(self, x: torch.Tensor) -> torch.Tensor:
         mirror_axes = self.allowed_mirroring_axes if self.use_mirroring else None
         cls_prediction = self.network(x) # prediction,
+        # DEBUG: check for NaNs/Infs from the network
+        if not torch.isfinite(cls_prediction).all():
+            has_nan = torch.isnan(cls_prediction).any().item()
+            has_inf = torch.isinf(cls_prediction).any().item()
+            safe = torch.where(torch.isfinite(cls_prediction), cls_prediction,
+                            torch.zeros_like(cls_prediction))
+            print("[WARN] non-finite cls_prediction from network; "
+                f"has_nan={has_nan}, has_inf={has_inf}, "
+                f"safe_min={safe.min().item()}, safe_max={safe.max().item()}")
+
 
         if mirror_axes is not None:
             # check for invalid numbers in mirror_axes
@@ -238,7 +249,10 @@ class SimplePredictor(nnUNetPredictor):
                                            device=results_device)
             n_predictions = torch.zeros(data.shape[1:], dtype=torch.half, device=results_device)
             # TODO: The shape should be number of classes
-            class_logits = torch.zeros((self.num_classes), dtype=torch.half, device=results_device)
+            # class_logits = torch.zeros((self.num_classes), dtype=torch.half, device=results_device)
+            
+            # use float32 accumulator for stability
+            class_logits = torch.zeros((self.num_classes), dtype=torch.float32, device=results_device)
 
             if self.use_gaussian:
                 gaussian = compute_gaussian(tuple(self.configuration_manager.patch_size), sigma_scale=1. / 8,
@@ -254,9 +268,16 @@ class SimplePredictor(nnUNetPredictor):
                 workon = data[sl][None]
                 workon = workon.to(self.device)
 
-                class_logits_patch = self._internal_maybe_mirror_and_predict(workon) # prediction, 
-                # prediction = prediction[0].to(results_device)
-                class_logits_patch = class_logits_patch[0].to(results_device)
+                # class_logits_patch = self._internal_maybe_mirror_and_predict(workon) # prediction, 
+                # # prediction = prediction[0].to(results_device)
+                # class_logits_patch = class_logits_patch[0].to(results_device)
+                class_logits_patch = self._internal_maybe_mirror_and_predict(workon)
+                # cast to float32 before accumulation
+                class_logits_patch = class_logits_patch[0].to(results_device, dtype=torch.float32)
+                # DEBUG: check per-patch as well
+                if not torch.isfinite(class_logits_patch).all():
+                    print("[ERROR] non-finite class_logits_patch detected:", class_logits_patch)
+                    # Do NOT fix them here – let NaNs propagate so we see them later
 
                 # if self.use_gaussian:
                 #     prediction *= gaussian
@@ -270,9 +291,21 @@ class SimplePredictor(nnUNetPredictor):
                     if prediction.max() > 0.5:
                         class_logits += class_logits_patch
                         cls_slices += 1
-            print(f'Number of slices used for classification: {cls_slices}')
-            # predicted_logits /= n_predictions
-            class_logits /= cls_slices
+            print(f'Number of slices (patches?) used for classification: {cls_slices}')
+            
+
+            # # predicted_logits /= n_predictions
+            # class_logits /= cls_slices
+            if cls_slices == 0:
+                print("[WARN] cls_slices == 0 in _internal_predict_sliding_window_return_logits; "
+                    "setting class_logits to NaN.")
+                class_logits = torch.full_like(class_logits, float('nan'))
+                # class_logits = torch.zeros_like(class_logits)
+            else:
+                class_logits /= cls_slices
+
+
+
             # check for infs
             if torch.any(torch.isinf(predicted_logits)):
                 raise RuntimeError('Encountered inf in predicted array. Aborting... If this problem persists, '
@@ -297,30 +330,44 @@ class SimplePredictor(nnUNetPredictor):
             self.network.eval()
             empty_cache(self.device)
 
-            with torch.autocast(self.device.type, enabled=True) if self.device.type == 'cuda' else dummy_context():
-
-                data, slicer_revert_padding = pad_nd_image(image, self.configuration_manager.patch_size,
-                                                           'constant', {'value': 0}, True,
-                                                           None)
-
+            # 🔴 turn OFF autocast for now (debug)
+            with dummy_context():
+                data, slicer_revert_padding = pad_nd_image(
+                    image,
+                    self.configuration_manager.patch_size,
+                    'constant',
+                    {'value': 0},
+                    True,
+                    None
+                )
                 slicers = self._internal_get_sliding_window_slicers(data.shape[1:])
+                cls_logits = self._internal_predict_sliding_window_return_logits(
+                    data,
+                    slicers,
+                    self.perform_everything_on_device
+                )
+            # with torch.autocast(self.device.type, enabled=True) if self.device.type == 'cuda' else dummy_context():
+            #     data, slicer_revert_padding = pad_nd_image(image, self.configuration_manager.patch_size,
+            #                                                'constant', {'value': 0}, True,
+            #                                                None)
+            #     slicers = self._internal_get_sliding_window_slicers(data.shape[1:])
+            #     cls_logits = self._internal_predict_sliding_window_return_logits(data, slicers, # predicted_logits, 
+            #                                 self.perform_everything_on_device)
+            #     empty_cache(self.device) # Start time for inference time calculation
+            #     # predicted_logits = predicted_logits[(slice(None), *slicer_revert_padding[1:])]
 
-                cls_logits = self._internal_predict_sliding_window_return_logits(data, slicers, # predicted_logits, 
-                                            self.perform_everything_on_device)
+            #     # segmentation = convert_predicted_logits_to_segmentation_with_correct_shape(predicted_logits,
+            #     #                                                 self.plans_manager,
+            #     #                                                 self.configuration_manager,
+            #     #                                                 self.label_manager,
+            #     #                                                 properties_dict,
+            #     #                                                 use_softmax,
+            #     #                                                 return_probabilities=False,
+            #     #                                                 )
 
-                empty_cache(self.device) # Start time for inference time calculation
-                # predicted_logits = predicted_logits[(slice(None), *slicer_revert_padding[1:])]
-
-                # segmentation = convert_predicted_logits_to_segmentation_with_correct_shape(predicted_logits,
-                #                                                 self.plans_manager,
-                #                                                 self.configuration_manager,
-                #                                                 self.label_manager,
-                #                                                 properties_dict,
-                #                                                 use_softmax,
-                #                                                 return_probabilities=False,
-                #                                                 )
-
-
+        # DEBUG: final sanity check on logits
+        if not torch.isfinite(cls_logits).all():
+            print("[ERROR] non-finite FINAL cls_logits:", cls_logits)
         if self.num_classes > 1:
             cls_probs = torch.softmax(cls_logits, dim=0).cpu().numpy()
         else:

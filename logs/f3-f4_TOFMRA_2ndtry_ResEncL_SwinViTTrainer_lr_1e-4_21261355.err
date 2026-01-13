@@ -1,9 +1,0 @@
-/var/spool/slurm/d/job21261355/slurm_script: line 10: micromamba: command not found
-Traceback (most recent call last):
-  File "nnunet_cls_infer_nii.py", line 2, in <module>
-    import torch
-ModuleNotFoundError: No module named 'torch'
-Traceback (most recent call last):
-  File "nnunet_cls_infer_nii.py", line 2, in <module>
-    import torch
-ModuleNotFoundError: No module named 'torch'

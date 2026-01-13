@@ -1,0 +1,150 @@
+>>> USING MODIFIED nnunet_cls_infer_nii.py <<<
+1
+Using 1 classes for classification
+Processing case: 599_MRI_19990708_T1+C_2
+(1, 100, 256, 256)
+Number of slices (patches?) used for classification: 36
+Processing case: 616_MRI_19960303_T1+C
+(1, 372, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 580_MRI_19991218_T1+C
+(1, 345, 448, 448)
+Number of slices (patches?) used for classification: 36
+Processing case: 571_MRI_20000102_T1+C
+(1, 372, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 628_MRI_19991231_T1+C
+(1, 192, 224, 180)
+Number of slices (patches?) used for classification: 36
+Processing case: 482_MRI_20000122_T1+C
+(1, 340, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 628_MRI_19991231_T1+C_2
+(1, 90, 512, 512)
+Number of slices (patches?) used for classification: 48
+Processing case: 585_MRI_20020109_T1+C
+(1, 353, 480, 480)
+Number of slices (patches?) used for classification: 36
+Processing case: 599_MRI_19951231_T1+C
+(1, 18, 256, 256)
+Number of slices (patches?) used for classification: 27
+Processing case: 482_MRI_19990929_T1+C
+(1, 375, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 616_MRI_19981107_T1+C_2
+(1, 372, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 585_MRI_20020731_T1+C
+(1, 347, 480, 480)
+Number of slices (patches?) used for classification: 36
+Processing case: 571_MRI_19991217_T1+C
+(1, 416, 512, 512)
+Number of slices (patches?) used for classification: 100
+Processing case: 580_MRI_19990904_T1+C_3
+(1, 260, 432, 432)
+Number of slices (patches?) used for classification: 36
+Processing case: 585_MRI_19990526_T1+C
+(1, 204, 512, 512)
+Number of slices (patches?) used for classification: 48
+Processing case: 565_MRI_20010208_T1+C
+(1, 372, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 84_MRI_20010920_T1+C
+(1, 19, 256, 256)
+Number of slices (patches?) used for classification: 36
+Processing case: 482_MRI_19991230_T1+C
+(1, 375, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 458_MRI_20020409_T1+C
+(1, 300, 448, 448)
+Number of slices (patches?) used for classification: 36
+Processing case: 599_MRI_20001212_T1+C
+(1, 175, 448, 448)
+Number of slices (patches?) used for classification: 64
+Processing case: 580_MRI_19990904_T1+C
+(1, 79, 512, 512)
+Number of slices (patches?) used for classification: 36
+Processing case: 482_MRI_19990916_T1+C
+(1, 360, 640, 640)
+Number of slices (patches?) used for classification: 80
+Processing case: 628_MRI_20010129_T1+C
+(1, 416, 448, 336)
+Number of slices (patches?) used for classification: 36
+Processing case: 616_MRI_19970901_T1+C
+(1, 372, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 599_MRI_19970107_T1+C
+(1, 82, 256, 256)
+Number of slices (patches?) used for classification: 36
+Processing case: 565_MRI_19990813_T1+C
+(1, 91, 480, 480)
+Number of slices (patches?) used for classification: 32
+Processing case: 616_MRI_19981107_T1+C
+(1, 190, 256, 256)
+Number of slices (patches?) used for classification: 80
+Processing case: 482_MRI_19991230_T1+C_2
+(1, 91, 1024, 1024)
+Number of slices (patches?) used for classification: 48
+Processing case: 599_MRI_19980217_T1+C
+(1, 180, 448, 448)
+Number of slices (patches?) used for classification: 64
+Processing case: 580_MRI_19990904_T1+C_2
+(1, 180, 240, 240)
+Number of slices (patches?) used for classification: 48
+Processing case: 565_MRI_20050509_T1+C
+(1, 340, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 482_MRI_19990916_T1+C_2
+(1, 200, 1024, 1024)
+Number of slices (patches?) used for classification: 80
+Processing case: 580_MRI_19991218_T1+C_2
+(1, 77, 1024, 1024)
+Number of slices (patches?) used for classification: 36
+Processing case: 616_MRI_19931231_T1+C
+(1, 372, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 585_MRI_19991229_T1+C
+(1, 192, 256, 224)
+Number of slices (patches?) used for classification: 48
+Processing case: 580_MRI_19990927_T1+C
+(1, 192, 256, 224)
+Number of slices (patches?) used for classification: 48
+Processing case: 580_MRI_20000129_T1+C
+(1, 320, 448, 448)
+Number of slices (patches?) used for classification: 36
+Processing case: 565_MRI_20040419_T1+C
+(1, 367, 480, 480)
+Number of slices (patches?) used for classification: 48
+Processing case: 585_MRI_20010415_T1+C
+(1, 208, 256, 256)
+Number of slices (patches?) used for classification: 48
+Processing case: 580_MRI_19990927_T1+C_2
+(1, 192, 256, 224)
+Number of slices (patches?) used for classification: 48
+Processing case: 580_MRI_20030721_T1+C
+(1, 310, 448, 448)
+Number of slices (patches?) used for classification: 36
+Processing case: 458_MRI_20010216_T1+C
+(1, 416, 448, 336)
+Number of slices (patches?) used for classification: 36
+Processing case: 599_MRI_19990708_T1+C
+(1, 380, 448, 448)
+Number of slices (patches?) used for classification: 36
+Processing case: 616_MRI_19921203_T1+C
+(1, 372, 448, 448)
+Number of slices (patches?) used for classification: 48
+Processing case: 580_MRI_20030721_T1+C_2
+(1, 300, 448, 448)
+Number of slices (patches?) used for classification: 36
+Processing case: 605_MRI_19991117_T1+C
+(1, 170, 256, 256)
+Number of slices (patches?) used for classification: 48
+Processing case: 599_MRI_19981109_T1+C
+(1, 175, 448, 448)
+Number of slices (patches?) used for classification: 64
+Processing case: 571_MRI_19990517_T1+C
+(1, 29, 256, 256)
+Number of slices (patches?) used for classification: 36
+/hpf/projects/jquon/sumin/nnUNet_data/nnUNet_raw/Dataset033_AVM_T1+C/imagesVal_fold8
+Trainer: DenseNetTrainer_ep300_NoMirroring  Plan: nnUNetResEncUNetLPlans   Config: 3d_fullres    Checkpoint: checkpoint_every20_best_balacc
+Running: python nnunet_cls_infer_nii.py -i /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_raw/Dataset033_AVM_T1+C/imagesVal_fold8 -o /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/DenseNetTrainer_ep300_NoMirroring__nnUNetResEncUNetLPlans__3d_fullres/fold_8/cls_results_checkpoint_every20_best_balacc/ --model_path /hpf/projects/jquon/sumin/nnUNet_data/nnUNet_results/Dataset033_AVM_T1+C/DenseNetTrainer_ep300_NoMirroring__nnUNetResEncUNetLPlans__3d_fullres/ --fold 8 --checkpoint checkpoint_every20_best_balacc.pth
